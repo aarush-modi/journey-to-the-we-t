@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: OldManDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Noble
+  npcSprite: {fileID: -7527145504033472756, guid: e1a91663cf848b84595e07ffc3df2b3b, type: 3}
+  dialogue:
+  - Hello there Jin.
+  - Are you ready for the journey to the WEST!
+  - nigga
+  dialogueTime: []
+  typingSpeed: 0.05
+  voiceSounds: {fileID: 8300000, guid: c7ce97e9e95047946848518f4df55722, type: 3}
+  voucePitch: 1
+  autoProgressLines: 0000
+  autoProgressDelay: 1.5
