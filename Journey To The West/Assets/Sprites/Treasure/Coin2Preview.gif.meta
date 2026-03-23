@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ca4cbcb95b25db74ead851d8f65017c6
+guid: 3000a9d460bc2f64790077ae75a40c69
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2649847697073447219
-    second: Dead_0
+      213: -7374753856528660050
+    second: Coin2Preview_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dead_0
+      name: Coin2Preview_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 14
+        width: 10
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 33123f4e07626c420800000000000000
-      internalID: 2649847697073447219
+      spriteID: ea9caabc07c97a990800000000000000
+      internalID: -7374753856528660050
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Dead_0: 2649847697073447219
+      Coin2Preview_0: -7374753856528660050
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
