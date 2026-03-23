@@ -97,3 +97,14 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# -----------------------------------------------------------------------------
+# Repo layout override: Unity project lives in `Journey To The West/`
+# so add the same generated-folder ignores scoped to that subdirectory.
+# -----------------------------------------------------------------------------
+/Journey To The West/[Ll]ibrary/
+/Journey To The West/[Tt]emp/
+/Journey To The West/[Oo]bj/
+/Journey To The West/[Ll]ogs/
+/Journey To The West/[Uu]ser[Ss]ettings/
+/Journey To The West/.idea/
