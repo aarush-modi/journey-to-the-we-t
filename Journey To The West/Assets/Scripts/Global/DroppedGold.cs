@@ -33,4 +33,27 @@ public class DroppedGold : MonoBehaviour, ICollectible
         greedMeter.AddGold(goldAmount);
         Destroy(gameObject);
     }
+
+    public void Collect(GameObject collector)
+    {
+        GreedMeter greedMeter = collector.GetComponent<GreedMeter>();
+        if (greedMeter == null) return;
+ 
+        greedMeter.AddGold(goldAmount);
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        GreedMeter greedMeter = other.GetComponent<GreedMeter>();
+        if (greedMeter == null) return;
+ 
+        greedMeter.AddGold(goldAmount);
+        Destroy(gameObject);
+    }
+
+    public void SetGoldAmount(int amount)
+    {
+        goldAmount = amount;
+    }
 }
