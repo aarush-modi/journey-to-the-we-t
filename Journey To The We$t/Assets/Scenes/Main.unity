@@ -133,6 +133,8 @@ GameObject:
   - component: {fileID: 1319320830}
   - component: {fileID: 1319320829}
   - component: {fileID: 1319320834}
+  - component: {fileID: 1319320836}
+  - component: {fileID: 1319320835}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -394,6 +396,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1319320835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319320828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 328b6c497f1b02845af88061fb69d016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GreedMeterDebug
+--- !u!114 &1319320836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319320828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 896e7c2550ef5a7479eb81fc6951f7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GreedMeter
+  currentGold: 0
+  OnGoldChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTierChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2139288046
 GameObject:
   m_ObjectHideFlags: 0
