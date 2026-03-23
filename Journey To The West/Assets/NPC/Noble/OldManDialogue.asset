@@ -17,7 +17,7 @@ MonoBehaviour:
   dialogue:
   - Hello there Jin.
   - Are you ready for the journey to the WEST!
-  - nigga
+  - 'oops '
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 8300000, guid: c7ce97e9e95047946848518f4df55722, type: 3}
