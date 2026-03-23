@@ -1,0 +1,12 @@
+# Root-level .gitignore — protects Unity-generated dirs outside the project subfolder
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# Dev/debug scripts — local only
+Journey To The We$t/Assets/Scripts/Dev/
+Journey To The We$t/Assets/Scripts/Dev.meta
