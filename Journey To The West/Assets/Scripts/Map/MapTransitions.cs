@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using System;
 
 public class MapTransitions : MonoBehaviour
 {
@@ -22,19 +23,27 @@ public class MapTransitions : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            confiner.BoundingShape2D = mapBoundary;
-            confiner.InvalidateBoundingShapeCache();
-
-            UpdatePlayerPosition(collision.gameObject);
-
-            if (direction == Direction.Teleport)
-            {
-                vcam.ForceCameraPosition(
-                    teleportTargetPosition.position + new Vector3(0, 0, -10f),
-                    Quaternion.identity
-                );
-            }
+            FadeTransition(collision.gameObject);
         }
+    }
+
+    async void FadeTransition(GameObject player)
+    {
+        await ScreenFader.Instance.FadeOut();
+
+        confiner.BoundingShape2D = mapBoundary;
+        confiner.InvalidateBoundingShapeCache();
+        UpdatePlayerPosition(player);
+
+        if (direction == Direction.Teleport)
+        {
+            vcam.ForceCameraPosition(
+                teleportTargetPosition.position + new Vector3(0, 0, -10f),
+                Quaternion.identity
+            );
+        }
+
+        await ScreenFader.Instance.FadeIn();
     }
 
     private void UpdatePlayerPosition(GameObject player)
