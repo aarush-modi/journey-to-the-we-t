@@ -12,4 +12,26 @@ public class ScreenFader : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
+
+    async Task Fade(float personTransparency)
+    {
+        float start = canvasGroup.alpha, t = 0;
+        while(t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, personTransparency, t / fadeDuration);
+            await Task.Yield();
+        }
+        canvasGroup.alpha = personTransparency;
+    }
+
+    public async Task FadeOut()
+    {
+        await Fade(1);
+    }
+
+    public async Task FadeIn()
+    {
+        await Fade(0);
+    }
 }

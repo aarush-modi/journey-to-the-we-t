@@ -8,7 +8,7 @@ public class MapTransitions : MonoBehaviour
     [SerializeField] Transform teleportTargetPosition;
 
     CinemachineConfiner2D confiner;
-    CinemachineCamera vcam; // or CinemachineVirtualCamera if on older Cinemachine
+    CinemachineCamera vcam;
 
     enum Direction { Up, Down, Left, Right, Teleport }
 
@@ -45,14 +45,14 @@ public class MapTransitions : MonoBehaviour
             return;
         }
 
-        Vector2 newPos = player.transform.position;
+        Vector2 newPosition = player.transform.position;
         switch (direction)
         {
-            case Direction.Up:    newPos.y += 2; break;
-            case Direction.Down:  newPos.y -= 2; break;
-            case Direction.Left:  newPos.x -= 2; break;
-            case Direction.Right: newPos.x += 2; break;
+            case Direction.Up:    newPosition.y += 2; break;
+            case Direction.Down:  newPosition.y -= 2; break;
+            case Direction.Left:  newPosition.x -= 2; break;
+            case Direction.Right: newPosition.x += 2; break;
         }
-        player.transform.position = newPos;
+        player.transform.position = newPosition;
     }
 }
