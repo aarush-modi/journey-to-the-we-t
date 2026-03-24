@@ -7,6 +7,7 @@ public class MapTransitions : MonoBehaviour
     [SerializeField] PolygonCollider2D mapBoundary;
     [SerializeField] Direction direction;
     [SerializeField] Transform teleportTargetPosition;
+    [SerializeField] float additionalPosition = 2f;
 
     CinemachineConfiner2D confiner;
     CinemachineCamera vcam;
@@ -57,10 +58,10 @@ public class MapTransitions : MonoBehaviour
         Vector2 newPosition = player.transform.position;
         switch (direction)
         {
-            case Direction.Up:    newPosition.y += 2; break;
-            case Direction.Down:  newPosition.y -= 2; break;
-            case Direction.Left:  newPosition.x -= 2; break;
-            case Direction.Right: newPosition.x += 2; break;
+            case Direction.Up:    newPosition.y += additionalPosition; break;
+            case Direction.Down:  newPosition.y -= additionalPosition; break;
+            case Direction.Left:  newPosition.x -= additionalPosition; break;
+            case Direction.Right: newPosition.x += additionalPosition; break;
         }
         player.transform.position = newPosition;
     }
