@@ -11712,7 +11712,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.078431375, g: 0.10588236, b: 0.10588236, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -11826,7 +11826,7 @@ Transform:
   m_GameObject: {fileID: 546463379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.95, y: 18.17, z: 0}
+  m_LocalPosition: {x: 50.7, y: 17.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11879,10 +11879,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 12.175564, y: 8.791152}
-      - {x: -11.69355, y: 8.6964035}
-      - {x: -11.597414, y: -7.464614}
-      - {x: 12.657991, y: -7.3499136}
+    - - {x: 9.62936, y: 7.2183228}
+      - {x: -9.208006, y: 7.3759}
+      - {x: -8.989574, y: -3.0944924}
+      - {x: 9.599283, y: -3.211132}
   m_UseDelaunayMesh: 1
 --- !u!1 &562829976
 GameObject:
@@ -21143,7 +21143,7 @@ Transform:
   m_GameObject: {fileID: 1914714770}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -3.63, z: 0}
+  m_LocalPosition: {x: 0.64, y: -2.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21162,7 +21162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3455ee77c7c8a9640b2805597165a1a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapTransitions
-  mapBoundary: {fileID: 546463381}
+  mapBoundary: {fileID: 2123622854}
   direction: 4
   teleportTargetPosition: {fileID: 1776171299}
 --- !u!61 &1914714773

@@ -22,14 +22,11 @@ public class MapTransitions : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // 1. Update confiner FIRST
             confiner.BoundingShape2D = mapBoundary;
             confiner.InvalidateBoundingShapeCache();
 
-            // 2. Then move the player
             UpdatePlayerPosition(collision.gameObject);
 
-            // 3. Force the camera to snap to the new position immediately
             if (direction == Direction.Teleport)
             {
                 vcam.ForceCameraPosition(
