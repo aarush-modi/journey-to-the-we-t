@@ -6,9 +6,11 @@
 
 using System.Collections;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
-/// Attach to the Noble game object alongside the NPC component.
+/// Attach to the Noble game object alongside a GenericNPC component.
 /// On Awake this script auto-configures everything the Noble needs:
 ///   • A Kinematic Rigidbody2D (required for OnTriggerEnter2D to fire reliably)
 ///   • A CapsuleCollider2D (physics blocker so the player cannot walk through)
@@ -24,12 +26,17 @@ public class NobleDialogueTest : MonoBehaviour
     [Tooltip("Size of the auto-added physics blocker (world units). X = width, Y = height.")]
     public Vector2 bodyColliderSize = new Vector2(0.5f, 1f);
 
-    private NPC _npc;
+    [Header("Dialogue UI (assign same refs as NPCBase)")]
+    public NPCDialogue dialogue;
+    public GameObject dialoguePanel;
+    public TMP_Text dialogueText;
+    public TMP_Text nameText;
+    public Image npcPortraitImage;
+
     private bool _running;
 
     void Awake()
     {
-        _npc = GetComponent<NPC>();
         ConfigureRigidbody();
         EnsureColliders();
     }
@@ -80,9 +87,9 @@ public class NobleDialogueTest : MonoBehaviour
             return;
         }
 
-        if (_npc == null || _npc.dialogue == null)
+        if (dialogue == null)
         {
-            Debug.LogWarning("[NobleDialogueTest] NPC component or its dialogue asset is not assigned.");
+            Debug.LogWarning("[NobleDialogueTest] Dialogue asset is not assigned.");
             return;
         }
 
@@ -92,29 +99,27 @@ public class NobleDialogueTest : MonoBehaviour
 
     IEnumerator AutoPlayDialogue()
     {
-        var d = _npc.dialogue;
+        nameText.text = dialogue.npcName;
+        if (npcPortraitImage != null && dialogue.npcSprite != null)
+            npcPortraitImage.sprite = dialogue.npcSprite;
 
-        _npc.nameText.text = d.npcName;
-        if (_npc.npcPortraitImage != null && d.npcSprite != null)
-            _npc.npcPortraitImage.sprite = d.npcSprite;
-
-        _npc.dialoguePanel.SetActive(true);
+        dialoguePanel.SetActive(true);
         PauseController.SetPause(true);
 
-        for (int i = 0; i < d.dialogue.Length; i++)
+        for (int i = 0; i < dialogue.dialogue.Length; i++)
         {
-            _npc.dialogueText.text = "";
-            foreach (char c in d.dialogue[i])
+            dialogueText.text = "";
+            foreach (char c in dialogue.dialogue[i])
             {
-                _npc.dialogueText.text += c;
-                yield return new WaitForSecondsRealtime(d.typingSpeed);
+                dialogueText.text += c;
+                yield return new WaitForSecondsRealtime(dialogue.typingSpeed);
             }
 
-            yield return new WaitForSecondsRealtime(d.autoProgressDelay);
+            yield return new WaitForSecondsRealtime(dialogue.autoProgressDelay);
         }
 
-        _npc.dialogueText.text = "";
-        _npc.dialoguePanel.SetActive(false);
+        dialogueText.text = "";
+        dialoguePanel.SetActive(false);
         PauseController.SetPause(false);
         _running = false;
     }
