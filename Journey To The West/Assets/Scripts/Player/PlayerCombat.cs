@@ -2,18 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class PlayerCombat : MonoBehaviour, IDamageable
 {
     public UnityEvent<float, float> OnHPChanged;
     public UnityEvent<float> OnSkillActivated;
     [Header("HP")]
-    [FormerlySerializedAs("maxHP")]
-    [SerializeField] private float baseMaxHP = 100f;
+    [SerializeField] private float maxHP = 100f;
     private float currentHP;
-    private float effectiveMaxHP;
-    private float maxHPModifier = 1f;
 
     [Header("Attack")]
     [SerializeField] private float baseDamage = 10f;
@@ -48,18 +44,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        effectiveMaxHP = baseMaxHP * maxHPModifier;
-        currentHP = effectiveMaxHP;
     }
 
     private void Start()
     {
-        effectiveMaxHP = baseMaxHP * maxHPModifier;
-        currentHP = effectiveMaxHP;
+        currentHP = maxHP;
         lastCheckpoint = transform.position;
         meleeHitbox.SetActive(false);
-        HustleStyleManager.Instance?.RefreshStyleEffects();
-        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+        OnHPChanged?.Invoke(currentHP, maxHP);
     }
 
     private void Update()
@@ -122,14 +114,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         if (isDead) return;
 
         Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
-        currentHP = Mathf.Max(0f, currentHP - amount);
+        currentHP -= amount;
         StartCoroutine(HurtFlash());
-        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+        OnHPChanged?.Invoke(currentHP, maxHP);
 
         if (currentHP <= 0f)
         {
             currentHP = 0f;
-            OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+            OnHPChanged?.Invoke(currentHP, maxHP);
             Die();
         }
     }
@@ -158,9 +150,9 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(delay);
 
         playerController.Respawn(lastCheckpoint);
-        currentHP = effectiveMaxHP;
+        currentHP = maxHP;
         isDead = false;
-        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+        OnHPChanged?.Invoke(currentHP, maxHP);
     }
 
     private IEnumerator HurtFlash()
@@ -200,19 +192,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         Debug.Log($"Activated skill: {equippedSkill.skillName}");
     }
 
-    public void ApplyMaxHPModifier(float modifier)
-    {
-        float sanitizedModifier = modifier > 0f ? modifier : 1f;
-        float previousMaxHP = effectiveMaxHP > 0f ? effectiveMaxHP : baseMaxHP;
-        float healthPercent = previousMaxHP > 0f ? currentHP / previousMaxHP : 1f;
-
-        maxHPModifier = sanitizedModifier;
-        effectiveMaxHP = baseMaxHP * maxHPModifier;
-        currentHP = Mathf.Clamp(effectiveMaxHP * healthPercent, 0f, effectiveMaxHP);
-
-        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
-    }
-
     // --- Checkpoint ---
 
     public void SetCheckpoint(Vector3 position)
@@ -223,8 +202,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     // --- Getters ---
 
     public float GetCurrentHP() => currentHP;
-    public float GetBaseMaxHP() => baseMaxHP;
-    public float GetMaxHP() => effectiveMaxHP > 0f ? effectiveMaxHP : baseMaxHP * maxHPModifier;
+    public float GetMaxHP() => maxHP;
     public bool IsDead() => isDead;
     public SkillData GetEquippedSkill() => equippedSkill;
     public bool IsAttacking()
