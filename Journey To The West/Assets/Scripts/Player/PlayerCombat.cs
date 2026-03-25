@@ -113,7 +113,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
         currentHP -= amount;
         StartCoroutine(HurtFlash());
         OnHPChanged?.Invoke(currentHP, maxHP);
@@ -124,6 +123,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
             OnHPChanged?.Invoke(currentHP, maxHP);
             Die();
         }
+    }
+
+    public void Heal(float amount)
+    {
+        if (isDead) return;
+
+        currentHP = Mathf.Min(currentHP + amount, maxHP);
+        OnHPChanged?.Invoke(currentHP, maxHP);
     }
 
     public void Die()
