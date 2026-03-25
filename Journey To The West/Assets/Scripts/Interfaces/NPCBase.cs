@@ -19,12 +19,18 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     [SerializeField] protected TMP_Text nameText;
     [SerializeField] protected Image npcPortraitImage;
 
+    [Header("Dialogue Choices")]
+    [SerializeField] protected Transform choiceContainer;
+    [SerializeField] protected GameObject choiceButtonPrefab;
+
     public UnityEvent OnDialogueComplete;
 
     protected NPCDialogue currentDialogue;
     protected int dialogueIndex;
     protected bool isDialogueActive;
     protected bool isTyping;
+    private bool isWaitingForChoice;
+    protected string lastDialogueOutcome { get; private set; }
 
     protected virtual void Start()
     {
@@ -79,24 +85,63 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         dialoguePanel.SetActive(true);
         PauseController.SetPause(true);
 
-        StartCoroutine(TypeDialogue());
+        ClearChoices();
+        DisplayCurrentLine();
     }
 
     private void AdvanceLine()
     {
+        if (isWaitingForChoice) return;
+
         if (isTyping)
         {
             StopAllCoroutines();
             dialogueText.text = currentDialogue.dialogue[dialogueIndex];
             isTyping = false;
         }
-        else if (++dialogueIndex < currentDialogue.dialogue.Length)
-        {
-            StartCoroutine(TypeDialogue());
-        }
         else
         {
-            EndDialogue();
+            ClearChoices();
+
+            if (currentDialogue.endDialogueOutcomes != null
+                && currentDialogue.endDialogueOutcomes.Length > dialogueIndex
+                && !string.IsNullOrEmpty(currentDialogue.endDialogueOutcomes[dialogueIndex]))
+            {
+                EndDialogue();
+                return;
+            }
+
+            if (currentDialogue.choices != null)
+            {
+                foreach (var choice in currentDialogue.choices)
+                {
+                    if (choice.dialogueIndex == dialogueIndex)
+                    {
+                        DisplayChoices(choice);
+                        return;
+                    }
+                }
+            }
+
+            if (currentDialogue.nextLineOverride != null
+                && currentDialogue.nextLineOverride.Length > dialogueIndex
+                && currentDialogue.nextLineOverride[dialogueIndex] >= 0)
+            {
+                dialogueIndex = currentDialogue.nextLineOverride[dialogueIndex];
+            }
+            else
+            {
+                dialogueIndex++;
+            }
+
+            if (dialogueIndex < currentDialogue.dialogue.Length)
+            {
+                DisplayCurrentLine();
+            }
+            else
+            {
+                EndDialogue();
+            }
         }
     }
 
@@ -120,9 +165,66 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
     }
 
+    private void DisplayCurrentLine()
+    {
+        StopAllCoroutines();
+        StartCoroutine(TypeDialogue());
+    }
+
+    private void DisplayChoices(DialogueChoice choice)
+    {
+        isWaitingForChoice = true;
+        for (int i = 0; i < choice.choices.Length; i++)
+        {
+            int nextIndex = choice.nextDialogueIndexes[i];
+            CreateChoiceButton(choice.choices[i], nextIndex);
+        }
+    }
+
+    private void CreateChoiceButton(string text, int nextIndex)
+    {
+        if (choiceButtonPrefab == null || choiceContainer == null) return;
+
+        GameObject button = Instantiate(choiceButtonPrefab, choiceContainer);
+
+        var buttonText = button.GetComponentInChildren<TMP_Text>();
+        if (buttonText != null)
+            buttonText.text = text;
+
+        var buttonComponent = button.GetComponent<Button>();
+        if (buttonComponent != null)
+            buttonComponent.onClick.AddListener(() => ChooseOption(nextIndex));
+    }
+
+    private void ChooseOption(int nextIndex)
+    {
+        dialogueIndex = nextIndex;
+        ClearChoices();
+        DisplayCurrentLine();
+    }
+
+    private void ClearChoices()
+    {
+        if (choiceContainer == null) return;
+        foreach (Transform child in choiceContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        isWaitingForChoice = false;
+    }
+
     protected void EndDialogue()
     {
         StopAllCoroutines();
+        ClearChoices();
+
+        lastDialogueOutcome = "";
+        if (currentDialogue.endDialogueOutcomes != null
+            && currentDialogue.endDialogueOutcomes.Length > dialogueIndex)
+        {
+            lastDialogueOutcome = currentDialogue.endDialogueOutcomes[dialogueIndex];
+        }
+
         isDialogueActive = false;
         dialogueText.text = "";
         dialoguePanel.SetActive(false);
