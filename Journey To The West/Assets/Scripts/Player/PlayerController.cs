@@ -8,16 +8,23 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private PlayerCombat combat;
     private Vector2 moveInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        combat = GetComponent<PlayerCombat>();
     }
 
     private void FixedUpdate()
     {
+        if (combat != null && combat.IsAttacking())
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
         rb.linearVelocity = moveInput * moveSpeed;
     }
 
