@@ -98,6 +98,8 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
             StopAllCoroutines();
             dialogueText.text = currentDialogue.dialogue[dialogueIndex];
             isTyping = false;
+            CheckForChoices();
+            return;
         }
         else
         {
@@ -111,17 +113,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
                 return;
             }
 
-            if (currentDialogue.choices != null)
-            {
-                foreach (var choice in currentDialogue.choices)
-                {
-                    if (choice.dialogueIndex == dialogueIndex)
-                    {
-                        DisplayChoices(choice);
-                        return;
-                    }
-                }
-            }
+            if (CheckForChoices()) return;
 
             if (currentDialogue.nextLineOverride != null
                 && currentDialogue.nextLineOverride.Length > dialogueIndex
@@ -169,6 +161,22 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     {
         StopAllCoroutines();
         StartCoroutine(TypeDialogue());
+    }
+
+    private bool CheckForChoices()
+    {
+        if (currentDialogue.choices != null)
+        {
+            foreach (var choice in currentDialogue.choices)
+            {
+                if (choice.dialogueIndex == dialogueIndex)
+                {
+                    DisplayChoices(choice);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void DisplayChoices(DialogueChoice choice)
