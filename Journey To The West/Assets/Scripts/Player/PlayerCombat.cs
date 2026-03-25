@@ -1,9 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour, IDamageable
 {
+    public UnityEvent<float, float> OnHPChanged;
+    public UnityEvent<float> OnSkillActivated;
     [Header("HP")]
     [SerializeField] private float maxHP = 100f;
     private float currentHP;
@@ -48,6 +51,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         currentHP = maxHP;
         lastCheckpoint = transform.position;
         meleeHitbox.SetActive(false);
+        OnHPChanged?.Invoke(currentHP, maxHP);
     }
 
     private void Update()
@@ -109,12 +113,15 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
         currentHP -= amount;
         StartCoroutine(HurtFlash());
+        OnHPChanged?.Invoke(currentHP, maxHP);
 
         if (currentHP <= 0f)
         {
             currentHP = 0f;
+            OnHPChanged?.Invoke(currentHP, maxHP);
             Die();
         }
     }
@@ -145,6 +152,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         playerController.Respawn(lastCheckpoint);
         currentHP = maxHP;
         isDead = false;
+        OnHPChanged?.Invoke(currentHP, maxHP);
     }
 
     private IEnumerator HurtFlash()
@@ -177,6 +185,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         if (skillCooldownTimer > 0f) return;
 
         skillCooldownTimer = equippedSkill.cooldown;
+        OnSkillActivated?.Invoke(equippedSkill.cooldown);
 
         // Skill activation logic will be filled by later tickets
         Debug.Log($"Activated skill: {equippedSkill.skillName}");
@@ -194,6 +203,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     public float GetCurrentHP() => currentHP;
     public float GetMaxHP() => maxHP;
     public bool IsDead() => isDead;
+    public SkillData GetEquippedSkill() => equippedSkill;
     public bool IsAttacking()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
