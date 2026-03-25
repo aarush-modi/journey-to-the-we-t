@@ -183,11 +183,12 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (equippedSkill == null) return;
         if (skillCooldownTimer > 0f) return;
+        if (playerController == null) return;
 
         skillCooldownTimer = equippedSkill.cooldown;
         OnSkillActivated?.Invoke(equippedSkill.cooldown);
 
-        // Skill activation logic will be filled by later tickets
+        equippedSkill.Activate(playerController);
         Debug.Log($"Activated skill: {equippedSkill.skillName}");
     }
 

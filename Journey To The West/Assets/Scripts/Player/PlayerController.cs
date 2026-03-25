@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private PlayerCombat combat;
     private Vector2 moveInput;
+    private Vector2 lastFacingDirection = Vector2.down;
 
     private void Awake()
     {
@@ -33,6 +34,10 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             moveInput = context.ReadValue<Vector2>();
+            if (moveInput.sqrMagnitude > 0f)
+            {
+                lastFacingDirection = moveInput.normalized;
+            }
             animator.SetBool("isWalking", true);
             animator.SetFloat("InputX", moveInput.x);
             animator.SetFloat("InputY", moveInput.y);
@@ -50,5 +55,15 @@ public class PlayerController : MonoBehaviour
     public void Respawn(Vector3 position)
     {
         transform.position = position;
+    }
+
+    public Vector2 GetFacingDirection()
+    {
+        if (moveInput.sqrMagnitude > 0f)
+        {
+            return moveInput.normalized;
+        }
+
+        return lastFacingDirection;
     }
 }
