@@ -20,6 +20,12 @@ public class HUDTest : MonoBehaviour
             Debug.Log("HUDTest: took 10 damage");
         }
 
+        if (Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            playerCombat.Heal(10f);
+            Debug.Log("HUDTest: healed 10 HP");
+        }
+
         if (Keyboard.current.kKey.wasPressedThisFrame)
         {
             greedMeter.AddGold(100);
