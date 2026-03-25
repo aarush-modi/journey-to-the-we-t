@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 1040514317}
   - component: {fileID: 1040514316}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Racoon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
