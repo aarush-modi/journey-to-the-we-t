@@ -18,6 +18,16 @@ public class GreedMeter : MonoBehaviour
         OnGoldChanged?.Invoke(currentGold);
     }
 
+    public void AddCombatGold(int baseAmount)
+    {
+        AddGold(ApplyStyleModifier(baseAmount, HustleStyleManager.Instance?.GetCombatGoldModifier() ?? 1f));
+    }
+
+    public void AddNPCGold(int baseAmount)
+    {
+        AddGold(ApplyStyleModifier(baseAmount, HustleStyleManager.Instance?.GetNPCGoldModifier() ?? 1f));
+    }
+
     public void RemoveGold(int amount)
     {
         if (amount <= 0) return;
@@ -56,6 +66,16 @@ public class GreedMeter : MonoBehaviour
             currentTier = newTier;
             OnTierChanged?.Invoke(currentTier);
         }
+    }
+
+    private static int ApplyStyleModifier(int baseAmount, float modifier)
+    {
+        if (baseAmount <= 0)
+        {
+            return 0;
+        }
+
+        return Mathf.Max(0, Mathf.RoundToInt(baseAmount * modifier));
     }
 }
 
