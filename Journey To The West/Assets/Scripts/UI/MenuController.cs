@@ -10,9 +10,12 @@ public class MenuController : MonoBehaviour
         menuCanvas.SetActive(false);
     }
 
-    public void OnMenu(InputAction.CallbackContext context)
+    // Reads Tab key directly instead of going through Player Input events
+    // because Unity 6's singleton input actions asset doesn't reliably
+    // expand action maps into the Player Input event list.
+    void Update()
     {
-        if (context.performed)
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
             bool opening = !menuCanvas.activeSelf;
             menuCanvas.SetActive(opening);
