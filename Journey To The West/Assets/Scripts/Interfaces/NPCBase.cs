@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 
@@ -11,11 +10,18 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     [SerializeField] protected string npcName;
     [SerializeField] protected Sprite faceSprite;
 
+    [Header("Interaction")]
+    [SerializeField] private GameObject interactionIcon;
+
     [Header("Dialogue UI")]
     [SerializeField] protected GameObject dialoguePanel;
     [SerializeField] protected TMP_Text dialogueText;
     [SerializeField] protected TMP_Text nameText;
     [SerializeField] protected Image npcPortraitImage;
+
+    [Header("Dialogue Choices")]
+    [SerializeField] protected Transform choiceContainer;
+    [SerializeField] protected GameObject choiceButtonPrefab;
 
     public UnityEvent OnDialogueComplete;
 
@@ -23,40 +29,31 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     protected int dialogueIndex;
     protected bool isDialogueActive;
     protected bool isTyping;
-
-    private GameObject playerInRange;
+    private bool isWaitingForChoice;
+    protected string lastDialogueOutcome { get; private set; }
 
     protected virtual void Start()
     {
+        if (interactionIcon != null)
+            interactionIcon.SetActive(false);
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
-    }
-
-    protected virtual void Update()
-    {
-        if (playerInRange == null && !isDialogueActive) return;
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Interact(playerInRange);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-            playerInRange = other.gameObject;
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-            playerInRange = null;
     }
 
     public virtual string GetPromptText()
     {
         return isDialogueActive ? "Continue" : $"Talk to {npcName}";
+    }
+
+    public virtual bool CanInteract()
+    {
+        return !isDialogueActive;
+    }
+
+    public virtual void ShowInteractionIcon(bool show)
+    {
+        if (interactionIcon != null)
+            interactionIcon.SetActive(show);
     }
 
     public abstract void Interact(GameObject player);
@@ -88,24 +85,63 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         dialoguePanel.SetActive(true);
         PauseController.SetPause(true);
 
-        StartCoroutine(TypeDialogue());
+        ClearChoices();
+        DisplayCurrentLine();
     }
 
     private void AdvanceLine()
     {
+        if (isWaitingForChoice) return;
+
         if (isTyping)
         {
             StopAllCoroutines();
             dialogueText.text = currentDialogue.dialogue[dialogueIndex];
             isTyping = false;
         }
-        else if (++dialogueIndex < currentDialogue.dialogue.Length)
-        {
-            StartCoroutine(TypeDialogue());
-        }
         else
         {
-            EndDialogue();
+            ClearChoices();
+
+            if (currentDialogue.endDialogueOutcomes != null
+                && currentDialogue.endDialogueOutcomes.Length > dialogueIndex
+                && !string.IsNullOrEmpty(currentDialogue.endDialogueOutcomes[dialogueIndex]))
+            {
+                EndDialogue();
+                return;
+            }
+
+            if (currentDialogue.choices != null)
+            {
+                foreach (var choice in currentDialogue.choices)
+                {
+                    if (choice.dialogueIndex == dialogueIndex)
+                    {
+                        DisplayChoices(choice);
+                        return;
+                    }
+                }
+            }
+
+            if (currentDialogue.nextLineOverride != null
+                && currentDialogue.nextLineOverride.Length > dialogueIndex
+                && currentDialogue.nextLineOverride[dialogueIndex] >= 0)
+            {
+                dialogueIndex = currentDialogue.nextLineOverride[dialogueIndex];
+            }
+            else
+            {
+                dialogueIndex++;
+            }
+
+            if (dialogueIndex < currentDialogue.dialogue.Length)
+            {
+                DisplayCurrentLine();
+            }
+            else
+            {
+                EndDialogue();
+            }
         }
     }
 
@@ -129,9 +165,66 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
     }
 
+    private void DisplayCurrentLine()
+    {
+        StopAllCoroutines();
+        StartCoroutine(TypeDialogue());
+    }
+
+    private void DisplayChoices(DialogueChoice choice)
+    {
+        isWaitingForChoice = true;
+        for (int i = 0; i < choice.choices.Length; i++)
+        {
+            int nextIndex = choice.nextDialogueIndexes[i];
+            CreateChoiceButton(choice.choices[i], nextIndex);
+        }
+    }
+
+    private void CreateChoiceButton(string text, int nextIndex)
+    {
+        if (choiceButtonPrefab == null || choiceContainer == null) return;
+
+        GameObject button = Instantiate(choiceButtonPrefab, choiceContainer);
+
+        var buttonText = button.GetComponentInChildren<TMP_Text>();
+        if (buttonText != null)
+            buttonText.text = text;
+
+        var buttonComponent = button.GetComponent<Button>();
+        if (buttonComponent != null)
+            buttonComponent.onClick.AddListener(() => ChooseOption(nextIndex));
+    }
+
+    private void ChooseOption(int nextIndex)
+    {
+        dialogueIndex = nextIndex;
+        ClearChoices();
+        DisplayCurrentLine();
+    }
+
+    private void ClearChoices()
+    {
+        if (choiceContainer == null) return;
+        foreach (Transform child in choiceContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        isWaitingForChoice = false;
+    }
+
     protected void EndDialogue()
     {
         StopAllCoroutines();
+        ClearChoices();
+
+        lastDialogueOutcome = "";
+        if (currentDialogue.endDialogueOutcomes != null
+            && currentDialogue.endDialogueOutcomes.Length > dialogueIndex)
+        {
+            lastDialogueOutcome = currentDialogue.endDialogueOutcomes[dialogueIndex];
+        }
+
         isDialogueActive = false;
         dialogueText.text = "";
         dialoguePanel.SetActive(false);
