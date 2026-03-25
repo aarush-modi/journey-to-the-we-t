@@ -15,7 +15,9 @@ MonoBehaviour:
   npcName: Village Elder
   npcSprite: {fileID: 0}
   dialogue:
-  - Ah, young traveler. I have been waiting for you.
+  - Ah, young traveler. I have been waiting for you. Will you stay a while and listen?
+  - Thanks! I knew you'd help
+  - 'Oh. Okay. '
   - There is a red packet that must reach the king. It is of great importance.
   - Take this and deliver it safely. You will be rewarded.
   dialogueTime: []
@@ -24,3 +26,16 @@ MonoBehaviour:
   voucePitch: 1
   autoProgressLines: 
   autoProgressDelay: 1.5
+  endDialogueOutcomes:
+  - 
+  - accepted
+  - declined
+  - 
+  - 
+  nextLineOverride: ffffffff03000000ffffffffffffffffffffffff
+  choices:
+  - dialogueIndex: 0
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexes: 0100000002000000
