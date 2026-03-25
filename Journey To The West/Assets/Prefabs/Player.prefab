@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 146939367618497807}
   - component: {fileID: 3995090909504102011}
   - component: {fileID: 4106892760834452625}
-  - component: {fileID: 9023456789012345678}
   - component: {fileID: 5815381207606460302}
   - component: {fileID: 281105376200213791}
   m_Layer: 0
@@ -332,18 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328b6c497f1b02845af88061fb69d016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GreedMeterDebug
---- !u!114 &9023456789012345678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068178565644637166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27da7695d244b308f5f58f38f5e3a97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HustleStyleDebug
 --- !u!61 &5815381207606460302
 BoxCollider2D:
   m_ObjectHideFlags: 0
