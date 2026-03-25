@@ -1,5 +1,13 @@
 using UnityEngine;
 
+[System.Serializable]
+public class DialogueChoice
+{
+    public int dialogueIndex;
+    public string[] choices;
+    public int[] nextDialogueIndexes;
+}
+
 [CreateAssetMenu(fileName = "NewNPCDialogue", menuName = "Scriptable Objects/NPC Dialogue")]
 public class NPCDialogue : ScriptableObject
 {
@@ -12,5 +20,8 @@ public class NPCDialogue : ScriptableObject
     public float voucePitch = 1.0f;
     public bool[] autoProgressLines;
     public float autoProgressDelay = 1.5f;
+    public string[] endDialogueOutcomes;
+    public int[] nextLineOverride;
+    public DialogueChoice[] choices;
 
 }
