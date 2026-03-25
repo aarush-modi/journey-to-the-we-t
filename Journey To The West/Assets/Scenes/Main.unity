@@ -20902,58 +20902,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_Actions
-      value: 
-      objectReference: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
-      value: ad7de303-ab93-4f87-98f9-e00dc3787abe
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[20].m_ActionId
-      value: 3e92f002-3b28-48ed-8f76-f5207449abae
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
-      value: 'Player/HUDTestDamage[/Keyboard/quote]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[20].m_ActionName
-      value: 'Player/HUDTestGold[/Keyboard/g]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1881392819}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
