@@ -221,6 +221,11 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         isWaitingForChoice = false;
     }
 
+    protected virtual bool ShouldUnpauseOnDialogueEnd()
+    {
+        return true;
+    }
+
     protected void EndDialogue()
     {
         StopAllCoroutines();
@@ -236,7 +241,10 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         isDialogueActive = false;
         dialogueText.text = "";
         dialoguePanel.SetActive(false);
-        PauseController.SetPause(false);
+        if (ShouldUnpauseOnDialogueEnd())
+        {
+            PauseController.SetPause(false);
+        }
         OnDialogueComplete?.Invoke();
     }
 
