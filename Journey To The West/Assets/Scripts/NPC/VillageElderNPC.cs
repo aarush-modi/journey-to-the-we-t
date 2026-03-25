@@ -34,6 +34,9 @@ public class VillageElderNPC : NPCBase
         OnDialogueComplete.RemoveListener(OnIntroComplete);
 
         if (hasGivenPackage) return;
+
+        if (lastDialogueOutcome != "accepted") return;
+
         hasGivenPackage = true;
 
         if (playerInventory != null && packageToGive != null)
