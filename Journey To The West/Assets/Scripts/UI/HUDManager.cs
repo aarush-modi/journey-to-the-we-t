@@ -11,12 +11,12 @@ public class HUDManager : MonoBehaviour
 
     [Header("HP Bar")]
     [SerializeField] private Slider hpBar;
+    [SerializeField] private TextMeshProUGUI hpText;
 
-    [Header("Gold")]
+    [Header("Greed Meter")]
+    [SerializeField] private Slider greedSlider;
+    [SerializeField] private Image greedFill;
     [SerializeField] private TextMeshProUGUI goldText;
-
-    [Header("Greed Tier")]
-    [SerializeField] private Image greedTierIcon;
     [SerializeField] private Color tierNoneColor = Color.gray;
     [SerializeField] private Color tier1Color = Color.yellow;
     [SerializeField] private Color tier2Color = new Color(1f, 0.5f, 0f); // orange
@@ -82,6 +82,8 @@ public class HUDManager : MonoBehaviour
 
         if (greedMeter != null)
         {
+            greedSlider.minValue = 0f;
+            greedSlider.maxValue = 600f;
             UpdateGold(greedMeter.GetCurrentGold());
             UpdateGreedTier(greedMeter.GetCurrentTier());
         }
@@ -91,18 +93,22 @@ public class HUDManager : MonoBehaviour
     {
         hpBar.maxValue = max;
         hpBar.value = current;
+        if (hpText != null)
+            hpText.text = $"{current:0}";
     }
 
     private void UpdateGold(int gold)
     {
+        greedSlider.value = gold;
         goldText.text = gold.ToString();
     }
 
     private void UpdateGreedTier(GreedTier tier)
     {
-        if (greedTierIcon == null) return;
+        Debug.Log($"UpdateGreedTier called: tier={tier}");
+        if (greedFill == null) return;
 
-        greedTierIcon.color = tier switch
+        greedFill.color = tier switch
         {
             GreedTier.Tier1 => tier1Color,
             GreedTier.Tier2 => tier2Color,
