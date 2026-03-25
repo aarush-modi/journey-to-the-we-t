@@ -134,6 +134,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         }
     }
 
+    public void Heal(float amount)
+    {
+        if (isDead) return;
+
+        currentHP = Mathf.Min(currentHP + amount, maxHP);
+        OnHPChanged?.Invoke(currentHP, maxHP);
+    }
+
     public void Die()
     {
         if (isDead) return;
