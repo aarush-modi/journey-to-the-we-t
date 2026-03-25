@@ -12845,8 +12845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea67cab345547b545ad60a3b3579bb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  startingQuests:
-  - {fileID: 11400000, guid: 901a48ff3c6023343893d9fbb2b5b6e6, type: 2}
+  startingQuests: []
   onQuestStarted:
     m_PersistentCalls:
       m_Calls: []
