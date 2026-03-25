@@ -1,10 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSkill", menuName = "Scriptable Objects/Skill Data")]
-public class SkillData : ScriptableObject
+public abstract class SkillData : ScriptableObject
 {
     public string skillName;
-    public float damage;
-    public float cooldown;
+    [TextArea] public string description;
     public Sprite icon;
+    public float cooldown;
+    public int goldCost;
+
+    public abstract void Activate(PlayerController user);
 }
