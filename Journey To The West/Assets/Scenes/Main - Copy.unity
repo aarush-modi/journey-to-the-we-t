@@ -7228,7 +7228,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2119402759}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: EndDialogue
         m_Mode: 1
@@ -10134,6 +10134,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ad7de303-ab93-4f87-98f9-e00dc3787abe
+    m_ActionName: 'Player/HUDTestDamage[/Keyboard/quote]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3e92f002-3b28-48ed-8f76-f5207449abae
+    m_ActionName: 'Player/HUDTestGold[/Keyboard/g]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -12610,10 +12618,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2119402758}
   - component: {fileID: 2119402757}
-  - component: {fileID: 2119402759}
   - component: {fileID: 2119402756}
-  - component: {fileID: 2119402760}
   - component: {fileID: 2119402761}
+  - component: {fileID: 2119402762}
+  - component: {fileID: 2119402763}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -12741,37 +12749,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2119402759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119402755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0665fe79695a3eb4b9e3776c3fb10c5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  dialogue: {fileID: 11400000, guid: 571c7c8385a229344b48cb8e078ab31b, type: 2}
-  dialoguePanel: {fileID: 1265919449}
-  dialogueText: {fileID: 778621846}
-  nameText: {fileID: 45455579}
-  npcPortraitImage: {fileID: 675820524}
---- !u!114 &2119402760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119402755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57897850f21dbd148bd5ec063f0d8df2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NobleDialogueTest
-  detectionRadius: 1.5
-  bodyColliderSize: {x: 0.5, y: 1}
 --- !u!50 &2119402761
 Rigidbody2D:
   serializedVersion: 5
@@ -12780,14 +12757,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119402755}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -12799,6 +12776,68 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2119402762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119402755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0ead6a325d24b47b1d331ed252ad04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VillageElderNPC
+  npcName: Village Elder
+  faceSprite: {fileID: 0}
+  dialoguePanel: {fileID: 1265919449}
+  dialogueText: {fileID: 778621846}
+  nameText: {fileID: 45455579}
+  npcPortraitImage: {fileID: 675820524}
+  OnDialogueComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  introDialogue: {fileID: 11400000, guid: f95cc4e4a6374cf47b06e1aabcd081be, type: 2}
+  reminderDialogue: {fileID: 11400000, guid: ebaff9f1e3fcbe3419000654069c577f, type: 2}
+  packageToGive: {fileID: 11400000, guid: 20706511cfde0aa4c922ac66cca0f5fd, type: 2}
+  questToStart: {fileID: 11400000, guid: 901a48ff3c6023343893d9fbb2b5b6e6, type: 2}
+--- !u!70 &2119402763
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119402755}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.04261452, y: 0}
+  m_Size: {x: 0.91477096, y: 0.978693}
+  m_Direction: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
