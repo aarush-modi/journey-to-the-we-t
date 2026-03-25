@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 
@@ -10,6 +9,9 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     [Header("NPC Identity")]
     [SerializeField] protected string npcName;
     [SerializeField] protected Sprite faceSprite;
+
+    [Header("Interaction")]
+    [SerializeField] private GameObject interactionIcon;
 
     [Header("Dialogue UI")]
     [SerializeField] protected GameObject dialoguePanel;
@@ -24,39 +26,28 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     protected bool isDialogueActive;
     protected bool isTyping;
 
-    private GameObject playerInRange;
-
     protected virtual void Start()
     {
+        if (interactionIcon != null)
+            interactionIcon.SetActive(false);
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
-    }
-
-    protected virtual void Update()
-    {
-        if (playerInRange == null && !isDialogueActive) return;
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Interact(playerInRange);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-            playerInRange = other.gameObject;
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-            playerInRange = null;
     }
 
     public virtual string GetPromptText()
     {
         return isDialogueActive ? "Continue" : $"Talk to {npcName}";
+    }
+
+    public virtual bool CanInteract()
+    {
+        return !isDialogueActive;
+    }
+
+    public virtual void ShowInteractionIcon(bool show)
+    {
+        if (interactionIcon != null)
+            interactionIcon.SetActive(show);
     }
 
     public abstract void Interact(GameObject player);
