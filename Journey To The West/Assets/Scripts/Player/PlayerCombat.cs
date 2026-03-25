@@ -113,6 +113,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
         currentHP -= amount;
         StartCoroutine(HurtFlash());
         OnHPChanged?.Invoke(currentHP, maxHP);

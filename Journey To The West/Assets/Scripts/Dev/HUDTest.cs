@@ -14,13 +14,13 @@ public class HUDTest : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.hKey.wasPressedThisFrame)
+        if (Keyboard.current.jKey.wasPressedThisFrame)
         {
             playerCombat.TakeDamage(10f);
             Debug.Log("HUDTest: took 10 damage");
         }
 
-        if (Keyboard.current.gKey.wasPressedThisFrame)
+        if (Keyboard.current.kKey.wasPressedThisFrame)
         {
             greedMeter.AddGold(100);
             Debug.Log("HUDTest: added 100 gold");
