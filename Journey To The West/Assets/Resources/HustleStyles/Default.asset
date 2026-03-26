@@ -15,6 +15,33 @@ MonoBehaviour:
   styleName: Default
   description: Neutral baseline hustle style with no modifiers.
   sprite: {fileID: 7322885499304307244, guid: 81f701f654f34524fb6e71d6e8a37e37, type: 3}
+  idleSprites:
+  - {fileID: 4723107735738678597, guid: 24d67b8d650dad64a958cdf424dbd088, type: 3}
+  - {fileID: -7385789195546760866, guid: 24d67b8d650dad64a958cdf424dbd088, type: 3}
+  - {fileID: 3234629978573100161, guid: 24d67b8d650dad64a958cdf424dbd088, type: 3}
+  - {fileID: -1930971669, guid: 24d67b8d650dad64a958cdf424dbd088, type: 3}
+  walkSprites:
+  - {fileID: 4035959289877228764, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -982904232830982447, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -350908408369970039, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -5409570386352685021, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: 1553940418269799609, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: 2416434504916517810, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -6428935122508569504, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: 7144598999076838305, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: 7500509103958437945, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: 1008816216748069464, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: 745740535, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -304983608, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -1189268668, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -1138804702, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -773112772, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  - {fileID: -2045649278, guid: b3d3fc37aa5931f4393505ff7d4c1cc2, type: 3}
+  attackSprites:
+  - {fileID: -7008412969330441016, guid: f2abc46f60567264fa6ee1ce7298652b, type: 3}
+  - {fileID: -7763475090823894447, guid: f2abc46f60567264fa6ee1ce7298652b, type: 3}
+  - {fileID: 302641331129538988, guid: f2abc46f60567264fa6ee1ce7298652b, type: 3}
+  - {fileID: -71067674, guid: f2abc46f60567264fa6ee1ce7298652b, type: 3}
   combatGoldModifier: 1
   npcGoldModifier: 1
   shopPriceModifier: 1
