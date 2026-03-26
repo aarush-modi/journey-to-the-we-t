@@ -12,9 +12,6 @@ public class MerchantNPC : NPCBase
     {
         base.Start();
         shopController = GetComponent<MerchantShopController>();
-
-        if (shopController == null)
-            Debug.LogError("[MerchantNPC] MerchantShopController not found!", this);
     }
 
     public override void Interact(GameObject player)
@@ -22,9 +19,9 @@ public class MerchantNPC : NPCBase
         PlayDialogue(merchantDialogue);
     }
 
-    // MerchantNPC.cs
     protected override void ChooseOption(int nextIndex)
     {
+    
         if (nextIndex == shopOpenDialogueIndex && shopController != null)
         {
             ClearChoices();

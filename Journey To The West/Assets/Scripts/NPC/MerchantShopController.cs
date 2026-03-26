@@ -22,21 +22,24 @@ public class MerchantShopController : MonoBehaviour
     }
 
     public void OpenShop()
-    {
+    {    
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
 
         PauseController.SetPause(false);
 
         if (shopMenuUI != null)
+        {
             shopMenuUI.SetActive(true);
-    }
+        }
+    }  
 
     public void CloseShop()
     {
+        
         if (shopMenuUI != null)
             shopMenuUI.SetActive(false);
 
-        FindObjectOfType<MerchantNPC>()?.ResumeDialogue();
+        PauseController.SetPause(false);
     }
 }
