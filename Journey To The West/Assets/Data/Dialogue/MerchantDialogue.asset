@@ -19,6 +19,7 @@ MonoBehaviour:
   - Would you like to make a purchase?
   - Come back again!
   - Thank you for shopping!
+  - Let me look through my wears and tears...
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}
