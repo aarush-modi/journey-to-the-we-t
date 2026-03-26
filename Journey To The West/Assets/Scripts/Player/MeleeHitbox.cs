@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MeleeHitbox : MonoBehaviour
 {
     private PlayerCombat combat;
+    private HashSet<Collider2D> hitThisSwing = new HashSet<Collider2D>();
 
     private void Awake()
     {
@@ -11,6 +13,8 @@ public class MeleeHitbox : MonoBehaviour
 
     private void OnEnable()
     {
+        hitThisSwing.Clear();
+
         Collider2D col = GetComponent<Collider2D>();
         if (col == null) return;
 
@@ -35,10 +39,12 @@ public class MeleeHitbox : MonoBehaviour
     private void HitTarget(Collider2D other)
     {
         if (other.gameObject == combat.gameObject) return;
+        if (hitThisSwing.Contains(other)) return;
 
         IDamageable target = other.GetComponent<IDamageable>();
         if (target != null)
         {
+            hitThisSwing.Add(other);
             target.TakeDamage(combat.GetAttackDamage());
         }
     }
