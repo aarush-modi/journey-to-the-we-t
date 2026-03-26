@@ -147,5 +147,12 @@ public class HustleStyleManager : MonoBehaviour
         {
             playerCombat.ApplyMaxHPModifier(style.maxHPModifier);
         }
+
+        CharacterSpriteSwapper swapper = player.GetComponent<CharacterSpriteSwapper>();
+        if (swapper == null)
+        {
+            swapper = player.AddComponent<CharacterSpriteSwapper>();
+        }
+        swapper.BuildSwapMap(defaultStyle, style);
     }
 }
