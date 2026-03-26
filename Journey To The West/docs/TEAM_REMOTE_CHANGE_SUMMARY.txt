@@ -1,0 +1,24 @@
+2026-03-12 | Team setup | Initial project commit established the Unity project baseline; a level-3 fishing port branch also appears as early project setup work.
+2026-03-23 | Dropped gold / inventory / dialogue | Shared history shows dropped-gold pickup already merged, while inventory and dialogue branches added player inventory support, dialogue updates, and scene/TextMesh Pro fixes.
+2026-03-24 | Map transitions / menu | Map transition work was merged into the shared history, and the menu branch added more menu UI plus a settings tab.
+2026-03-25 | Combat | PlayerCombat landed with HP, melee attack, death, respawn, and gold-drop integration.
+2026-03-25 | Quests | QuestManager, QuestData, and quest log UI were added and merged into the shared branch structure.
+2026-03-25 | NPCs | NPCBase and VillageElderNPC were added, along with Level 1 package/quest hooks.
+2026-03-25 | HUD/UI | HUDManager and related HUD updates were merged through the UI manager branch.
+2026-03-25 | Enemies | EnemyController, IDamageable enemy behavior, hurt flash, and gold drops landed through the enemies branch.
+2026-03-25 | Merchant shop | Merchant-shop scene integration and waypoint/teleport work were merged; one later merge resolved a Main.unity scene conflict.
+2026-03-25 | Interaction/dialogue | Interaction detector and branching dialogue work were merged into the shared remote history.
+2026-03-25 | Skills | The shuriken skill branch added data-driven skill support, Shuriken Barrage, a projectile prefab/script, and a shuriken skill asset.
+2026-03-25 | Hustle styles | Hustle style data/assets, the style manager, combat/gold modifier hooks, and debug helpers were merged through multiple remote hustle-style branches.
+
+Remote branch snapshots still visible
+origin/main | Consolidated shared project history.
+origin/11-t3-06-playerinventory | Player inventory branch snapshot.
+origin/14-t3-09-uimanager-and-hud | HUD/UI manager branch snapshot.
+origin/dialogue-finished | Dialogue updates and TMP/scene fixes.
+origin/dialogue-manager | In-progress dialogue-manager branch.
+origin/enemies | Enemy systems branch.
+origin/merchant-shop | Merchant shop scene integration branch.
+origin/menu | Menu and settings UI branch.
+origin/level-3-fishing-port | Early project/unit branch.
+origin/t3-t12hustlefeatpushesfinal | Final visible hustle-style branch.
