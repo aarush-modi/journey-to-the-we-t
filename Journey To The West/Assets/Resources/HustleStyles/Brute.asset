@@ -15,6 +15,33 @@ MonoBehaviour:
   styleName: Brute
   description: Wins more from combat, but intimidation makes merchants less generous.
   sprite: {fileID: 21300000, guid: 6beeda12d5d07cd40a61a1d9744e87dd, type: 3}
+  idleSprites:
+  - {fileID: 4723107735738678597, guid: b76663a5396a259498383e60c0233605, type: 3}
+  - {fileID: -7385789195546760866, guid: b76663a5396a259498383e60c0233605, type: 3}
+  - {fileID: 3234629978573100161, guid: b76663a5396a259498383e60c0233605, type: 3}
+  - {fileID: -1162165200, guid: b76663a5396a259498383e60c0233605, type: 3}
+  walkSprites:
+  - {fileID: 4035959289877228764, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -982904232830982447, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -350908408369970039, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -5409570386352685021, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 1553940418269799609, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 2416434504916517810, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -6428935122508569504, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 7144598999076838305, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 7500509103958437945, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 1008816216748069464, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -2069663781, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -498298363, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 2013800134, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -1503714531, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: 1451851780, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  - {fileID: -1026608898, guid: d21774a7003395f449e61beae876e2d7, type: 3}
+  attackSprites:
+  - {fileID: -7008412969330441016, guid: 81113f28c1a710c4bad26c9a36747659, type: 3}
+  - {fileID: -7763475090823894447, guid: 81113f28c1a710c4bad26c9a36747659, type: 3}
+  - {fileID: 2085922585, guid: 81113f28c1a710c4bad26c9a36747659, type: 3}
+  - {fileID: 559521974, guid: 81113f28c1a710c4bad26c9a36747659, type: 3}
   combatGoldModifier: 1.3
   npcGoldModifier: 1
   shopPriceModifier: 1.2

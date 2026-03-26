@@ -15,6 +15,33 @@ MonoBehaviour:
   styleName: Haggler
   description: Cuts deals, pockets a quick windfall, and trades toughness for thrift.
   sprite: {fileID: 21300000, guid: 4fb4b38974dc3da49ad1262d96444191, type: 3}
+  idleSprites:
+  - {fileID: 4723107735738678597, guid: a95690c106c03d14d9b523de9bd59dd8, type: 3}
+  - {fileID: -7385789195546760866, guid: a95690c106c03d14d9b523de9bd59dd8, type: 3}
+  - {fileID: 3234629978573100161, guid: a95690c106c03d14d9b523de9bd59dd8, type: 3}
+  - {fileID: 679286945, guid: a95690c106c03d14d9b523de9bd59dd8, type: 3}
+  walkSprites:
+  - {fileID: 4035959289877228764, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: -982904232830982447, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: -350908408369970039, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: -5409570386352685021, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 1553940418269799609, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 2416434504916517810, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: -6428935122508569504, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 7144598999076838305, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 7500509103958437945, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 695513350, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 1648081557, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: -1782430362, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 563291288, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 1336053237, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: 999112247, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  - {fileID: -745718810, guid: 8eb397a4b8077d44f80a7120a3350442, type: 3}
+  attackSprites:
+  - {fileID: -7008412969330441016, guid: af5bbb8d8669d684996a6a78b153348c, type: 3}
+  - {fileID: -7763475090823894447, guid: af5bbb8d8669d684996a6a78b153348c, type: 3}
+  - {fileID: 302641331129538988, guid: af5bbb8d8669d684996a6a78b153348c, type: 3}
+  - {fileID: -1920499266, guid: af5bbb8d8669d684996a6a78b153348c, type: 3}
   combatGoldModifier: 1
   npcGoldModifier: 1
   shopPriceModifier: 0.75
