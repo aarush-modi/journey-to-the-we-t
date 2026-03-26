@@ -15,6 +15,33 @@ MonoBehaviour:
   styleName: Scammer
   description: Talks circles around NPCs to squeeze out better payouts.
   sprite: {fileID: 21300000, guid: 14bf0293ba235dc4d82f4eed5919264c, type: 3}
+  idleSprites:
+  - {fileID: 4723107735738678597, guid: 17226c1c847ead5479e087e5857d8c8c, type: 3}
+  - {fileID: -1451311899, guid: 17226c1c847ead5479e087e5857d8c8c, type: 3}
+  - {fileID: 1249232488, guid: 17226c1c847ead5479e087e5857d8c8c, type: 3}
+  - {fileID: 652850686, guid: 17226c1c847ead5479e087e5857d8c8c, type: 3}
+  walkSprites:
+  - {fileID: 4035959289877228764, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -982904232830982447, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -350908408369970039, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -5409570386352685021, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -1070111882, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -258869128, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 1395707758, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 967042945, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -191942432, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -1151903921, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: -531119815, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 1833484480, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 1609967264, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 944902872, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 1768821728, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  - {fileID: 635422702, guid: 7ad033d85e268a84b94459cc65641e5e, type: 3}
+  attackSprites:
+  - {fileID: -7008412969330441016, guid: d7917a1e754c61d428849050a6f44503, type: 3}
+  - {fileID: -861807607, guid: d7917a1e754c61d428849050a6f44503, type: 3}
+  - {fileID: 666022993, guid: d7917a1e754c61d428849050a6f44503, type: 3}
+  - {fileID: 1294306720, guid: d7917a1e754c61d428849050a6f44503, type: 3}
   combatGoldModifier: 0.8
   npcGoldModifier: 1.2
   shopPriceModifier: 1
