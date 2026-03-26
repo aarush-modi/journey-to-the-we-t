@@ -8,7 +8,7 @@ public class HustleStyleManager : MonoBehaviour
 
     public static HustleStyleManager Instance { get; private set; }
 
-    public UnityEvent<HustleStyleData> OnStyleSelected;
+    public UnityEvent<HustleStyleData> OnStyleSelected = new UnityEvent<HustleStyleData>();
 
     private HustleStyleData currentStyle;
     private HustleStyleData defaultStyle;
