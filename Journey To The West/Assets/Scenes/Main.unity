@@ -19152,6 +19152,7 @@ GameObject:
   - component: {fileID: 1001393517}
   - component: {fileID: 1001393519}
   - component: {fileID: 1001393518}
+  - component: {fileID: 1001393520}
   m_Layer: 5
   m_Name: HustleStyleValue
   m_TagString: Untagged
@@ -19173,10 +19174,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2121570510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 199, y: -90}
-  m_SizeDelta: {x: 683.2733, y: 21.8092}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1057, y: -482}
+  m_SizeDelta: {x: 683.2733, y: 21.809204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1001393518
 MonoBehaviour:
@@ -19278,6 +19279,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1001393516}
   m_CullTransparentMesh: 1
+--- !u!114 &1001393520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001393516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70cd5918b56ff034787e616c1ff02921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HustleStyleDisplay
 --- !u!1 &1022756947
 GameObject:
   m_ObjectHideFlags: 0

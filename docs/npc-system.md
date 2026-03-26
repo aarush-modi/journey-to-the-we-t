@@ -15,6 +15,7 @@ For dialogue-specific details (branching, choices, outcomes), see [dialogue-syst
 | `NPCBase` | `Scripts/Interfaces/NPCBase.cs` | Abstract base class for all NPCs |
 | `GenericNPC` | `Scripts/Interfaces/GenericNPC.cs` | Simple NPC with one dialogue |
 | `VillageElderNPC` | `Scripts/NPC/VillageElderNPC.cs` | Quest-giving NPC with state tracking |
+| `StatueNPC` | `Scripts/NPC/StatueNPC.cs` | Shrine that grants a one-time hustle style |
 
 ## IInteractable Interface
 
@@ -134,6 +135,16 @@ Interact → play reminderDialogue
 | `reminderDialogue` | NPCDialogue for repeat interactions |
 | `packageToGive` | PackageData to add to player inventory |
 | `questToStart` | QuestData to start via QuestManager |
+
+## StatueNPC
+
+Shrine NPC that lets the player choose a hustle style (one-time only).
+
+```
+Player interacts → blessing dialogue plays → dialogue ends
+    → HustleStyleSelectionUI opens → player picks a style → confirms
+    → HustleStyleManager.ApplyStyle() → hasBlessed = true (blocks re-selection)
+```
 
 ## Creating a New NPC
 
