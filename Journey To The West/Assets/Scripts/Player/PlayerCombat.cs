@@ -138,8 +138,8 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        currentHP = Mathf.Min(currentHP + amount, effectiveMaxHP);
-        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+        currentHP = Mathf.Min(currentHP + amount, maxHP);
+        OnHPChanged?.Invoke(currentHP, maxHP);
     }
 
     public void Die()
