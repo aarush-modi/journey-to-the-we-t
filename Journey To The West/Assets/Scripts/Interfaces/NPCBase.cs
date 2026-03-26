@@ -157,7 +157,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
     }
 
-    private void DisplayCurrentLine()
+    protected void DisplayCurrentLine()
     {
         StopAllCoroutines();
         StartCoroutine(TypeDialogue());
@@ -204,14 +204,14 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
             buttonComponent.onClick.AddListener(() => ChooseOption(nextIndex));
     }
 
-    private void ChooseOption(int nextIndex)
+    protected virtual void ChooseOption(int nextIndex)
     {
         dialogueIndex = nextIndex;
         ClearChoices();
         DisplayCurrentLine();
     }
 
-    private void ClearChoices()
+    protected void ClearChoices()
     {
         if (choiceContainer == null) return;
         foreach (Transform child in choiceContainer)
@@ -238,5 +238,13 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         dialoguePanel.SetActive(false);
         PauseController.SetPause(false);
         OnDialogueComplete?.Invoke();
+    }
+
+    public void ResumeDialogue()
+    {
+        isDialogueActive = true;
+        dialoguePanel.SetActive(true);
+        PauseController.SetPause(true);
+        DisplayCurrentLine();
     }
 }
