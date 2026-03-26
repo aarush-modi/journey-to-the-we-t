@@ -17,9 +17,23 @@ MonoBehaviour:
   dialogue:
   - Welcome to the Merchant Shop!
   - Would you like to make a purchase?
+  - Come back again!
+  - Thank you for shopping!
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}
   voucePitch: 1
   autoProgressLines: 
   autoProgressDelay: 1.5
+  endDialogueOutcomes:
+  - 
+  - 
+  - 
+  - PostShop
+  nextLineOverride: 
+  choices:
+  - dialogueIndex: 1
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexes: 0300000002000000
