@@ -56,9 +56,9 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
                             └────────────┘
 ```
 
-## All Scripts (31 total)
+## All Scripts (35 total)
 
-### Player (`Scripts/Player/`) — 7 scripts
+### Player (`Scripts/Player/`) — 10 scripts
 
 | Script | Purpose |
 |--------|---------|
@@ -69,8 +69,11 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `InteractionDetector` | Detects `IInteractable` objects, handles E key |
 | `MeleeHitbox` | Delivers damage to `IDamageable` targets on collision |
 | `PauseController` | Static utility for nested pause management |
+| `HustleStyleManager` | Singleton managing selected hustle style. Applies modifiers to gold, HP, shop prices |
+| `HustleStyleData` | ScriptableObject defining a hustle style (name, modifiers, sprites) |
+| `CharacterSpriteSwapper` | Swaps player sprites from default to selected hustle style |
 
-### Player Data (`Scripts/Player/`) — 4 ScriptableObjects
+### Player Data (`Scripts/Player/`) — 5 ScriptableObjects
 
 | Script | Purpose |
 |--------|---------|
@@ -78,14 +81,16 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `PackageData` | Quest package definitions (name, seal description) |
 | `ArmorData` | Armor stats (name, damage reduction, sprite) |
 | `SkillData` | Skill stats (name, damage, cooldown, icon) |
+| `HustleStyleData` | Style definitions (name, description, gold/HP/shop modifiers, character sprites) |
 
-### NPC & Dialogue (`Scripts/Interfaces/`, `Scripts/NPC/`) — 5 scripts
+### NPC & Dialogue (`Scripts/Interfaces/`, `Scripts/NPC/`) — 6 scripts
 
 | Script | Purpose |
 |--------|---------|
 | `NPCBase` | Abstract base for all NPCs. Dialogue UI, typing, choices, branching |
 | `GenericNPC` | Simple NPC with one dialogue |
 | `VillageElderNPC` | Quest giver with state tracking and dialogue outcomes |
+| `StatueNPC` | Shrine that triggers hustle style selection (one-time blessing) |
 | `NPCDialogue` | ScriptableObject for dialogue data + `DialogueChoice` class |
 | `NobleDialogueTest` | Temporary test script (auto-setup colliders) |
 
@@ -96,7 +101,7 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `QuestManager` | Singleton managing active/completed quests. Persists across scenes |
 | `QuestData` | ScriptableObject for quest definitions |
 
-### UI (`Scripts/UI/`) — 5 scripts
+### UI (`Scripts/UI/`) — 8 scripts
 
 | Script | Purpose |
 |--------|---------|
@@ -105,6 +110,9 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `QuestLogUI` | Displays active quests from QuestManager events |
 | `QuestEntryUI` | Individual quest entry component |
 | `TabController` | Tab switching for menu pages |
+| `HustleStyleSelectionUI` | Panel for choosing a hustle style at the shrine |
+| `HustleStyleCard` | Individual style option card in the selection panel |
+| `HustleStyleDisplay` | Shows current hustle style + stat modifiers on the Player menu page |
 
 ### Map & Scenes (`Scripts/Map/`) — 2 scripts
 
@@ -127,18 +135,20 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `IDamageable` | `PlayerCombat` |
 | `ICollectible` | `DroppedGold` |
 
-### Debug (`Scripts/Dev/`) — 2 scripts
+### Debug (`Scripts/Dev/`) — 3 scripts
 
 | Script | Purpose |
 |--------|---------|
 | `HUDTest` | J key = take damage, K key = add gold |
 | `GreedMeterDebug` | G key = +100 gold, H key = -150 gold |
+| `HustleStyleDebug` | 1/2/3 keys = apply Scammer/Brute/Haggler style |
 
 ## Singletons
 
 | Singleton | Persists Across Scenes | Purpose |
 |-----------|----------------------|---------|
 | `QuestManager` | Yes | Quest state |
+| `HustleStyleManager` | Yes | Selected hustle style and modifiers |
 | `ScreenFader` | No | Fade transitions |
 | `PauseController` | Static class | Pause state with depth tracking |
 
@@ -162,6 +172,7 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `QuestManager` | `onQuestCompleted` | `QuestLogUI` | Remove quest entry |
 | `PlayerInventory` | `onInventoryChanged` | (available) | Not yet connected to UI |
 | `NPCBase` | `OnDialogueComplete` | NPC subclasses | Post-dialogue logic |
+| `HustleStyleManager` | `OnStyleSelected` | `HustleStyleDisplay` | Update player menu text |
 
 ## Data Assets
 
@@ -172,6 +183,7 @@ Journey to the West is a 2D action game built in Unity using the new Input Syste
 | `OldManDialogue` | `Assets/NPC/Noble/` | NPCDialogue |
 | `DeliverRedPackets` | `Assets/Data/Quests/` | QuestData |
 | `Level1Package` | `Assets/Data/Quests/` | PackageData |
+| `Default/Scammer/Brute/Haggler` | `Assets/Resources/HustleStyles/` | HustleStyleData |
 
 ## Detailed Documentation
 
