@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HustleStyleData
   styleName: Scammer
   description: Talks circles around NPCs to squeeze out better payouts.
-  sprite: {fileID: 5361116971844849560, guid: 95ace37169a2c4c4e863a512cfbf358b, type: 3}
+  sprite: {fileID: 21300000, guid: 14bf0293ba235dc4d82f4eed5919264c, type: 3}
   combatGoldModifier: 0.8
   npcGoldModifier: 1.2
   shopPriceModifier: 1
