@@ -17,4 +17,4 @@ MonoBehaviour:
   damage: 5
   baseGoldDrop: 25
   moveSpeed: 0
-  sprite: {fileID: 1903320311, guid: 90dd85b0c95f6604caa23d5249bfb651, type: 3}
+  sprite: {fileID: 5546671543968653177, guid: 90dd85b0c95f6604caa23d5249bfb651, type: 3}
