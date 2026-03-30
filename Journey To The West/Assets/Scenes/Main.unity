@@ -1947,6 +1947,7 @@ GameObject:
   - component: {fileID: 296328974}
   - component: {fileID: 296328973}
   - component: {fileID: 296328976}
+  - component: {fileID: 296328977}
   m_Layer: 0
   m_Name: CmCam
   m_TagString: Untagged
@@ -2063,6 +2064,18 @@ MonoBehaviour:
     MaxWindowSize: 0
     Padding: 0
   m_LegacyMaxWindowSize: -2
+--- !u!114 &296328977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296328972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e213a7755993304f8c878634b1e933a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentCamera
 --- !u!1 &334744470
 GameObject:
   m_ObjectHideFlags: 0

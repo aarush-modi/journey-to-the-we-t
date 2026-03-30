@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,6 +13,7 @@ public class SceneTeleporter : MonoBehaviour
 #endif
 
     public string targetScene;
+    private bool isTransitioning = false;
 
     void OnValidate()
     {
@@ -23,9 +25,16 @@ public class SceneTeleporter : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isTransitioning)
         {
-            SceneManager.LoadScene(targetScene);
+            isTransitioning = true;
+            _ = TransitionToScene();
         }
+    }
+
+    async Task TransitionToScene()
+    {
+        await ScreenFader.Instance.FadeOut();
+        SceneManager.LoadScene(targetScene);
     }
 }
