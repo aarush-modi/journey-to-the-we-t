@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4611189320774217982}
   - component: {fileID: 1114637623639523240}
   - component: {fileID: 1442168478434151273}
+  - component: {fileID: 955481906578192693}
   m_Layer: 5
   m_Name: Skill
   m_TagString: Untagged
@@ -101,3 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03405c77a8ef6394dbffc15534cee0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &955481906578192693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824259941354096032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36ac901806c29e4cbc26a22faf469a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Skill
+  ID: 0
+  skillName: 
