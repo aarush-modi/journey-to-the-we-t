@@ -7,6 +7,7 @@ public class MerchantNPC : NPCBase
     [SerializeField] private int shopOpenDialogueIndex = 3;
 
     private MerchantShopController shopController;
+    private bool isOpeningShop = false;
 
     protected override void Start()
     {
@@ -19,9 +20,13 @@ public class MerchantNPC : NPCBase
         PlayDialogue(merchantDialogue);
     }
 
+    protected override bool ShouldUnpauseOnDialogueEnd()
+    {
+        return !isOpeningShop;
+    }
+
     protected override void ChooseOption(int nextIndex)
     {
-    
         if (nextIndex == shopOpenDialogueIndex && shopController != null)
         {
             ClearChoices();

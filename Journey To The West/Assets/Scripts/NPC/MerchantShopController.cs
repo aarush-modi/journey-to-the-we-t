@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class MerchantShopController : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class MerchantShopController : MonoBehaviour
 
     public void OpenShop()
     {    
+
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
 
@@ -32,7 +34,7 @@ public class MerchantShopController : MonoBehaviour
         {
             shopMenuUI.SetActive(true);
         }
-    }  
+    }
 
     public void CloseShop()
     {
