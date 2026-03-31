@@ -20096,6 +20096,7 @@ GameObject:
   - component: {fileID: 1077869516}
   - component: {fileID: 1077869515}
   - component: {fileID: 1077869514}
+  - component: {fileID: 1077869517}
   m_Layer: 5
   m_Name: ShopMenu
   m_TagString: Untagged
@@ -20178,6 +20179,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077869512}
   m_CullTransparentMesh: 1
+--- !u!114 &1077869517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077869512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229d657d50514084e955422d8f650c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopMenuDebugger
 --- !u!1 &1084001248
 GameObject:
   m_ObjectHideFlags: 0
@@ -36931,6 +36944,7 @@ GameObject:
   - component: {fileID: 1881392814}
   - component: {fileID: 1881392819}
   - component: {fileID: 1881392820}
+  - component: {fileID: 1881392821}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -37082,6 +37096,18 @@ MonoBehaviour:
   tier3Color: {r: 0.8745098, g: 0.6862745, b: 0.21568628, a: 1}
   skillIcon: {fileID: 0}
   skillCooldownOverlay: {fileID: 0}
+--- !u!114 &1881392821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881392813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229d657d50514084e955422d8f650c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopMenuDebugger
 --- !u!1 &1882317852
 GameObject:
   m_ObjectHideFlags: 0

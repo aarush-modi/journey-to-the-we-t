@@ -5,7 +5,7 @@ public class MenuController : MonoBehaviour
 {
     public GameObject menuCanvas;
 
-    void Start()
+    void Awake()
     {
         menuCanvas.SetActive(false);
     }
