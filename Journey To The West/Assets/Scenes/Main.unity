@@ -18356,7 +18356,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -490}
-  m_SizeDelta: {x: -300, y: -980}
+  m_SizeDelta: {x: -500, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &864144167
 MonoBehaviour:
@@ -18436,7 +18436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HotbarController
   hotbarPanel: {fileID: 864144165}
   slotPrefab: {fileID: 7327110627098207595, guid: be896946233a4df4b889be5a248e6edf, type: 3}
-  slotCount: 10
+  slotCount: 8
 --- !u!1 &871299900
 GameObject:
   m_ObjectHideFlags: 0
@@ -20095,8 +20095,6 @@ GameObject:
   - component: {fileID: 1077869513}
   - component: {fileID: 1077869516}
   - component: {fileID: 1077869515}
-  - component: {fileID: 1077869514}
-  - component: {fileID: 1077869517}
   m_Layer: 5
   m_Name: ShopMenu
   m_TagString: Untagged
@@ -20128,19 +20126,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1077869514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077869512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441296111a1e4814b8af66bff43b2a91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MenuController
-  menuCanvas: {fileID: 1077869512}
 --- !u!114 &1077869515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20179,18 +20164,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077869512}
   m_CullTransparentMesh: 1
---- !u!114 &1077869517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077869512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229d657d50514084e955422d8f650c37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopMenuDebugger
 --- !u!1 &1084001248
 GameObject:
   m_ObjectHideFlags: 0
@@ -36849,6 +36822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1859492731}
   - component: {fileID: 1859492730}
+  - component: {fileID: 1859492732}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -36890,6 +36864,19 @@ Transform:
   - {fileID: 1558914311}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1859492732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859492729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441296111a1e4814b8af66bff43b2a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuController
+  menuCanvas: {fileID: 1077869512}
 --- !u!1 &1881190934
 GameObject:
   m_ObjectHideFlags: 0
@@ -36944,7 +36931,6 @@ GameObject:
   - component: {fileID: 1881392814}
   - component: {fileID: 1881392819}
   - component: {fileID: 1881392820}
-  - component: {fileID: 1881392821}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -37096,18 +37082,6 @@ MonoBehaviour:
   tier3Color: {r: 0.8745098, g: 0.6862745, b: 0.21568628, a: 1}
   skillIcon: {fileID: 0}
   skillCooldownOverlay: {fileID: 0}
---- !u!114 &1881392821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881392813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229d657d50514084e955422d8f650c37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopMenuDebugger
 --- !u!1 &1882317852
 GameObject:
   m_ObjectHideFlags: 0
