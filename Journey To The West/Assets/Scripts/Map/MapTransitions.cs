@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using System;
+using System.Threading.Tasks;
 
 public class MapTransitions : MonoBehaviour
 {
@@ -30,13 +31,20 @@ public class MapTransitions : MonoBehaviour
 
     async void FadeTransition(GameObject player)
     {
-        await ScreenFader.Instance.FadeOut();
+        if (ScreenFader.Instance != null)
+        {
+            await ScreenFader.Instance.FadeOut();
+        }
 
-        confiner.BoundingShape2D = mapBoundary;
-        confiner.InvalidateBoundingShapeCache();
+        if (confiner != null && mapBoundary != null)
+        {
+            confiner.BoundingShape2D = mapBoundary;
+            confiner.InvalidateBoundingShapeCache();
+        }
+
         UpdatePlayerPosition(player);
 
-        if (direction == Direction.Teleport)
+        if (direction == Direction.Teleport && vcam != null && teleportTargetPosition != null)
         {
             vcam.ForceCameraPosition(
                 teleportTargetPosition.position + new Vector3(0, 0, -10f),
@@ -44,13 +52,22 @@ public class MapTransitions : MonoBehaviour
             );
         }
 
-        await ScreenFader.Instance.FadeIn();
+        if (ScreenFader.Instance != null)
+        {
+            await ScreenFader.Instance.FadeIn();
+        }
     }
 
     private void UpdatePlayerPosition(GameObject player)
     {
         if (direction == Direction.Teleport)
         {
+            if (teleportTargetPosition == null)
+            {
+                Debug.LogWarning($"{name} is set to Teleport but has no target position assigned.", this);
+                return;
+            }
+
             player.transform.position = teleportTargetPosition.position;
             return;
         }
