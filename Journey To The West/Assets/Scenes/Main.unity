@@ -36847,6 +36847,7 @@ MonoBehaviour:
   skillPrefabs:
   - {fileID: 2824259941354096032, guid: 34595b9d5870d654ba378495adf10ff5, type: 3}
   - {fileID: 3542047087971786624, guid: a33ec6453b3a959448ce7bad576e9d93, type: 3}
+  - {fileID: 3542047087971786624, guid: a33ec6453b3a959448ce7bad576e9d93, type: 3}
 --- !u!4 &1859492731
 Transform:
   m_ObjectHideFlags: 0
