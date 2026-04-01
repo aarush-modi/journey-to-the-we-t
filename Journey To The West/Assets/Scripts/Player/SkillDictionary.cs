@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SkillDictionary : MonoBehaviour
 {
+    /*
     public List<Skill> skillPrefabs;
     private Dictionary<int, GameObject> skillDictionary;
 
@@ -31,4 +32,5 @@ public class SkillDictionary : MonoBehaviour
         }
         return prefab;
     }
+    */
 }

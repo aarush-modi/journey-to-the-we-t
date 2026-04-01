@@ -1,35 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ShopSlot : MonoBehaviour
 {
-    public GameObject currentItem;
-    public int itemPrice;
+    [Header("UI References")]
+    public Image iconImage;
+    public TMP_Text nameText;
     public TMP_Text priceText;
-    public bool isShopSlot = true; //In shop menu, true = shop side and false = player side
+    public Button buyButton;
 
-    private void Awake()
+    private SkillData skillData;
+    private MerchantShopController shopController;
+
+    public void SetSkill(SkillData data, MerchantShopController controller)
     {
-        if (!priceText)
-        {
-            priceText = transform.Find("PriceText").GetComponent<TMP_Text>();
-        }
+        skillData = data;
+        shopController = controller;
+
+        if (iconImage != null) iconImage.sprite = data.icon;
+        if (nameText != null) nameText.text = data.skillName;
+        if (priceText != null) priceText.text = data.goldCost.ToString() + "g";
+
+        if (buyButton != null)
+            buyButton.onClick.AddListener(OnBuyClicked);
+
+        RefreshAffordability();
     }
 
-    public void UpdatePriceDisplay()
+    public void RefreshAffordability()
     {
-        if(priceText && currentItem)
-        {
-            priceText.text = itemPrice.ToString();
-        }
+        if (buyButton == null) return;
+
+        GreedMeter greed = GameObject.FindWithTag("Player")?.GetComponent<GreedMeter>();
+        bool canAfford = greed != null && greed.GetCurrentGold() >= skillData.goldCost;
+
+        buyButton.interactable = canAfford;
+
+        // Grey out the icon and text if can't afford
+        Color affordable = canAfford ? Color.white : new Color(0.4f, 0.4f, 0.4f, 1f);
+        if (iconImage != null) iconImage.color = affordable;
+        if (nameText != null) nameText.color = affordable;
+        if (priceText != null) priceText.color = affordable;
     }
 
-    public void SetItem(GameObject item, int price)
+    private void OnBuyClicked()
     {
-        currentItem = item;
-        itemPrice = price;
-        UpdatePriceDisplay();
+        if (shopController != null && skillData != null)
+            shopController.TryBuySkill(skillData, this);
     }
 }
