@@ -134,6 +134,33 @@ This means the NPC logic doesn't depend on line numbers, only on the outcome tag
 
 ## Unity Setup
 
+### Assigning NPC Portraits
+
+Each NPC's portrait is stored on its `NPCDialogue` ScriptableObject asset in the `npcSprite` field.
+
+To assign a portrait:
+1. Select the dialogue asset in the Project window (e.g. `Data/Dialogue/ElderIntroDialogue.asset`)
+2. In the Inspector, find the **Npc Sprite** field
+3. Drag the NPC's `Faceset.png` sprite into it
+
+Portrait sprites live in `Assets/Sprites/[CharacterName]/Faceset.png` (e.g. `Sprites/OldMan2/Faceset.png` for the Village Elder). The same portrait must be assigned to every dialogue asset for that NPC (intro, reminder, etc.).
+
+### "Press E" Continue Prompt
+
+`NPCBase` has a `continuePrompt` field (a serialized `GameObject`). When assigned, it is:
+- **Hidden** while text is typing
+- **Shown** once a line finishes typing (if the line won't auto-progress and has no choices)
+- **Hidden** when the player advances to the next line or when choices appear
+
+To set it up on the DialoguePanel:
+1. Inside **DialoguePanel**, create **UI > TextMeshPro - Text**, name it `ContinuePrompt`
+2. Set the text to something like `[ E ]` or `E ▶`
+3. Position it at the bottom-right corner of the dialogue box (e.g. anchor Bottom-Right, small offset)
+4. Style it to match the game's font
+5. On each NPC in the scene, find the `NPCBase` component's **Continue Prompt** field and drag `ContinuePrompt` into it
+
+The GameObject starts inactive; the script manages its visibility automatically.
+
 ### Choice UI (one-time setup)
 
 1. Inside your **Dialogue Panel**, create a child **UI > Panel** named `ChoicesPanel`
