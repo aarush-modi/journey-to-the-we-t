@@ -7,14 +7,10 @@ public class HotbarController : MonoBehaviour
     public GameObject slotPrefab;
     public int slotCount = 10; //1-0 on the keyboard
 
-    private SkillDictionary skillDictionary;
-
     private Key[] hotbarKeys;
 
     private void Awake()
     {
-        skillDictionary = FindObjectOfType<SkillDictionary>();
-
         // Hotbar keys based on slot count
         hotbarKeys = new Key[slotCount];
         for(int i = 0; i < slotCount; i++)
