@@ -18,6 +18,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     [SerializeField] protected TMP_Text dialogueText;
     [SerializeField] protected TMP_Text nameText;
     [SerializeField] protected Image npcPortraitImage;
+    [SerializeField] private GameObject continuePrompt;
 
     [Header("Dialogue Choices")]
     [SerializeField] protected Transform choiceContainer;
@@ -98,11 +99,13 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
             StopAllCoroutines();
             dialogueText.text = currentDialogue.dialogue[dialogueIndex];
             isTyping = false;
-            CheckForChoices();
+            if (!CheckForChoices())
+                SetContinuePrompt(true);
             return;
         }
         else
         {
+            SetContinuePrompt(false);
             ClearChoices();
 
             if (currentDialogue.endDialogueOutcomes != null
@@ -137,9 +140,16 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
     }
 
+    private void SetContinuePrompt(bool show)
+    {
+        if (continuePrompt != null)
+            continuePrompt.SetActive(show);
+    }
+
     private IEnumerator TypeDialogue()
     {
         isTyping = true;
+        SetContinuePrompt(false);
         dialogueText.text = "";
         foreach (char letter in currentDialogue.dialogue[dialogueIndex].ToCharArray())
         {
@@ -154,6 +164,10 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         {
             yield return new WaitForSecondsRealtime(currentDialogue.autoProgressDelay);
             AdvanceLine();
+        }
+        else
+        {
+            SetContinuePrompt(true);
         }
     }
 

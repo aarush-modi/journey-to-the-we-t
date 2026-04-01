@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ElderReminderDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Village Elder
-  npcSprite: {fileID: 0}
+  npcSprite: {fileID: 21300000, guid: a7b9de86dd332fc4eb204ef08c7d734e, type: 3}
   dialogue:
   - Have you delivered the packet yet? The king awaits!
   dialogueTime: []
@@ -22,3 +22,6 @@ MonoBehaviour:
   voucePitch: 1
   autoProgressLines: 
   autoProgressDelay: 1.5
+  endDialogueOutcomes: []
+  nextLineOverride: 
+  choices: []
