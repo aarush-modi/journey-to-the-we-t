@@ -40,12 +40,17 @@ public class WeaponDisplay : MonoBehaviour
     //                                           Up  UR  R  DR   D  DL   L  UL
 
     private SpriteRenderer sr;
+    private Collider2D hitbox;
+    private MeleeHitbox meleeHitbox;
     private bool wasAttacking;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        hitbox = GetComponent<Collider2D>();
+        meleeHitbox = GetComponent<MeleeHitbox>();
         sr.enabled = false;
+        if (hitbox != null) hitbox.enabled = false;
     }
 
     private void LateUpdate()
@@ -89,6 +94,8 @@ public class WeaponDisplay : MonoBehaviour
 
         sr.flipX = flipX;
         sr.enabled = true;
+        if (hitbox != null) hitbox.enabled = true;
+        meleeHitbox?.PrepareForAttack();
 
         float angle = flipX
             ? -(Mathf.Atan2(direction.y, -direction.x) * Mathf.Rad2Deg + baseRotationOffset)
@@ -100,6 +107,7 @@ public class WeaponDisplay : MonoBehaviour
 
         yield return new WaitUntil(() => !playerCombat.IsAttacking());
         sr.enabled = false;
+        if (hitbox != null) hitbox.enabled = false;
     }
 
     private IEnumerator LerpPosition(Vector2 direction, Vector2 origin, float from, float to, float duration)
