@@ -4,13 +4,16 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
-    // [SerializeField] public HustleStyleData hustleStyle; // null for now, T3-12 fills this but we skipped it for task 3
 
     private Rigidbody2D rb;
     private Animator animator;
     private PlayerCombat combat;
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
+
+    // --- Ice state ---
+    private bool isOnIce = false;
+    private Vector2 iceVelocity = Vector2.zero; // locked-in slide direction
 
     private void Awake()
     {
@@ -26,7 +29,60 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             return;
         }
-        rb.linearVelocity = moveInput * moveSpeed;
+
+        if (isOnIce)
+        {
+            // Keep sliding at the locked velocity — collisions will stop the player naturally
+            rb.linearVelocity = iceVelocity;
+        }
+        else
+        {
+            rb.linearVelocity = moveInput * moveSpeed;
+        }
+    }
+
+    // Called when the player enters a trigger tagged "Ice"
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Ice"))
+        {
+            isOnIce = true;
+            // Lock in whatever velocity the player had when they stepped on ice
+            iceVelocity = rb.linearVelocity;
+
+            // If the player was standing still, give them a small nudge in their facing direction
+            if (iceVelocity.sqrMagnitude < 0.01f)
+                iceVelocity = lastFacingDirection * moveSpeed;
+
+            // Prevent diagonal sliding
+            if (Mathf.Abs(iceVelocity.x) >= Mathf.Abs(iceVelocity.y))
+                iceVelocity = new Vector2(iceVelocity.x, 0f);
+            else
+                iceVelocity = new Vector2(0f, iceVelocity.y);
+        }
+    }
+
+    // Called when the player exits the ice trigger
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Ice"))
+        {
+            isOnIce = false;
+            iceVelocity = Vector2.zero;
+        }
+    }
+
+    // Stop sliding when hitting a wall
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isOnIce)
+        {
+            // Only stop if it's a meaningful hit, not a graze
+            if (collision.relativeVelocity.magnitude > 0.5f)
+            {
+                iceVelocity = Vector2.zero;
+            }
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -35,9 +91,21 @@ public class PlayerController : MonoBehaviour
         {
             moveInput = context.ReadValue<Vector2>();
             if (moveInput.sqrMagnitude > 0f)
-            {
                 lastFacingDirection = moveInput.normalized;
+
+            // If stopped on ice, a new input starts a new slide
+            if (isOnIce && iceVelocity.sqrMagnitude < 0.01f)
+            {
+                // Snap to dominant axis
+                Vector2 snapped = moveInput;
+                if (Mathf.Abs(snapped.x) >= Mathf.Abs(snapped.y))
+                    snapped = new Vector2(snapped.x, 0f);
+                else
+                    snapped = new Vector2(0f, snapped.y);
+
+                iceVelocity = snapped.normalized * moveSpeed;
             }
+
             animator.SetBool("isWalking", true);
             animator.SetFloat("InputX", moveInput.x);
             animator.SetFloat("InputY", moveInput.y);
@@ -59,11 +127,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 GetFacingDirection()
     {
-        if (moveInput.sqrMagnitude > 0f)
-        {
-            return moveInput.normalized;
-        }
-
-        return lastFacingDirection;
+        return moveInput.sqrMagnitude > 0f ? moveInput.normalized : lastFacingDirection;
     }
 }
