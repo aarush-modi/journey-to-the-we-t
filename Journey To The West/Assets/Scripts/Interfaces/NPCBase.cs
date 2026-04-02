@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public abstract class NPCBase : MonoBehaviour, IInteractable
 {
@@ -31,6 +32,8 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     protected bool isDialogueActive;
     protected bool isTyping;
     private bool isWaitingForChoice;
+    private PlayerCombat activeDialogueCombat;
+    private bool disabledCombatForDialogue;
     protected string lastDialogueOutcome { get; private set; }
 
     protected virtual void Start()
@@ -39,12 +42,15 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
             interactionIcon.SetActive(false);
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
+        ConfigureDialogueRaycasts();
     }
 
     public virtual string GetPromptText()
     {
         return isDialogueActive ? "Continue" : $"Talk to {npcName}";
     }
+
+    public bool IsDialogueOpen => isDialogueActive;
 
     public virtual bool CanInteract()
     {
@@ -84,7 +90,9 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         npcPortraitImage.sprite = dialogue.npcSprite;
 
         dialoguePanel.SetActive(true);
+        dialoguePanel.transform.SetAsLastSibling();
         PauseController.SetPause(true);
+        SetDialogueCombatEnabled(false);
 
         ClearChoices();
         DisplayCurrentLine();
@@ -196,16 +204,25 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     private void DisplayChoices(DialogueChoice choice)
     {
         isWaitingForChoice = true;
+        Button firstButton = null;
         for (int i = 0; i < choice.choices.Length; i++)
         {
             int nextIndex = choice.nextDialogueIndexes[i];
-            CreateChoiceButton(choice.choices[i], nextIndex);
+            Button button = CreateChoiceButton(choice.choices[i], nextIndex);
+            if (firstButton == null)
+                firstButton = button;
+        }
+
+        if (firstButton != null && EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+            firstButton.Select();
         }
     }
 
-    private void CreateChoiceButton(string text, int nextIndex)
+    private Button CreateChoiceButton(string text, int nextIndex)
     {
-        if (choiceButtonPrefab == null || choiceContainer == null) return;
+        if (choiceButtonPrefab == null || choiceContainer == null) return null;
 
         GameObject button = Instantiate(choiceButtonPrefab, choiceContainer);
 
@@ -216,6 +233,20 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         var buttonComponent = button.GetComponent<Button>();
         if (buttonComponent != null)
             buttonComponent.onClick.AddListener(() => ChooseOption(nextIndex));
+
+        return buttonComponent;
+    }
+
+    private void ConfigureDialogueRaycasts()
+    {
+        if (dialogueText != null)
+            dialogueText.raycastTarget = false;
+        if (nameText != null)
+            nameText.raycastTarget = false;
+        if (npcPortraitImage != null)
+            npcPortraitImage.raycastTarget = false;
+        if (continuePrompt != null && continuePrompt.TryGetComponent<Graphic>(out var graphic))
+            graphic.raycastTarget = false;
     }
 
     protected virtual void ChooseOption(int nextIndex)
@@ -240,9 +271,10 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         return true;
     }
 
-    protected void EndDialogue()
+    protected void EndDialogue(bool stopCoroutines = true)
     {
-        StopAllCoroutines();
+        if (stopCoroutines)
+            StopAllCoroutines();
         ClearChoices();
 
         lastDialogueOutcome = "";
@@ -255,6 +287,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         isDialogueActive = false;
         dialogueText.text = "";
         dialoguePanel.SetActive(false);
+        SetDialogueCombatEnabled(true);
         if (ShouldUnpauseOnDialogueEnd())
         {
             PauseController.SetPause(false);
@@ -266,7 +299,37 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     {
         isDialogueActive = true;
         dialoguePanel.SetActive(true);
+        dialoguePanel.transform.SetAsLastSibling();
         PauseController.SetPause(true);
+        SetDialogueCombatEnabled(false);
         DisplayCurrentLine();
+    }
+
+    private void SetDialogueCombatEnabled(bool enabled)
+    {
+        if (!enabled)
+        {
+            if (activeDialogueCombat == null)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                    activeDialogueCombat = player.GetComponent<PlayerCombat>();
+            }
+
+            if (activeDialogueCombat != null && activeDialogueCombat.enabled)
+            {
+                activeDialogueCombat.enabled = false;
+                disabledCombatForDialogue = true;
+            }
+            return;
+        }
+
+        if (activeDialogueCombat != null && disabledCombatForDialogue)
+        {
+            activeDialogueCombat.enabled = true;
+        }
+
+        disabledCombatForDialogue = false;
+        activeDialogueCombat = null;
     }
 }
