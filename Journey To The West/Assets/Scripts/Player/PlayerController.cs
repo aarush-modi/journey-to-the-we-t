@@ -77,7 +77,11 @@ public class PlayerController : MonoBehaviour
     {
         if (isOnIce)
         {
-            iceVelocity = Vector2.zero;
+            // Only stop if it's a meaningful hit, not a graze
+            if (collision.relativeVelocity.magnitude > 0.5f)
+            {
+                iceVelocity = Vector2.zero;
+            }
         }
     }
 
@@ -88,6 +92,19 @@ public class PlayerController : MonoBehaviour
             moveInput = context.ReadValue<Vector2>();
             if (moveInput.sqrMagnitude > 0f)
                 lastFacingDirection = moveInput.normalized;
+
+            // If stopped on ice, a new input starts a new slide
+            if (isOnIce && iceVelocity.sqrMagnitude < 0.01f)
+            {
+                // Snap to dominant axis
+                Vector2 snapped = moveInput;
+                if (Mathf.Abs(snapped.x) >= Mathf.Abs(snapped.y))
+                    snapped = new Vector2(snapped.x, 0f);
+                else
+                    snapped = new Vector2(0f, snapped.y);
+
+                iceVelocity = snapped.normalized * moveSpeed;
+            }
 
             animator.SetBool("isWalking", true);
             animator.SetFloat("InputX", moveInput.x);
