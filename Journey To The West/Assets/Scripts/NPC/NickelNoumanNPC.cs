@@ -21,4 +21,9 @@ public class NickelNoumanNPC : NPCBase
             HasSolvedRiddle = true;
         base.ChooseOption(nextIndex);
     }
+
+    public void DebugSetSolvedRiddle(bool solved)
+    {
+        HasSolvedRiddle = solved;
+    }
 }
