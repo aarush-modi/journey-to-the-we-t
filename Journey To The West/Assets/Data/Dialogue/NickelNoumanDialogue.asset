@@ -15,14 +15,41 @@ MonoBehaviour:
   npcName: Nickel Nouman
   npcSprite: {fileID: -7527145504033472756, guid: 13c5bd9fa080d8a45a02886989dc863e, type: 3}
   dialogue:
-  - Need something?
-  - Merchant Town stays busy. Keep your head up.
+  - '*picks nose*'
+  - Welcome to the Merchant Town, Ninja of Greed.
+  - 'The name''s Nickel Nouman. I love money, just like my daddy, THE MERCHANT KING.'
+  - 'He told me to tell you "all who wish to visit him must utter his true name".'
+  - Whatever that means.
+  - Apparently he also has the packet you need to deliver to the king.
+  - Solve this riddle - what is the first name of King Modi?
+  - That's right! My big daddy will see you now!
+  - You're even dumber than I thought! HAHA!
+  - You're even dumber than I thought! HAHA!
+  - You're even dumber than I thought! HAHA!
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}
   voucePitch: 1
   autoProgressLines: []
   autoProgressDelay: 1.5
-  endDialogueOutcomes: []
+  endDialogueOutcomes:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - answer_moneygrubber
+  - answer_rubbery_gnome
+  - answer_gone_berry_bum
+  - answer_grey_borne_bum
   nextLineOverride: []
-  choices: []
+  choices:
+  - dialogueIndex: 6
+    choices:
+    - Moneygrubber
+    - Rubbery Gnome
+    - Gone-Berry-Bum
+    - Grey-Borne Bum
+    nextDialogueIndexes: 0700000008000000090000000a000000

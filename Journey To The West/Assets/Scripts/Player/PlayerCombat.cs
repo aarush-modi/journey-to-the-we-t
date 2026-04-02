@@ -72,6 +72,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (PauseController.IsGamePaused) return;
         if (!context.performed || isDead) return;
         if (attackCooldownTimer > 0f) return;
 
@@ -93,6 +94,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public void OnSkill(InputAction.CallbackContext context)
     {
+        if (PauseController.IsGamePaused) return;
         if (!context.performed || isDead) return;
         ActivateSkill();
     }
