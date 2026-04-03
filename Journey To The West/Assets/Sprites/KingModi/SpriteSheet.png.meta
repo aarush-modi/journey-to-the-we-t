@@ -11,9 +11,6 @@ TextureImporter:
   - first:
       213: -3459558614108198297
     second: SpriteSheet_2
-  - first:
-      213: 659797372610145418
-    second: SpriteSheet_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,9 +110,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 33
-        height: 112
+        y: 95
+        width: 64
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +131,10 @@ TextureImporter:
       name: SpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 31
-        y: 15
-        width: 17
-        height: 97
+        x: 0
+        y: 63
+        width: 64
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,10 +153,10 @@ TextureImporter:
       name: SpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 31
+        x: 0
         y: 0
-        width: 33
-        height: 17
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,28 +167,6 @@ TextureImporter:
       bones: []
       spriteID: 76a207e15cd2dffc0800000000000000
       internalID: -3459558614108198297
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 15
-        width: 16
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a8ce922f632182900800000000000000
-      internalID: 659797372610145418
       vertices: []
       indices: 
       edges: []
@@ -213,7 +188,6 @@ TextureImporter:
       SpriteSheet_0: 5546671543968653177
       SpriteSheet_1: 8755591262435691780
       SpriteSheet_2: -3459558614108198297
-      SpriteSheet_3: 659797372610145418
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

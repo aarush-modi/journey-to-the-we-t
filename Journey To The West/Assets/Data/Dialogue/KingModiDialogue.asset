@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: KingModiDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: King Modi
+  npcSprite: {fileID: 4723107735738678597, guid: fb351d54b2f3bba4c978d378f0ae8b1c, type: 3}
+  dialogue:
+  - '*You feel a overwhelming surge of greed pulse through your body.*\n*Suddenly, even all the money in the world is not enough for you.*'
+  - '*King Modi rolls out of his pile of 1-Yen notes to address you.*'
+  - 'MONEY MONEY MONEY.\nI LOOOOOVE MONEY.'
+  - I AM THE RICHEST MAN ON EARTH, KING MODI.
+  - I POSSESS THE RED PACKET YOU DESIRE, NINJA OF GREED.
+  - I SEE YOU HAVE SOMETHING I DESIRE.
+  - '*Modi eyes the 1-Yen coin in your hand.*'
+  - TELL ME, ARE YOU A GAMBLING MAN?
+  - LET US GAMBLE.
+  - '*Modi takes all of your money anyways.*'
+  dialogueTime: []
+  typingSpeed: 0.05
+  voiceSounds: {fileID: 0}
+  voucePitch: 1
+  autoProgressLines: []
+  autoProgressDelay: 1.5
+  endDialogueOutcomes:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - start_blackjack
+  - refuse_blackjack
+  nextLineOverride: []
+  choices:
+  - dialogueIndex: 0
+    choices:
+    - Wait for Modi to notice you
+    nextDialogueIndexes: 01000000
+  - dialogueIndex: 7
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexes: 0800000009000000
