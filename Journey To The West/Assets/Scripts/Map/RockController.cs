@@ -5,54 +5,63 @@ public class RockController : MonoBehaviour
 {
     [Header("Grid Settings")]
     [SerializeField] private float tileSize = 1f;
-    [SerializeField] private float pushSpeed = 4f;
     [SerializeField] private LayerMask obstacleLayer;
 
     private Rigidbody2D rb;
-    private bool isMoving = false;
-    private Vector2 targetPosition;
+    private Collider2D col;
+    private bool isPushed = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
+        col = GetComponent<Collider2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.interpolation = RigidbodyInterpolation2D.None;
         rb.freezeRotation = true;
         SnapToGrid();
     }
 
-    private void FixedUpdate()
-    {
-        if (!isMoving) return;
-
-        Vector2 newPos = Vector2.MoveTowards(rb.position, targetPosition, pushSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
-
-        if (Vector2.Distance(rb.position, targetPosition) < 0.01f)
-        {
-            rb.MovePosition(targetPosition);
-            rb.linearVelocity = Vector2.zero;
-            isMoving = false;
-        }
-    }
-
     public bool TryPush(Vector2 direction)
     {
-        if (isMoving) return false;
+        if (isPushed) return false;
 
         direction = SnapToCardinal(direction);
         Vector2 destination = rb.position + direction * tileSize;
 
-        if (!IsClear(destination)) return false;
+        if (!IsClear(destination))
+        {
+            Debug.Log("Blocked! Cannot push rock to: " + destination);
+            return false;
+        }
 
-        targetPosition = destination;
-        isMoving = true;
+        rb.position = destination;
+        transform.position = new Vector3(destination.x, destination.y, transform.position.z);
+
+        isPushed = true;
+        Invoke(nameof(ResetPush), 0.2f);
         return true;
+    }
+
+    private void ResetPush()
+    {
+        isPushed = false;
     }
 
     private bool IsClear(Vector2 position)
     {
-        Collider2D hit = Physics2D.OverlapCircle(position, tileSize * 0.4f, obstacleLayer);
-        return hit == null;
+        Vector2 checkSize = new Vector2(tileSize * 0.8f, tileSize * 0.8f);
+        
+        Collider2D[] hits = Physics2D.OverlapBoxAll(position, checkSize, 0f, obstacleLayer);
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit == col) continue;
+            Debug.Log("Obstacle found: " + hit.gameObject.name +
+                    " | Layer: " + LayerMask.LayerToName(hit.gameObject.layer));
+            return false;
+        }
+
+        return true;
     }
 
     private Vector2 SnapToCardinal(Vector2 dir)
@@ -65,11 +74,17 @@ public class RockController : MonoBehaviour
 
     private void SnapToGrid()
     {
-        Collider2D col = GetComponent<Collider2D>();
         Vector2 offset = col != null ? col.offset : Vector2.zero;
 
-        float x = (Mathf.Round((rb.position.x + offset.x) / tileSize) * tileSize) - offset.x;
-        float y = (Mathf.Round((rb.position.y + offset.y) / tileSize) * tileSize) - offset.y;
+        // Mirror PlayerController's SnapToGridBeforeObstacle logic exactly:
+        // Floor to tile, then add 0.5 to land on tile CENTER not tile edge
+        float worldX = rb.position.x + offset.x;
+        float worldY = rb.position.y + offset.y;
+
+        float x = (Mathf.Floor(worldX / tileSize) * tileSize + tileSize * 0.5f) - offset.x;
+        float y = (Mathf.Floor(worldY / tileSize) * tileSize + tileSize * 0.5f) - offset.y;
+
         rb.position = new Vector2(x, y);
+        transform.position = new Vector3(x, y, transform.position.z);
     }
 }

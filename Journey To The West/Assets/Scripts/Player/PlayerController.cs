@@ -81,29 +81,33 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Rock pushing
+        Debug.Log("Collision detected with: " + collision.gameObject.name + " | Tag: " + collision.gameObject.tag + " | Layer: " + LayerMask.LayerToName(collision.gameObject.layer));
+
+        // --- Rock pushing ---
         if (collision.gameObject.CompareTag("Rock"))
         {
+            Debug.Log("Rock hit confirmed — attempting push");
+
             RockController rock = collision.gameObject.GetComponent<RockController>();
             if (rock != null)
             {
                 Vector2 pushDir = (collision.transform.position - transform.position).normalized;
-                bool pushed = rock.TryPush(pushDir);
+                pushDir = SnapToCardinal(pushDir); // make sure it's clean
 
-                if (!pushed)
-                {
-                    // Rock is blocked
-                    iceVelocity = Vector2.zero;
-                    rb.linearVelocity = Vector2.zero;
-                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
-                    SnapToGridBeforeObstacle(pushDir);
-                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                }
+                rock.TryPush(pushDir);
+
+                // Always stop the player dead after any rock interaction
+                // This prevents continuous shoving every FixedUpdate frame
+                moveInput = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                SnapToGridBeforeObstacle(pushDir);
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
             return;
         }
 
-        // Ice wall collision
+        // --- Existing ice wall collision (unchanged) ---
         if (!isOnIce) return;
 
         Vector2 slideDir = iceVelocity.normalized;
@@ -125,9 +129,7 @@ public class PlayerController : MonoBehaviour
         iceVelocity = Vector2.zero;
         rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
         SnapToGridBeforeObstacle(capturedSlideDir);
-
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
@@ -218,5 +220,13 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetFacingDirection()
     {
         return moveInput.sqrMagnitude > 0f ? moveInput.normalized : lastFacingDirection;
+    }
+
+    private Vector2 SnapToCardinal(Vector2 dir)
+    {
+        if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y))
+            return new Vector2(Mathf.Sign(dir.x), 0f);
+        else
+            return new Vector2(0f, Mathf.Sign(dir.y));
     }
 }
