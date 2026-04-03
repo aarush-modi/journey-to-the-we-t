@@ -1,29 +1,32 @@
-using System.Collections;
 using UnityEngine;
 
 public class NickelNoumanNPC : NPCBase
 {
-    private const int CorrectAnswerLineIndex = 7;
+    private const string TeleporterUnlockKey = "MerchantTown.Teleporter1PlusUnlocked";
+    private const string CorrectAnswerOutcome = "answer_moneygrubber";
 
     [Header("Dialogue")]
     [SerializeField] private NPCDialogue dialogue;
 
-    public bool HasSolvedRiddle { get; private set; }
+    public bool IsTeleporterUnlocked => PlayerPrefs.GetInt(TeleporterUnlockKey, 0) == 1;
 
     public override void Interact(GameObject player)
     {
+        OnDialogueComplete.RemoveListener(HandleDialogueComplete);
+        OnDialogueComplete.AddListener(HandleDialogueComplete);
         PlayDialogue(dialogue);
     }
 
-    protected override void ChooseOption(int nextIndex)
+    private void HandleDialogueComplete()
     {
-        if (nextIndex == CorrectAnswerLineIndex)
-            HasSolvedRiddle = true;
-        base.ChooseOption(nextIndex);
-    }
+        OnDialogueComplete.RemoveListener(HandleDialogueComplete);
 
-    public void DebugSetSolvedRiddle(bool solved)
-    {
-        HasSolvedRiddle = solved;
+        if (lastDialogueOutcome != CorrectAnswerOutcome)
+        {
+            return;
+        }
+
+        PlayerPrefs.SetInt(TeleporterUnlockKey, 1);
+        PlayerPrefs.Save();
     }
 }

@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public abstract class NPCBase : MonoBehaviour, IInteractable
 {
+    public static NPCBase CurrentDialogueNpc { get; protected set; }
+
     [Header("NPC Identity")]
     [SerializeField] protected string npcName;
     [SerializeField] protected Sprite faceSprite;
@@ -43,6 +45,14 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
         ConfigureDialogueRaycasts();
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
     }
 
     public virtual string GetPromptText()
@@ -85,6 +95,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         currentDialogue = dialogue;
         isDialogueActive = true;
         dialogueIndex = 0;
+        CurrentDialogueNpc = this;
 
         nameText.enableWordWrapping = false;
         nameText.overflowMode = TextOverflowModes.Overflow;
@@ -287,6 +298,10 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
 
         isDialogueActive = false;
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
         dialogueText.text = "";
         dialoguePanel.SetActive(false);
         SetDialogueCombatEnabled(true);
@@ -300,6 +315,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     public void ResumeDialogue()
     {
         isDialogueActive = true;
+        CurrentDialogueNpc = this;
         dialoguePanel.SetActive(true);
         dialoguePanel.transform.SetAsLastSibling();
         PauseController.SetPause(true);
