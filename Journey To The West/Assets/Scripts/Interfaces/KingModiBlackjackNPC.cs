@@ -8,6 +8,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     private const float ModiMaxHP = 1f;
     private const int BlackjackLossGreedPenalty = 100;
     private const int PostWinTalkGreedPenalty = 5;
+    private static bool hasRedPacketThisSession;
 
     private enum ModiState
     {
@@ -67,6 +68,14 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     private bool hasPlayerWonPacket;
     private bool isWaitingForLossChoice;
 
+    public static bool HasRedPacket => hasRedPacketThisSession;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetRedPacketState()
+    {
+        hasRedPacketThisSession = false;
+    }
+
     public override void Interact(GameObject player)
     {
         if (isDead)
@@ -93,6 +102,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         {
             if (hasPlayerWonPacket)
             {
+                Debug.Log("[KingModi] Starting post-win dialogue.");
                 ShowPostWinDialogue();
                 return;
             }
@@ -178,7 +188,27 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
             modiSprite.enabled = false;
         }
 
+        AlertGuards();
         ShowDeathLootDialogue();
+    }
+
+    private void AlertGuards()
+    {
+        foreach (Transform sceneTransform in FindObjectsOfType<Transform>(true))
+        {
+            if (!sceneTransform.name.StartsWith("Guard"))
+            {
+                continue;
+            }
+
+            ModiGuard guard = sceneTransform.GetComponent<ModiGuard>();
+            if (guard == null)
+            {
+                guard = sceneTransform.gameObject.AddComponent<ModiGuard>();
+            }
+
+            guard.BeginChase();
+        }
     }
 
     private void StartModiIntro()
@@ -412,7 +442,9 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         if (blackjackRound.Outcome == BlackjackOutcome.PlayerWin)
         {
             hasPlayerWonPacket = true;
+            hasRedPacketThisSession = true;
             modiState = ModiState.WinDialogue;
+            Debug.Log("[KingModi] Player won blackjack. Post-win dialogue unlocked.");
             if (dialogueText != null)
             {
                 dialogueText.text = "*Modi sighs as he hands you the red packet.\nIt seems as if the packet was almost as important to him as money.*";
@@ -429,6 +461,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
 
             modiState = ModiState.LossDialogue;
             lossDialogueIndex = -1;
+            Debug.Log($"[KingModi] Player lost blackjack. Reason line: {blackjackRound.RenderLossReason()}");
             ShowCurrentLossDialogueLine();
             return;
         }
@@ -536,6 +569,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
 
         if (postWinDialogueIndex == 1 && playerGreedMeter != null)
         {
+            Debug.Log("[KingModi] Deducting 5 greed for post-win interaction.");
             playerGreedMeter.RemoveGold(PostWinTalkGreedPenalty);
         }
     }
@@ -559,8 +593,12 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
 
         if (dialogueText != null)
         {
-            dialogueText.text = "*You take the red packet off of the greedy King's body.*";
+            dialogueText.text = hasPlayerWonPacket
+                ? "You kill Modi for absolutely no reason."
+                : "*You take the red packet off of the greedy King's body.*";
         }
+
+        hasRedPacketThisSession = true;
 
         PauseController.SetPause(true);
     }

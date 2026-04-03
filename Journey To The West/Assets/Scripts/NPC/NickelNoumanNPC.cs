@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,8 @@ public class NickelNoumanNPC : NPCBase
     private SpriteRenderer lockedTeleporterEmoteRenderer;
     private Coroutine lockedTeleporterEmoteRoutine;
     private int pendingAnswerResponseLineIndex = -1;
+    private bool isRedPacketEscapeWarningActive;
+    private Action onRedPacketEscapeWarningComplete;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetTeleporterUnlockState()
@@ -50,6 +53,12 @@ public class NickelNoumanNPC : NPCBase
 
     public override void Interact(GameObject player)
     {
+        if (isRedPacketEscapeWarningActive)
+        {
+            FinishRedPacketEscapeWarning();
+            return;
+        }
+
         if (isDialogueActive
             && !isTyping
             && dialogueIndex == pendingAnswerResponseLineIndex
@@ -64,6 +73,46 @@ public class NickelNoumanNPC : NPCBase
         OnDialogueComplete.RemoveListener(HandleDialogueComplete);
         OnDialogueComplete.AddListener(HandleDialogueComplete);
         PlayDialogue(dialogue);
+    }
+
+    public void PlayRedPacketEscapeWarning(Action onComplete)
+    {
+        if (isDialogueActive)
+        {
+            return;
+        }
+
+        isDialogueActive = true;
+        isRedPacketEscapeWarningActive = true;
+        onRedPacketEscapeWarningComplete = onComplete;
+        CurrentDialogueNpc = this;
+
+        if (nameText != null)
+        {
+            nameText.enableWordWrapping = false;
+            nameText.overflowMode = TMPro.TextOverflowModes.Overflow;
+            nameText.text = npcName;
+            nameText.gameObject.SetActive(true);
+        }
+
+        if (npcPortraitImage != null)
+        {
+            npcPortraitImage.sprite = faceSprite;
+            npcPortraitImage.gameObject.SetActive(true);
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(true);
+            dialoguePanel.transform.SetAsLastSibling();
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "STOP HIM! HE HAS THE RED PACKET!";
+        }
+
+        PauseController.SetPause(true);
     }
 
     public void PlayLockedTeleporterEmote()
@@ -111,6 +160,37 @@ public class NickelNoumanNPC : NPCBase
     private void SetTeleporterUnlocked(bool unlocked)
     {
         isTeleporterUnlockedThisSession = unlocked;
+    }
+
+    private void FinishRedPacketEscapeWarning()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        isRedPacketEscapeWarningActive = false;
+        isDialogueActive = false;
+
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "";
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(false);
+        }
+
+        PauseController.SetPause(false);
+        ShowInteractionIcon(false);
+
+        Action callback = onRedPacketEscapeWarningComplete;
+        onRedPacketEscapeWarningComplete = null;
+        callback?.Invoke();
     }
 
     private void BuildLockedTeleporterEmote()
