@@ -256,6 +256,7 @@ public class BridgePuzzleNPC : NPCBase
     {
         OnDialogueComplete.RemoveListener(OnIntroComplete);
         awaitingPuzzle = false;
+        PauseController.SetPause(false);
 
         if (playerGreedMeter != null)
             playerGreedMeter.RemoveGold(goldCost);
@@ -264,10 +265,6 @@ public class BridgePuzzleNPC : NPCBase
         {
             wordlePuzzleUI.OnPuzzleComplete += OnPuzzleResult;
             wordlePuzzleUI.Open();
-        }
-        else
-        {
-            PauseController.SetPause(false);
         }
     }
 
