@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float tileSize = 1f;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -11,9 +12,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
 
-    // --- Ice state ---
     private bool isOnIce = false;
-    private Vector2 iceVelocity = Vector2.zero; // locked-in slide direction
+    private Vector2 iceVelocity = Vector2.zero;
 
     private void Awake()
     {
@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
         if (isOnIce)
         {
-            // Keep sliding at the locked velocity — collisions will stop the player naturally
             rb.linearVelocity = iceVelocity;
         }
         else
@@ -41,48 +40,115 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Called when the player enters a trigger tagged "Ice"
+    private void Update()
+    {
+        // Unfreeze if somehow left frozen
+        if (isOnIce
+            && iceVelocity.sqrMagnitude < 0.01f
+            && rb.constraints == RigidbodyConstraints2D.FreezeAll)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Ice"))
         {
             isOnIce = true;
-            // Lock in whatever velocity the player had when they stepped on ice
             iceVelocity = rb.linearVelocity;
 
-            // If the player was standing still, give them a small nudge in their facing direction
             if (iceVelocity.sqrMagnitude < 0.01f)
                 iceVelocity = lastFacingDirection * moveSpeed;
 
-            // Prevent diagonal sliding
+            // No diagonals
             if (Mathf.Abs(iceVelocity.x) >= Mathf.Abs(iceVelocity.y))
-                iceVelocity = new Vector2(iceVelocity.x, 0f);
+                iceVelocity = new Vector2(iceVelocity.x > 0 ? moveSpeed : -moveSpeed, 0f);
             else
-                iceVelocity = new Vector2(0f, iceVelocity.y);
+                iceVelocity = new Vector2(0f, iceVelocity.y > 0 ? moveSpeed : -moveSpeed);
         }
     }
 
-    // Called when the player exits the ice trigger
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Ice"))
         {
             isOnIce = false;
             iceVelocity = Vector2.zero;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
 
-    // Stop sliding when hitting a wall
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isOnIce)
+        if (!isOnIce) return;
+
+        Vector2 slideDir = iceVelocity.normalized;
+        bool headOn = false;
+
+        foreach (ContactPoint2D contact in collision.contacts)
         {
-            // Only stop if it's a meaningful hit, not a graze
-            if (collision.relativeVelocity.magnitude > 0.5f)
+            float dot = Vector2.Dot(contact.normal, slideDir);
+            if (dot < -0.5f)
             {
-                iceVelocity = Vector2.zero;
+                headOn = true;
+                break;
             }
         }
+
+        if (!headOn) return;
+
+        Vector2 capturedSlideDir = iceVelocity;
+        iceVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        SnapToGridBeforeObstacle(capturedSlideDir);
+
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    private void SnapToGridBeforeObstacle(Vector2 slideDir)
+    {
+        Collider2D col = GetComponent<Collider2D>();
+        Vector2 colliderOffset = col != null ? col.offset : Vector2.zero;
+        Vector2 pos = rb.position;
+
+        // Cell centers in the grid
+        if (Mathf.Abs(slideDir.x) > Mathf.Abs(slideDir.y))
+        {
+            // Sliding horizontally
+
+            // Perpendicular axis (Y): snap to nearest cell center
+            float worldCenterY = pos.y + colliderOffset.y;
+            pos.y = (Mathf.Floor(worldCenterY / tileSize) * tileSize + tileSize * 0.5f) - colliderOffset.y;
+
+            // Slide axis (X): land on the cell just before the obstacle
+            float worldCenterX = pos.x + colliderOffset.x;
+            if (slideDir.x > 0)
+                // Moving right: floor puts us in the cell we're currently in
+                pos.x = (Mathf.Floor(worldCenterX / tileSize) * tileSize + tileSize * 0.5f) - colliderOffset.x;
+            else
+                // Moving left: ceil puts us in the cell we're currently in
+                pos.x = (Mathf.Ceil(worldCenterX / tileSize) * tileSize - tileSize * 0.5f) - colliderOffset.x;
+        }
+        else
+        {
+            // Sliding vertically
+
+            // Perpendicular axis (X): snap to nearest cell center
+            float worldCenterX = pos.x + colliderOffset.x;
+            pos.x = (Mathf.Floor(worldCenterX / tileSize) * tileSize + tileSize * 0.5f) - colliderOffset.x;
+
+            // Slide axis (Y): land on the cell just before the obstacle
+            float worldCenterY = pos.y + colliderOffset.y;
+            if (slideDir.y > 0)
+                pos.y = (Mathf.Floor(worldCenterY / tileSize) * tileSize + tileSize * 0.5f) - colliderOffset.y;
+            else
+                pos.y = (Mathf.Ceil(worldCenterY / tileSize) * tileSize - tileSize * 0.5f) - colliderOffset.y;
+        }
+
+        rb.MovePosition(pos);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -93,17 +159,15 @@ public class PlayerController : MonoBehaviour
             if (moveInput.sqrMagnitude > 0f)
                 lastFacingDirection = moveInput.normalized;
 
-            // If stopped on ice, a new input starts a new slide
             if (isOnIce && iceVelocity.sqrMagnitude < 0.01f)
             {
-                // Snap to dominant axis
                 Vector2 snapped = moveInput;
                 if (Mathf.Abs(snapped.x) >= Mathf.Abs(snapped.y))
-                    snapped = new Vector2(snapped.x, 0f);
+                    snapped = new Vector2(snapped.x > 0 ? 1f : -1f, 0f);
                 else
-                    snapped = new Vector2(0f, snapped.y);
+                    snapped = new Vector2(0f, snapped.y > 0 ? 1f : -1f);
 
-                iceVelocity = snapped.normalized * moveSpeed;
+                iceVelocity = snapped * moveSpeed;
             }
 
             animator.SetBool("isWalking", true);
@@ -123,6 +187,9 @@ public class PlayerController : MonoBehaviour
     public void Respawn(Vector3 position)
     {
         transform.position = position;
+        iceVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public Vector2 GetFacingDirection()
