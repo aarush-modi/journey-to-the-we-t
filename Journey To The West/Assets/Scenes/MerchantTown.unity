@@ -41775,7 +41775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ddf31373ba54f0ea29e303f8cb7a442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NickelNoumanNPC
-  npcName: NickelNouman
+  npcName: Nickel-And-Dime Nouman
   faceSprite: {fileID: -7527145504033472756, guid: 13c5bd9fa080d8a45a02886989dc863e, type: 3}
   interactionIcon: {fileID: 1702371844}
   dialoguePanel: {fileID: 1408095343}
@@ -41789,6 +41789,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogue: {fileID: 11400000, guid: b6c1a2f3884f4b34a9d4e3f7aa112233, type: 2}
+  lockedTeleporterEmote: {fileID: -2122837972990275081, guid: 388ca2440684b4f48bc012da50850949, type: 3}
+  lockedTeleporterEmoteOffset: {x: 0, y: 1.25, z: 0}
+  lockedTeleporterEmoteDuration: 0.75
 --- !u!50 &1702371841
 Rigidbody2D:
   serializedVersion: 5

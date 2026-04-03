@@ -38,6 +38,7 @@ public class MapTransitions : MonoBehaviour
             && !lockedTeleportNpc.IsTeleporterUnlocked)
         {
             Debug.Log($"[{name}] Teleporter locked. Triggering {lockedTeleportNpc.name} dialogue.", this);
+            lockedTeleportNpc.PlayLockedTeleporterEmote();
             lockedTeleportNpc.Interact(collision.gameObject);
             return;
         }
