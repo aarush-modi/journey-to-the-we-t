@@ -52,6 +52,7 @@ public class KingModiBlackjackNPC : NPCBase
     private void StartModiIntro()
     {
         isDialogueActive = true;
+        CurrentDialogueNpc = this;
         modiState = ModiState.WaitingForNotice;
         introDialogueIndex = 0;
 
@@ -241,6 +242,10 @@ public class KingModiBlackjackNPC : NPCBase
         modiState = ModiState.Closed;
         introDialogueIndex = 0;
         isDialogueActive = false;
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
         PauseController.SetPause(false);
         ShowInteractionIcon(true);
     }

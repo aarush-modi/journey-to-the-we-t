@@ -1,7 +1,5 @@
 using UnityEngine;
 using Unity.Cinemachine;
-using System;
-using System.Threading.Tasks;
 
 public class MapTransitions : MonoBehaviour
 {
@@ -9,6 +7,7 @@ public class MapTransitions : MonoBehaviour
     [SerializeField] Direction direction;
     [SerializeField] Transform teleportTargetPosition;
     [SerializeField] float additionalPosition = 2f;
+    [SerializeField] NickelNoumanNPC lockedTeleportNpc;
 
     CinemachineConfiner2D confiner;
     CinemachineCamera vcam;
@@ -23,10 +22,20 @@ public class MapTransitions : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (!collision.gameObject.CompareTag("Player"))
         {
-            FadeTransition(collision.gameObject);
+            return;
         }
+
+        if (direction == Direction.Teleport
+            && lockedTeleportNpc != null
+            && !lockedTeleportNpc.IsTeleporterUnlocked)
+        {
+            lockedTeleportNpc.Interact(collision.gameObject);
+            return;
+        }
+
+        FadeTransition(collision.gameObject);
     }
 
     async void FadeTransition(GameObject player)
