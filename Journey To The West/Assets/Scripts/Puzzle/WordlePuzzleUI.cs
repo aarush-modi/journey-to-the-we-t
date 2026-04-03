@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -9,7 +10,9 @@ public class WordlePuzzleUI : MonoBehaviour
 {
     [SerializeField] private GameObject puzzlePanel;
     [SerializeField] private Transform gridParent;
+    [SerializeField] private Transform keyboardParent;
     [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject keyPrefab;
     [SerializeField] private TMP_Text messageText;
 
     [SerializeField] private Color emptyColor = new Color(0.15f, 0.15f, 0.15f);
@@ -17,10 +20,13 @@ public class WordlePuzzleUI : MonoBehaviour
     [SerializeField] private Color misplacedColor = new Color(0.71f, 0.63f, 0.21f);
     [SerializeField] private Color correctColor = new Color(0.32f, 0.55f, 0.30f);
     [SerializeField] private Color textColor = Color.white;
+    [SerializeField] private Color keyDefaultColor = new Color(0.35f, 0.32f, 0.28f);
 
     private WordlePuzzle puzzle;
     private TMP_Text[,] tileTexts;
     private Image[,] tileImages;
+    private Dictionary<char, Image> keyImages = new Dictionary<char, Image>();
+    private Dictionary<char, LetterState> keyStates = new Dictionary<char, LetterState>();
     private string currentInput = "";
     private bool isActive;
     private bool shouldPause;
@@ -35,6 +41,7 @@ public class WordlePuzzleUI : MonoBehaviour
         shouldPause = pause;
 
         BuildGrid();
+        BuildKeyboard();
         SetMessage("");
 
         puzzlePanel.SetActive(true);
@@ -49,6 +56,7 @@ public class WordlePuzzleUI : MonoBehaviour
         shouldPause = pause;
 
         BuildGrid();
+        BuildKeyboard();
         SetMessage("");
 
         puzzlePanel.SetActive(true);
@@ -114,6 +122,63 @@ public class WordlePuzzleUI : MonoBehaviour
         }
     }
 
+    private void BuildKeyboard()
+    {
+        if (keyboardParent == null || keyPrefab == null) return;
+
+        foreach (Transform child in keyboardParent)
+            Destroy(child.gameObject);
+
+        keyImages.Clear();
+        keyStates.Clear();
+
+        for (char c = 'A'; c <= 'Z'; c++)
+        {
+            GameObject keyObj = Instantiate(keyPrefab, keyboardParent);
+            keyObj.SetActive(true);
+            Image img = keyObj.GetComponent<Image>();
+            TMP_Text txt = keyObj.GetComponentInChildren<TMP_Text>();
+            img.color = keyDefaultColor;
+            txt.text = c.ToString();
+            txt.color = textColor;
+            keyImages[c] = img;
+            keyStates[c] = LetterState.Empty;
+        }
+    }
+
+    private void UpdateKeyboard(string guess, LetterState[] states)
+    {
+        if (keyImages.Count == 0) return;
+
+        for (int i = 0; i < guess.Length; i++)
+        {
+            char c = guess[i];
+            LetterState newState = states[i];
+            LetterState currentState = keyStates[c];
+
+            if (newState == LetterState.Correct ||
+                (newState == LetterState.Misplaced && currentState != LetterState.Correct) ||
+                (newState == LetterState.Wrong && currentState == LetterState.Empty))
+            {
+                keyStates[c] = newState;
+
+                if (newState == LetterState.Wrong)
+                {
+                    keyImages[c].gameObject.SetActive(false);
+                }
+                else
+                {
+                    keyImages[c].color = newState switch
+                    {
+                        LetterState.Correct => correctColor,
+                        LetterState.Misplaced => misplacedColor,
+                        _ => keyDefaultColor
+                    };
+                }
+            }
+        }
+    }
+
     private void UpdateCurrentRow()
     {
         int row = puzzle.CurrentAttempt;
@@ -144,12 +209,13 @@ public class WordlePuzzleUI : MonoBehaviour
 
         SetMessage("");
         int row = puzzle.CurrentAttempt;
+        string guess = currentInput;
         LetterState[] result = puzzle.SubmitGuess(currentInput);
         currentInput = "";
-        StartCoroutine(RevealRow(row, result));
+        StartCoroutine(RevealRow(row, guess, result));
     }
 
-    private IEnumerator RevealRow(int row, LetterState[] states)
+    private IEnumerator RevealRow(int row, string guess, LetterState[] states)
     {
         isActive = false;
 
@@ -164,6 +230,8 @@ public class WordlePuzzleUI : MonoBehaviour
             };
             yield return new WaitForSecondsRealtime(0.2f);
         }
+
+        UpdateKeyboard(guess, states);
 
         if (puzzle.IsSolved)
         {

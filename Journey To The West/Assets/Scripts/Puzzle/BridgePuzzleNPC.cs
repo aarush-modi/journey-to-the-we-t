@@ -128,7 +128,7 @@ public class BridgePuzzleNPC : NPCBase
         RectTransform borderRT = border.GetComponent<RectTransform>();
         borderRT.anchorMin = new Vector2(0.5f, 0.5f);
         borderRT.anchorMax = new Vector2(0.5f, 0.5f);
-        borderRT.sizeDelta = new Vector2(460, 610);
+        borderRT.sizeDelta = new Vector2(460, 720);
 
         GameObject panel = MakeRect("PuzzlePanel", border.transform);
         panel.AddComponent<Image>().color = new Color(0.13f, 0.11f, 0.10f, 0.95f);
@@ -196,16 +196,47 @@ public class BridgePuzzleNPC : NPCBase
         tileTextRT.anchorMax = Vector2.one;
         tileTextRT.sizeDelta = Vector2.zero;
 
+        GameObject kbObj = MakeRect("Keyboard", panel.transform);
+        GridLayoutGroup kbGrid = kbObj.AddComponent<GridLayoutGroup>();
+        kbGrid.cellSize = new Vector2(30, 36);
+        kbGrid.spacing = new Vector2(4, 4);
+        kbGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        kbGrid.constraintCount = 9;
+        kbGrid.childAlignment = TextAnchor.UpperCenter;
+        RectTransform kbRT = kbObj.GetComponent<RectTransform>();
+        kbRT.anchorMin = new Vector2(0.5f, 0);
+        kbRT.anchorMax = new Vector2(0.5f, 0);
+        kbRT.pivot = new Vector2(0.5f, 0);
+        kbRT.sizeDelta = new Vector2(330, 120);
+        kbRT.anchoredPosition = new Vector2(0, 50);
+
+        GameObject keyPrefab = new GameObject("KeyPrefab");
+        keyPrefab.AddComponent<Image>().color = new Color(0.35f, 0.32f, 0.28f);
+        GameObject keyTextObj = new GameObject("Letter");
+        keyTextObj.transform.SetParent(keyPrefab.transform, false);
+        TMP_Text keyText = keyTextObj.AddComponent<TextMeshProUGUI>();
+        keyText.fontSize = 18;
+        keyText.fontStyle = FontStyles.Bold;
+        keyText.alignment = TextAlignmentOptions.Center;
+        keyText.color = textWhite;
+        RectTransform keyTextRT = keyTextObj.GetComponent<RectTransform>();
+        keyTextRT.anchorMin = Vector2.zero;
+        keyTextRT.anchorMax = Vector2.one;
+        keyTextRT.sizeDelta = Vector2.zero;
+
         wordlePuzzleUI = canvasObj.AddComponent<WordlePuzzleUI>();
         SetField(wordlePuzzleUI, "puzzlePanel", border);
         SetField(wordlePuzzleUI, "gridParent", gridObj.transform);
+        SetField(wordlePuzzleUI, "keyboardParent", kbObj.transform);
         SetField(wordlePuzzleUI, "tilePrefab", tilePrefab);
+        SetField(wordlePuzzleUI, "keyPrefab", keyPrefab);
         SetField(wordlePuzzleUI, "messageText", msgText);
         SetField(wordlePuzzleUI, "emptyColor", emptyTile);
         SetField(wordlePuzzleUI, "wrongColor", new Color(0.28f, 0.26f, 0.24f));
         SetField(wordlePuzzleUI, "misplacedColor", new Color(0.78f, 0.65f, 0.20f));
         SetField(wordlePuzzleUI, "correctColor", new Color(0.25f, 0.52f, 0.22f));
         SetField(wordlePuzzleUI, "textColor", textWhite);
+        SetField(wordlePuzzleUI, "keyDefaultColor", new Color(0.35f, 0.32f, 0.28f));
 
         border.SetActive(false);
     }
