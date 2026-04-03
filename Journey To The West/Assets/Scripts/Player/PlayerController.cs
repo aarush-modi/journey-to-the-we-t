@@ -81,6 +81,29 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Rock pushing
+        if (collision.gameObject.CompareTag("Rock"))
+        {
+            RockController rock = collision.gameObject.GetComponent<RockController>();
+            if (rock != null)
+            {
+                Vector2 pushDir = (collision.transform.position - transform.position).normalized;
+                bool pushed = rock.TryPush(pushDir);
+
+                if (!pushed)
+                {
+                    // Rock is blocked
+                    iceVelocity = Vector2.zero;
+                    rb.linearVelocity = Vector2.zero;
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                    SnapToGridBeforeObstacle(pushDir);
+                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                }
+            }
+            return;
+        }
+
+        // Ice wall collision
         if (!isOnIce) return;
 
         Vector2 slideDir = iceVelocity.normalized;
