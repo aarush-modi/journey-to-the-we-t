@@ -7,17 +7,11 @@ using TMPro;
 
 public class WordlePuzzleUI : MonoBehaviour
 {
-    [Header("Panel")]
     [SerializeField] private GameObject puzzlePanel;
-
-    [Header("Grid Settings")]
     [SerializeField] private Transform gridParent;
-    [SerializeField] private GameObject tilePrefab; // UI element with Image + TMP_Text child
-
-    [Header("Message")]
+    [SerializeField] private GameObject tilePrefab;
     [SerializeField] private TMP_Text messageText;
 
-    [Header("Colors")]
     [SerializeField] private Color emptyColor = new Color(0.15f, 0.15f, 0.15f);
     [SerializeField] private Color wrongColor = new Color(0.23f, 0.23f, 0.25f);
     [SerializeField] private Color misplacedColor = new Color(0.71f, 0.63f, 0.21f);
@@ -31,7 +25,7 @@ public class WordlePuzzleUI : MonoBehaviour
     private bool isActive;
     private bool shouldPause;
 
-    public event Action<bool> OnPuzzleComplete; // true = solved, false = failed
+    public event Action<bool> OnPuzzleComplete;
 
     public void Open(bool pause = true)
     {
@@ -75,7 +69,6 @@ public class WordlePuzzleUI : MonoBehaviour
         Keyboard kb = Keyboard.current;
         if (kb == null) return;
 
-        // Check letter keys A-Z
         for (Key key = Key.A; key <= Key.Z; key++)
         {
             if (kb[key].wasPressedThisFrame && currentInput.Length < WordlePuzzle.WordLength)
@@ -100,7 +93,6 @@ public class WordlePuzzleUI : MonoBehaviour
 
     private void BuildGrid()
     {
-        // Clear existing tiles
         foreach (Transform child in gridParent)
             Destroy(child.gameObject);
 
@@ -115,7 +107,6 @@ public class WordlePuzzleUI : MonoBehaviour
                 tile.SetActive(true);
                 tileImages[row, col] = tile.GetComponent<Image>();
                 tileTexts[row, col] = tile.GetComponentInChildren<TMP_Text>();
-
                 tileImages[row, col].color = emptyColor;
                 tileTexts[row, col].text = "";
                 tileTexts[row, col].color = textColor;
@@ -130,11 +121,9 @@ public class WordlePuzzleUI : MonoBehaviour
 
         for (int col = 0; col < WordlePuzzle.WordLength; col++)
         {
-            if (col < currentInput.Length)
-                tileTexts[row, col].text = currentInput[col].ToString();
-            else
-                tileTexts[row, col].text = "";
-
+            tileTexts[row, col].text = col < currentInput.Length
+                ? currentInput[col].ToString()
+                : "";
             tileImages[row, col].color = emptyColor;
         }
     }
@@ -157,25 +146,22 @@ public class WordlePuzzleUI : MonoBehaviour
         int row = puzzle.CurrentAttempt;
         LetterState[] result = puzzle.SubmitGuess(currentInput);
         currentInput = "";
-
         StartCoroutine(RevealRow(row, result));
     }
 
     private IEnumerator RevealRow(int row, LetterState[] states)
     {
-        isActive = false; // block input during animation
+        isActive = false;
 
         for (int col = 0; col < WordlePuzzle.WordLength; col++)
         {
-            Color color = states[col] switch
+            tileImages[row, col].color = states[col] switch
             {
                 LetterState.Correct => correctColor,
                 LetterState.Misplaced => misplacedColor,
                 LetterState.Wrong => wrongColor,
                 _ => emptyColor
             };
-
-            tileImages[row, col].color = color;
             yield return new WaitForSecondsRealtime(0.2f);
         }
 
@@ -183,7 +169,6 @@ public class WordlePuzzleUI : MonoBehaviour
         {
             SetMessage("You solved it!");
             yield return new WaitForSecondsRealtime(1.5f);
-            isActive = false;
             OnPuzzleComplete?.Invoke(true);
             Close();
         }
@@ -191,7 +176,6 @@ public class WordlePuzzleUI : MonoBehaviour
         {
             SetMessage($"The word was: {puzzle.TargetWord}");
             yield return new WaitForSecondsRealtime(2f);
-            isActive = false;
             OnPuzzleComplete?.Invoke(false);
             Close();
         }

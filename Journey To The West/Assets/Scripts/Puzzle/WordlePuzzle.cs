@@ -4,9 +4,9 @@ using UnityEngine;
 public enum LetterState
 {
     Empty,
-    Wrong,      // gray  - letter not in word
-    Misplaced,  // yellow - letter in word but wrong position
-    Correct     // green  - letter in correct position
+    Wrong,
+    Misplaced,
+    Correct
 }
 
 public class WordlePuzzle
@@ -49,7 +49,6 @@ public class WordlePuzzle
         if (guess.Length != WordLength) return null;
 
         guesses.Add(guess);
-
         LetterState[] result = EvaluateGuess(guess);
 
         if (guess == targetWord)
@@ -66,7 +65,6 @@ public class WordlePuzzle
         bool[] targetUsed = new bool[WordLength];
         bool[] guessUsed = new bool[WordLength];
 
-        // First pass: mark correct letters
         for (int i = 0; i < WordLength; i++)
         {
             if (guess[i] == targetWord[i])
@@ -77,7 +75,6 @@ public class WordlePuzzle
             }
         }
 
-        // Second pass: mark misplaced letters
         for (int i = 0; i < WordLength; i++)
         {
             if (guessUsed[i]) continue;
