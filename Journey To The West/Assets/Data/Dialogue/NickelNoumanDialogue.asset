@@ -12,17 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
   m_Name: NickelNoumanDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: NickelNouman
+  npcName: Nickel-And-Dime Nouman
   npcSprite: {fileID: -7527145504033472756, guid: 13c5bd9fa080d8a45a02886989dc863e, type: 3}
   dialogue:
-  - '*flicks a coin and smirks*'
-  - Halt. The 1+ teleporter charges a premium toll: one correct answer.
-  - I'm NickelNouman, heir to the Merchant King's shiny little empire.
-  - Daddy says only travelers who know his true name may pass.
-  - Get it wrong, and I get to laugh. Delicious business.
-  - So cough up the answer, bargain hero.
-  - What is the Merchant King's true name?
-  - Heh. Correct. The 1+ teleporter is open. Try not to scuff the profit margins.
+  - '*picks nose*'
+  - Hehe.
+  - The name is Nickel-And-Dime Nouman. I love money, just like my daddy, the Merchant King.
+  - '*sees 10-Yen bill in your pocket*'
+  - MONEY! MONEY MONEY MONEY.
+  - Is that for me??
+  - 'No'
+  - '*picks nose again*'
+  - My dad says he's waiting for you inside.
+  - "Everyone calls him the Merchant King Modi.\nI'm only allowed to let you in after you figure out his \"true name.\""
+  - Whatever that means.
+  - Oh, and apparently he has the packet you need to deliver.
+  - So tell me, buddy. What's my dad's name?
+  - That's right! My big daddy will see you now!
   - Wrong. That answer jingles like counterfeit copper.
   - Nope. Even my pocket lint knows better than that.
   - Embarrassing. Come back when your wallet grows a brain.
@@ -33,23 +39,33 @@ MonoBehaviour:
   autoProgressLines: []
   autoProgressDelay: 1.5
   endDialogueOutcomes:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
   - answer_moneygrubber
   - answer_rubbery_gnome
   - answer_gone_berry_bum
   - answer_grey_borne_bum
   nextLineOverride: []
   choices:
-  - dialogueIndex: 6
+  - dialogueIndex: 5
+    choices:
+    - No
+    nextDialogueIndexes: 07000000
+  - dialogueIndex: 12
     choices:
     - moneygrubber
-    - rubbery gnome
-    - gone-berry-bum
-    - grey-borne bum
-    nextDialogueIndexes: 0700000008000000090000000a000000
+    - Rubbery Gnome
+    - Gone-Berry-Bum
+    - Grey-Borne Bum
+    nextDialogueIndexes: 0d0000000e0000000f00000010000000

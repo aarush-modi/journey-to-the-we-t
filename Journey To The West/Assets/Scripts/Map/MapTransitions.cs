@@ -18,6 +18,12 @@ public class MapTransitions : MonoBehaviour
     {
         confiner = FindObjectOfType<CinemachineConfiner2D>();
         vcam = FindObjectOfType<CinemachineCamera>();
+
+        if (direction == Direction.Teleport && lockedTeleportNpc == null && gameObject.name == "1+")
+        {
+            lockedTeleportNpc = FindObjectOfType<NickelNoumanNPC>();
+            Debug.Log($"[{name}] Auto-linked lockedTeleportNpc: {(lockedTeleportNpc != null ? lockedTeleportNpc.name : "null")}", this);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,8 +37,15 @@ public class MapTransitions : MonoBehaviour
             && lockedTeleportNpc != null
             && !lockedTeleportNpc.IsTeleporterUnlocked)
         {
+            Debug.Log($"[{name}] Teleporter locked. Triggering {lockedTeleportNpc.name} dialogue.", this);
+            lockedTeleportNpc.PlayLockedTeleporterEmote();
             lockedTeleportNpc.Interact(collision.gameObject);
             return;
+        }
+
+        if (direction == Direction.Teleport)
+        {
+            Debug.Log($"[{name}] Teleporter unlocked or ungated. Moving player to {teleportTargetPosition?.name}.", this);
         }
 
         FadeTransition(collision.gameObject);
