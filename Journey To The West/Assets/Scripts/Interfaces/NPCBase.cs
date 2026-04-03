@@ -86,6 +86,8 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         isDialogueActive = true;
         dialogueIndex = 0;
 
+        nameText.enableWordWrapping = false;
+        nameText.overflowMode = TextOverflowModes.Overflow;
         nameText.text = dialogue.npcName;
         npcPortraitImage.sprite = dialogue.npcSprite;
 
