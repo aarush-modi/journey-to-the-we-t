@@ -2,6 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+public enum BlackjackOutcome
+{
+    None,
+    PlayerWin,
+    DealerWin,
+    Push
+}
+
 public class BlackjackRound
 {
     private static readonly string[] CardRanks =
@@ -15,6 +23,7 @@ public class BlackjackRound
     private readonly Random random = new Random();
 
     public bool IsGameOver { get; private set; }
+    public BlackjackOutcome Outcome { get; private set; }
     public string ResultMessage { get; private set; } = "";
 
     public BlackjackRound()
@@ -28,6 +37,7 @@ public class BlackjackRound
         playerHand.Clear();
         dealerHand.Clear();
         IsGameOver = false;
+        Outcome = BlackjackOutcome.None;
         ResultMessage = "";
 
         BuildDeck();
@@ -50,6 +60,7 @@ public class BlackjackRound
         if (GetPlayerTotal() > 21)
         {
             IsGameOver = true;
+            Outcome = BlackjackOutcome.DealerWin;
             ResultMessage = "You busted. King Modi wins.";
         }
     }
@@ -69,18 +80,22 @@ public class BlackjackRound
 
         if (dealerTotal > 21)
         {
+            Outcome = BlackjackOutcome.PlayerWin;
             ResultMessage = "Dealer busted. You win.";
         }
         else if (playerTotal > dealerTotal)
         {
+            Outcome = BlackjackOutcome.PlayerWin;
             ResultMessage = "You win.";
         }
         else if (playerTotal < dealerTotal)
         {
+            Outcome = BlackjackOutcome.DealerWin;
             ResultMessage = "King Modi wins.";
         }
         else
         {
+            Outcome = BlackjackOutcome.Push;
             ResultMessage = "Push.";
         }
     }
@@ -88,26 +103,23 @@ public class BlackjackRound
     public string RenderRoundState()
     {
         var output = new StringBuilder();
-        output.Append("You: [");
-        output.Append(string.Join(", ", playerHand));
-        output.Append("] -> Total: ");
-        output.Append(GetPlayerTotal());
-        output.AppendLine();
-
-        output.Append("Dealer: [");
+        output.Append("Modi: [");
         if (IsGameOver)
         {
             output.Append(string.Join(", ", dealerHand));
-            output.Append("] -> Total: ");
-            output.Append(GetDealerTotal());
         }
         else
         {
             output.Append(dealerHand[0]);
-            output.Append(", ?]");
+            output.Append(", ?");
         }
+        output.Append("]");
 
         output.AppendLine();
+        output.Append("You: [");
+        output.Append(string.Join(", ", playerHand));
+        output.Append("] -> Total: ");
+        output.Append(GetPlayerTotal());
         output.AppendLine();
 
         if (IsGameOver)
@@ -116,10 +128,21 @@ public class BlackjackRound
         }
         else
         {
-            output.Append("(H)it or (S)tand?");
+            output.Append("\"Hit or stand?\"");
         }
 
         return output.ToString();
+    }
+
+    public string RenderLossReason()
+    {
+        int playerTotal = GetPlayerTotal();
+        if (playerTotal > 21)
+        {
+            return $"You busted!\n(Score: {playerTotal})";
+        }
+
+        return $"Modi was higher than you!\n(Modi: {GetDealerTotal()}\nScore: {playerTotal})";
     }
 
     public int GetPlayerTotal()
@@ -210,14 +233,17 @@ public class BlackjackRound
 
         if (playerBlackjack && dealerBlackjack)
         {
+            Outcome = BlackjackOutcome.Push;
             ResultMessage = "Both have Blackjack. Push.";
         }
         else if (playerBlackjack)
         {
+            Outcome = BlackjackOutcome.PlayerWin;
             ResultMessage = "Blackjack! You win.";
         }
         else
         {
+            Outcome = BlackjackOutcome.DealerWin;
             ResultMessage = "King Modi has Blackjack. You lose.";
         }
     }
