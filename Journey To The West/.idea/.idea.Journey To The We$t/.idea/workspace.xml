@@ -1,33 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/Faceset.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/Faceset.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Attack.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Attack.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Dead.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Dead.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Idle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Idle.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Item.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Item.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Jump.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Jump.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special1.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special2.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Walk.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Walk.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SpriteSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SpriteSheet.png.meta" beforeDir="false" />
-    </list>
+    <list default="true" id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,13 +13,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/InteractionDetector.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="3BMBNTVYpzSf0XA2toWsLzDGkNf" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -53,10 +33,16 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "starter-kingdom-design",
+    "git-widget-placeholder": "lv6",
     "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -69,8 +55,12 @@
       <option name="presentableId" value="Default" />
       <updated>1774289022930</updated>
       <workItem from="1774289025850" duration="28000" />
+      <workItem from="1775199827484" duration="801000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
