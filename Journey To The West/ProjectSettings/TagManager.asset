@@ -7,6 +7,7 @@ TagManager:
   - SpawnPoint
   - Player
   - Ice
+  - Rock
   layers:
   - Default
   - TransparentFX
@@ -14,9 +15,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Rock
+  - Obstacle
   - 
   - 
   - 
@@ -52,6 +53,9 @@ TagManager:
     locked: 0
   - name: WalkInFront
     uniqueID: 119976755
+    locked: 0
+  - name: Rock
+    uniqueID: 2507137751
     locked: 0
   - name: Collision
     uniqueID: 3885950959

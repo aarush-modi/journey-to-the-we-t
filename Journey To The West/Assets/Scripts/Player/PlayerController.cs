@@ -81,6 +81,33 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Rock"))
+        {
+            RockController rock = collision.gameObject.GetComponent<RockController>();
+            if (rock != null)
+            {
+                Vector2 pushDir = (collision.transform.position - transform.position).normalized;
+                pushDir = SnapToCardinal(pushDir);
+
+                bool pushed = rock.TryPush(pushDir);
+
+                // Whether the push succeeded or not, stop the player
+                moveInput = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                SnapToGridBeforeObstacle(pushDir);
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                // If on ice and the rock was blocked, treat it like a wall collision
+                if (isOnIce && !pushed)
+                {
+                    iceVelocity = Vector2.zero;
+                }
+            }
+            return;
+        }
+
+        // Existing ice wall collision
         if (!isOnIce) return;
 
         Vector2 slideDir = iceVelocity.normalized;
@@ -102,12 +129,9 @@ public class PlayerController : MonoBehaviour
         iceVelocity = Vector2.zero;
         rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
         SnapToGridBeforeObstacle(capturedSlideDir);
-
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
-
     private void SnapToGridBeforeObstacle(Vector2 slideDir)
     {
         Collider2D col = GetComponent<Collider2D>();
@@ -195,5 +219,13 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetFacingDirection()
     {
         return moveInput.sqrMagnitude > 0f ? moveInput.normalized : lastFacingDirection;
+    }
+
+    private Vector2 SnapToCardinal(Vector2 dir)
+    {
+        if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y))
+            return new Vector2(Mathf.Sign(dir.x), 0f);
+        else
+            return new Vector2(0f, Mathf.Sign(dir.y));
     }
 }
