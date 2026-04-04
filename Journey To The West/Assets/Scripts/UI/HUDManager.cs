@@ -30,6 +30,8 @@ public class HUDManager : MonoBehaviour
 
     private void OnEnable()
     {
+        BindPlayerReferences();
+
         if (playerCombat != null)
         {
             playerCombat.OnHPChanged.AddListener(UpdateHP);
@@ -60,12 +62,14 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
+        BindPlayerReferences();
+
         // Initialize all HUD elements to current state
         if (playerCombat != null)
         {
             hpBar.minValue = 0f;
             hpBar.maxValue = playerCombat.GetMaxHP();
-            hpBar.value = playerCombat.GetCurrentHP();
+            UpdateHP(playerCombat.GetCurrentHP(), playerCombat.GetMaxHP());
 
             SkillData skill = playerCombat.GetEquippedSkill();
             if (skillIcon != null)
@@ -86,6 +90,30 @@ public class HUDManager : MonoBehaviour
             greedSlider.maxValue = 600f;
             UpdateGold(greedMeter.GetCurrentGold());
             UpdateGreedTier(greedMeter.GetCurrentTier());
+        }
+    }
+
+    private void BindPlayerReferences()
+    {
+        if (playerCombat != null && greedMeter != null)
+        {
+            return;
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            return;
+        }
+
+        if (playerCombat == null)
+        {
+            playerCombat = player.GetComponent<PlayerCombat>();
+        }
+
+        if (greedMeter == null)
+        {
+            greedMeter = player.GetComponent<GreedMeter>();
         }
     }
 

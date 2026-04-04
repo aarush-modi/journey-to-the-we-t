@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class NickelNoumanNPC : NPCBase
+public class NickelNoumanNPC : NPCBase, IDamageable
 {
+    private const float NickelMaxHP = 1f;
     private const int CorrectAnswerLineIndex = 13;
     private const int FirstAnswerResponseLineIndex = 13;
     private const int LastAnswerResponseLineIndex = 16;
     private const string CorrectAnswerOutcome = "answer_moneygrubber";
     private static bool isTeleporterUnlockedThisSession;
+    private static bool isNickelDeadThisSession;
 
     [Header("Dialogue")]
     [SerializeField] private NPCDialogue dialogue;
@@ -18,16 +21,22 @@ public class NickelNoumanNPC : NPCBase
     [SerializeField] private Vector3 lockedTeleporterEmoteOffset = new Vector3(0f, 1.25f, 0f);
     [SerializeField] private float lockedTeleporterEmoteDuration = 0.75f;
 
-    public bool IsTeleporterUnlocked => isTeleporterUnlockedThisSession;
+    public bool IsTeleporterUnlocked => isTeleporterUnlockedThisSession || isNickelDeadThisSession;
+    public bool IsNickelDead => isNickelDeadThisSession;
 
     private SpriteRenderer lockedTeleporterEmoteRenderer;
     private Coroutine lockedTeleporterEmoteRoutine;
     private int pendingAnswerResponseLineIndex = -1;
+    private bool isRedPacketEscapeWarningActive;
+    private bool isDeathDialogueActive;
+    private Action onRedPacketEscapeWarningComplete;
+    private float currentHP = NickelMaxHP;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetTeleporterUnlockState()
     {
         isTeleporterUnlockedThisSession = false;
+        isNickelDeadThisSession = false;
     }
 
     protected override void Start()
@@ -50,6 +59,18 @@ public class NickelNoumanNPC : NPCBase
 
     public override void Interact(GameObject player)
     {
+        if (isDeathDialogueActive)
+        {
+            FinishDeathDialogue();
+            return;
+        }
+
+        if (isRedPacketEscapeWarningActive)
+        {
+            FinishRedPacketEscapeWarning();
+            return;
+        }
+
         if (isDialogueActive
             && !isTyping
             && dialogueIndex == pendingAnswerResponseLineIndex
@@ -64,6 +85,98 @@ public class NickelNoumanNPC : NPCBase
         OnDialogueComplete.RemoveListener(HandleDialogueComplete);
         OnDialogueComplete.AddListener(HandleDialogueComplete);
         PlayDialogue(dialogue);
+    }
+
+    public void TakeDamage(float amount)
+    {
+        if (isNickelDeadThisSession)
+        {
+            return;
+        }
+
+        currentHP -= amount;
+        if (currentHP <= 0f)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        if (isNickelDeadThisSession)
+        {
+            return;
+        }
+
+        isNickelDeadThisSession = true;
+        isTeleporterUnlockedThisSession = true;
+        currentHP = 0f;
+
+        if (lockedTeleporterEmoteRoutine != null)
+        {
+            StopCoroutine(lockedTeleporterEmoteRoutine);
+            lockedTeleporterEmoteRoutine = null;
+        }
+
+        if (lockedTeleporterEmoteRenderer != null)
+        {
+            lockedTeleporterEmoteRenderer.enabled = false;
+        }
+
+        foreach (Collider2D nickelCollider in GetComponents<Collider2D>())
+        {
+            nickelCollider.enabled = false;
+        }
+
+        SpriteRenderer nickelSprite = GetComponent<SpriteRenderer>();
+        if (nickelSprite != null)
+        {
+            nickelSprite.enabled = false;
+        }
+
+        ModiGuard.AlertAllGuards();
+        ShowDeathDialogue();
+    }
+
+    public void PlayRedPacketEscapeWarning(Action onComplete)
+    {
+        if (isDialogueActive || isNickelDeadThisSession)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        isDialogueActive = true;
+        isRedPacketEscapeWarningActive = true;
+        onRedPacketEscapeWarningComplete = onComplete;
+        CurrentDialogueNpc = this;
+
+        if (nameText != null)
+        {
+            nameText.enableWordWrapping = false;
+            nameText.overflowMode = TMPro.TextOverflowModes.Overflow;
+            nameText.text = npcName;
+            nameText.gameObject.SetActive(true);
+        }
+
+        if (npcPortraitImage != null)
+        {
+            npcPortraitImage.sprite = faceSprite;
+            npcPortraitImage.gameObject.SetActive(true);
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(true);
+            dialoguePanel.transform.SetAsLastSibling();
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "STOP HIM! HE HAS THE RED PACKET!";
+        }
+
+        PauseController.SetPause(true);
     }
 
     public void PlayLockedTeleporterEmote()
@@ -111,6 +224,110 @@ public class NickelNoumanNPC : NPCBase
     private void SetTeleporterUnlocked(bool unlocked)
     {
         isTeleporterUnlockedThisSession = unlocked;
+    }
+
+    private void FinishRedPacketEscapeWarning()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        isRedPacketEscapeWarningActive = false;
+        isDialogueActive = false;
+
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "";
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(false);
+        }
+
+        PauseController.SetPause(false);
+        ShowInteractionIcon(false);
+
+        Action callback = onRedPacketEscapeWarningComplete;
+        onRedPacketEscapeWarningComplete = null;
+        callback?.Invoke();
+    }
+
+    private void ShowDeathDialogue()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        isDialogueActive = true;
+        isDeathDialogueActive = true;
+        isRedPacketEscapeWarningActive = false;
+        onRedPacketEscapeWarningComplete = null;
+        CurrentDialogueNpc = this;
+
+        if (nameText != null)
+        {
+            nameText.gameObject.SetActive(false);
+        }
+
+        if (npcPortraitImage != null)
+        {
+            npcPortraitImage.gameObject.SetActive(false);
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(true);
+            dialoguePanel.transform.SetAsLastSibling();
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "You killed the annoying prince. The guards attack!";
+        }
+
+        PauseController.SetPause(true);
+        ShowInteractionIcon(false);
+    }
+
+    private void FinishDeathDialogue()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        isDeathDialogueActive = false;
+        isDialogueActive = false;
+
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "";
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(false);
+        }
+
+        if (nameText != null)
+        {
+            nameText.gameObject.SetActive(true);
+        }
+
+        if (npcPortraitImage != null)
+        {
+            npcPortraitImage.gameObject.SetActive(true);
+        }
+
+        PauseController.SetPause(false);
+        gameObject.SetActive(false);
     }
 
     private void BuildLockedTeleporterEmote()

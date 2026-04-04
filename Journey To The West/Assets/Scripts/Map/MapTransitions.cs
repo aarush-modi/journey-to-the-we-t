@@ -11,6 +11,7 @@ public class MapTransitions : MonoBehaviour
 
     CinemachineConfiner2D confiner;
     CinemachineCamera vcam;
+    private bool hasPlayedRedPacketEscapeWarning;
 
     enum Direction { Up, Down, Left, Right, Teleport }
 
@@ -19,7 +20,9 @@ public class MapTransitions : MonoBehaviour
         confiner = FindObjectOfType<CinemachineConfiner2D>();
         vcam = FindObjectOfType<CinemachineCamera>();
 
-        if (direction == Direction.Teleport && lockedTeleportNpc == null && gameObject.name == "1+")
+        if (direction == Direction.Teleport
+            && lockedTeleportNpc == null
+            && (gameObject.name == "1+" || (teleportTargetPosition != null && teleportTargetPosition.name == "2-")))
         {
             lockedTeleportNpc = FindObjectOfType<NickelNoumanNPC>();
             Debug.Log($"[{name}] Auto-linked lockedTeleportNpc: {(lockedTeleportNpc != null ? lockedTeleportNpc.name : "null")}", this);
@@ -40,6 +43,20 @@ public class MapTransitions : MonoBehaviour
             Debug.Log($"[{name}] Teleporter locked. Triggering {lockedTeleportNpc.name} dialogue.", this);
             lockedTeleportNpc.PlayLockedTeleporterEmote();
             lockedTeleportNpc.Interact(collision.gameObject);
+            return;
+        }
+
+        if (direction == Direction.Teleport
+            && teleportTargetPosition != null
+            && teleportTargetPosition.name == "2-"
+            && lockedTeleportNpc != null
+            && !lockedTeleportNpc.IsNickelDead
+            && KingModiBlackjackNPC.HasRedPacket
+            && !hasPlayedRedPacketEscapeWarning)
+        {
+            hasPlayedRedPacketEscapeWarning = true;
+            Debug.Log($"[{name}] Triggering NickelNouman escape warning before teleport to 2-.", this);
+            lockedTeleportNpc.PlayRedPacketEscapeWarning(() => FadeTransition(collision.gameObject));
             return;
         }
 
