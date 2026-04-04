@@ -188,27 +188,8 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
             modiSprite.enabled = false;
         }
 
-        AlertGuards();
+        ModiGuard.AlertAllGuards();
         ShowDeathLootDialogue();
-    }
-
-    private void AlertGuards()
-    {
-        foreach (Transform sceneTransform in FindObjectsOfType<Transform>(true))
-        {
-            if (!sceneTransform.name.StartsWith("Guard"))
-            {
-                continue;
-            }
-
-            ModiGuard guard = sceneTransform.GetComponent<ModiGuard>();
-            if (guard == null)
-            {
-                guard = sceneTransform.gameObject.AddComponent<ModiGuard>();
-            }
-
-            guard.BeginChase();
-        }
     }
 
     private void StartModiIntro()
@@ -443,7 +424,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         {
             hasPlayerWonPacket = true;
             hasRedPacketThisSession = true;
-            AlertGuards();
+            ModiGuard.AlertAllGuards();
             modiState = ModiState.WinDialogue;
             Debug.Log("[KingModi] Player won blackjack. Post-win dialogue unlocked.");
             if (dialogueText != null)

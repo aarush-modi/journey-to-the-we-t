@@ -50,6 +50,7 @@ public class MapTransitions : MonoBehaviour
             && teleportTargetPosition != null
             && teleportTargetPosition.name == "2-"
             && lockedTeleportNpc != null
+            && !lockedTeleportNpc.IsNickelDead
             && KingModiBlackjackNPC.HasRedPacket
             && !hasPlayedRedPacketEscapeWarning)
         {
