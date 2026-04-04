@@ -81,28 +81,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name + " | Tag: " + collision.gameObject.tag + " | Layer: " + LayerMask.LayerToName(collision.gameObject.layer));
-
-        // --- Rock pushing ---
         if (collision.gameObject.CompareTag("Rock"))
         {
-            Debug.Log("Rock hit confirmed — attempting push");
-
             RockController rock = collision.gameObject.GetComponent<RockController>();
             if (rock != null)
             {
                 Vector2 pushDir = (collision.transform.position - transform.position).normalized;
-                pushDir = SnapToCardinal(pushDir); // make sure it's clean
+                pushDir = SnapToCardinal(pushDir);
 
-                rock.TryPush(pushDir);
+                bool pushed = rock.TryPush(pushDir);
 
-                // Always stop the player dead after any rock interaction
-                // This prevents continuous shoving every FixedUpdate frame
+                // Whether the push succeeded or not, stop the player
                 moveInput = Vector2.zero;
                 rb.linearVelocity = Vector2.zero;
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
                 SnapToGridBeforeObstacle(pushDir);
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                // If on ice and the rock was blocked, treat it like a wall collision
+                if (isOnIce && !pushed)
+                {
+                    iceVelocity = Vector2.zero;
+                }
             }
             return;
         }
@@ -132,7 +132,6 @@ public class PlayerController : MonoBehaviour
         SnapToGridBeforeObstacle(capturedSlideDir);
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
-
     private void SnapToGridBeforeObstacle(Vector2 slideDir)
     {
         Collider2D col = GetComponent<Collider2D>();
