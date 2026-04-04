@@ -443,6 +443,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         {
             hasPlayerWonPacket = true;
             hasRedPacketThisSession = true;
+            AlertGuards();
             modiState = ModiState.WinDialogue;
             Debug.Log("[KingModi] Player won blackjack. Post-win dialogue unlocked.");
             if (dialogueText != null)
