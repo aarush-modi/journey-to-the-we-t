@@ -127,8 +127,16 @@ public class HUDManager : MonoBehaviour
 
     private void UpdateGold(int gold)
     {
-        greedSlider.value = gold;
-        goldText.text = gold.ToString();
+        if (greedSlider != null)
+        {
+            greedSlider.maxValue = Mathf.Max(greedSlider.maxValue, gold);
+            greedSlider.value = gold;
+        }
+
+        if (goldText != null)
+        {
+            goldText.text = gold.ToString();
+        }
     }
 
     private void UpdateGreedTier(GreedTier tier)

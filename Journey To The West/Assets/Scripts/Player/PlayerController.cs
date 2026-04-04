@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float sprintSpeedMultiplier = 2f;
     // [SerializeField] public HustleStyleData hustleStyle; // null for now, T3-12 fills this but we skipped it for task 3
 
     private Rigidbody2D rb;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private PlayerCombat combat;
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
+    private bool canSprint;
 
     private void Awake()
     {
@@ -26,7 +28,16 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             return;
         }
-        rb.linearVelocity = moveInput * moveSpeed;
+
+        float activeMoveSpeed = moveSpeed;
+        if (canSprint
+            && Keyboard.current != null
+            && (Keyboard.current.leftShiftKey.isPressed || Keyboard.current.rightShiftKey.isPressed))
+        {
+            activeMoveSpeed *= sprintSpeedMultiplier;
+        }
+
+        rb.linearVelocity = moveInput * activeMoveSpeed;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -65,5 +76,14 @@ public class PlayerController : MonoBehaviour
         }
 
         return lastFacingDirection;
+    }
+
+    public void ApplySprintLesson(float sprintMultiplier)
+    {
+        if (sprintMultiplier > 1f)
+        {
+            sprintSpeedMultiplier = sprintMultiplier;
+            canSprint = true;
+        }
     }
 }
