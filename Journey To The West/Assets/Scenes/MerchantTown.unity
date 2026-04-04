@@ -2110,7 +2110,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2460,7 +2460,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -37856,7 +37856,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -39983,7 +39983,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -43894,7 +43894,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -45453,7 +45453,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -46162,14 +46162,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseSpeed: 2.5
   fleeSpeed: 6
-  touchDamage: 1
+  touchDamage: 0.0001
   talkDistance: 1.5
   sprintLessonMultiplier: 1.35
   recoveredGreedAmount: 600
-  interactionIconSprite: {fileID: -2122837972990275081, guid: 388ca2440684b4f48bc012da50850949, type: 3}
+  faceSprite: {fileID: -7527145504033472756, guid: 2ebcdf4ee060dc44dacd672a56bc2506, type: 3}
+  interactionIconSprite: {fileID: 21300000, guid: 388ca2440684b4f48bc012da50850949, type: 3}
   interactionIconOffset: {x: 0, y: 1.25, z: 0}
   choiceButtonPrefab: {fileID: 6637842228440742246, guid: 7f27cc635b2bda84ab7f3e648ea41a6d, type: 3}
   corneredDialogue: You corner the pickpocket and take back your money.
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!95 &2069135547
 Animator:
   serializedVersion: 7
@@ -46561,7 +46564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KingModiBlackjackNPC
   npcName: King Modi
-  faceSprite: {fileID: 4723107735738678597, guid: fb351d54b2f3bba4c978d378f0ae8b1c, type: 3}
+  faceSprite: {fileID: -7527145504033472756, guid: 60e94740128cb834db90d3b2b063b3bb, type: 3}
   interactionIcon: {fileID: 2093932155}
   dialoguePanel: {fileID: 1408095343}
   dialogueText: {fileID: 819114089}

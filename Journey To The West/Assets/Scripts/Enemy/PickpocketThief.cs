@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,10 +37,13 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     [SerializeField] private float talkDistance = 1.5f;
     [SerializeField] private float sprintLessonMultiplier = 2f;
     [SerializeField] private int recoveredGreedAmount = 600;
+    [SerializeField] private Sprite faceSprite;
     [SerializeField] private Sprite interactionIconSprite;
     [SerializeField] private Vector3 interactionIconOffset = new Vector3(0f, 1.25f, 0f);
     [SerializeField] private GameObject choiceButtonPrefab;
     [SerializeField] private string corneredDialogue = "You corner the pickpocket and take back your money.";
+    [SerializeField] private float flashDuration = 0.1f;
+    [SerializeField] private Color flashColor = Color.red;
 
     private Rigidbody2D thiefBody;
     private Animator thiefAnimator;
@@ -59,6 +63,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private bool isDead;
     private float currentHP = MaxHP;
     private int currentMoveStateHash;
+    private Coroutine hurtFlashRoutine;
 
     private GameObject dialoguePanel;
     private TMP_Text dialogueText;
@@ -157,6 +162,17 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         }
 
         Debug.Log($"[PickpocketThief] TakeDamage received. HP before={currentHP}, damage={amount}", this);
+
+        if (thiefSprite != null)
+        {
+            if (hurtFlashRoutine != null)
+            {
+                StopCoroutine(hurtFlashRoutine);
+            }
+
+            hurtFlashRoutine = StartCoroutine(HurtFlash());
+        }
+
         currentHP -= amount;
         if (currentHP <= 0f)
         {
@@ -470,7 +486,8 @@ public class PickpocketThief : MonoBehaviour, IDamageable
 
         if (npcPortraitImage != null)
         {
-            npcPortraitImage.gameObject.SetActive(false);
+            npcPortraitImage.sprite = faceSprite;
+            npcPortraitImage.gameObject.SetActive(faceSprite != null);
         }
 
         if (dialogueText != null)
@@ -674,5 +691,19 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         }
 
         return velocity.y > 0f ? RunUpStateHash : RunDownStateHash;
+    }
+
+    private IEnumerator HurtFlash()
+    {
+        Color originalColor = thiefSprite.color;
+        thiefSprite.color = flashColor;
+        yield return new WaitForSeconds(flashDuration);
+
+        if (!isDead && thiefSprite != null)
+        {
+            thiefSprite.color = originalColor;
+        }
+
+        hurtFlashRoutine = null;
     }
 }

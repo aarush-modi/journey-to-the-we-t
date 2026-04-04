@@ -48,6 +48,19 @@ public class ModiGuard : MonoBehaviour, IDamageable
         }
     }
 
+    public static bool HasLivingGuards()
+    {
+        foreach (ModiGuard guard in FindObjectsOfType<ModiGuard>(true))
+        {
+            if (guard != null && !guard.isDead && guard.gameObject.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void Awake()
     {
         guardAnimator = GetComponent<Animator>();
@@ -101,6 +114,8 @@ public class ModiGuard : MonoBehaviour, IDamageable
         {
             return;
         }
+
+        AlertAllGuards();
 
         currentHP -= amount;
 

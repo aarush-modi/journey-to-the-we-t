@@ -286,7 +286,9 @@ public class NickelNoumanNPC : NPCBase, IDamageable
 
         if (dialogueText != null)
         {
-            dialogueText.text = "You killed the annoying prince. The guards attack!";
+            dialogueText.text = ModiGuard.HasLivingGuards()
+                ? "You killed the annoying prince. The guards attack!"
+                : "You kill the annoying prince. Thankfully, nobody is around to stop you.";
         }
 
         PauseController.SetPause(true);
