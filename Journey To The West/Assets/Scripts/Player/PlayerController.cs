@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // --- Existing ice wall collision (unchanged) ---
+        // Existing ice wall collision
         if (!isOnIce) return;
 
         Vector2 slideDir = iceVelocity.normalized;

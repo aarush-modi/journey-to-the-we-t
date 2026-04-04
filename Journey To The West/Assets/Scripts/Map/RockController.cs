@@ -77,7 +77,7 @@ public class RockController : MonoBehaviour
 
     private IEnumerator SlideTo(Vector2 target)
     {
-        // Snap target to grid center before we even start moving
+        // Snap target to grid center before they start moving
         target = SnapPositionToGrid(target);
 
         Vector2 start = rb.position;
@@ -111,7 +111,7 @@ public class RockController : MonoBehaviour
 
     private bool IsOnIce(Vector2 position)
     {
-        // Sample a small point at the rock's position to check for an ice tile trigger
+        // Check for an ice tile trigger
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, tileSize * 0.3f);
         foreach (Collider2D hit in hits)
         {
