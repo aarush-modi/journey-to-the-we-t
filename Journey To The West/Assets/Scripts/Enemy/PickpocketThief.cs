@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class PickpocketThief : MonoBehaviour, IDamageable
 {
     private const float MaxHP = 1f;
+    private static readonly int RunDownStateHash = Animator.StringToHash("PickpocketRunDown");
+    private static readonly int RunUpStateHash = Animator.StringToHash("PickpocketRunUp");
+    private static readonly int RunLeftStateHash = Animator.StringToHash("PickpocketRunLeft");
+    private static readonly int RunRightStateHash = Animator.StringToHash("PickpocketRunRight");
 
     private enum PickpocketState
     {
@@ -38,6 +42,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     [SerializeField] private string corneredDialogue = "You corner the pickpocket and take back your money.";
 
     private Rigidbody2D thiefBody;
+    private Animator thiefAnimator;
     private SpriteRenderer thiefSprite;
     private SpriteRenderer interactionIconRenderer;
     private Transform playerTarget;
@@ -53,6 +58,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private bool hasTaughtSprint;
     private bool isDead;
     private float currentHP = MaxHP;
+    private int currentMoveStateHash;
 
     private GameObject dialoguePanel;
     private TMP_Text dialogueText;
@@ -74,6 +80,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         thiefBody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         thiefBody.interpolation = RigidbodyInterpolation2D.Interpolate;
 
+        thiefAnimator = GetComponent<Animator>();
         thiefSprite = GetComponent<SpriteRenderer>();
         BuildInteractionIcon();
     }
@@ -185,6 +192,11 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         thiefBody.linearVelocity = Vector2.zero;
         thiefBody.bodyType = RigidbodyType2D.Static;
 
+        if (thiefAnimator != null)
+        {
+            thiefAnimator.enabled = false;
+        }
+
         ShowDeathDialogue();
     }
 
@@ -209,11 +221,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             : -moveDirection * fleeSpeed;
 
         thiefBody.linearVelocity = velocity;
-
-        if (thiefSprite != null && Mathf.Abs(velocity.x) > 0.01f)
-        {
-            thiefSprite.flipX = velocity.x < 0f;
-        }
+        PlayMoveAnimation(velocity);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -603,6 +611,11 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     {
         thiefBody.linearVelocity = Vector2.zero;
         thiefBody.bodyType = RigidbodyType2D.Static;
+
+        if (thiefAnimator != null)
+        {
+            thiefAnimator.enabled = false;
+        }
     }
 
     private void BuildInteractionIcon()
@@ -634,5 +647,32 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         {
             interactionIconRenderer.enabled = show;
         }
+    }
+
+    private void PlayMoveAnimation(Vector2 velocity)
+    {
+        if (thiefAnimator == null || velocity.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
+
+        int nextStateHash = GetMoveStateHash(velocity);
+        if (nextStateHash == currentMoveStateHash)
+        {
+            return;
+        }
+
+        thiefAnimator.Play(nextStateHash);
+        currentMoveStateHash = nextStateHash;
+    }
+
+    private int GetMoveStateHash(Vector2 velocity)
+    {
+        if (Mathf.Abs(velocity.x) > Mathf.Abs(velocity.y))
+        {
+            return velocity.x < 0f ? RunLeftStateHash : RunRightStateHash;
+        }
+
+        return velocity.y > 0f ? RunUpStateHash : RunDownStateHash;
     }
 }
