@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float sprintSpeedMultiplier = 2f;
+    [SerializeField] private float forcedMoveSpeedMultiplier = 0.5f;
     // [SerializeField] public HustleStyleData hustleStyle; // null for now, T3-12 fills this but we skipped it for task 3
 
     private Rigidbody2D rb;
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
     private bool canSprint;
+    private bool isInputLocked;
+    private bool isForcedMoving;
 
     private void Awake()
     {
@@ -26,6 +29,24 @@ public class PlayerController : MonoBehaviour
         if (combat != null && combat.IsAttacking())
         {
             rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", false);
+            return;
+        }
+
+        if (isInputLocked)
+        {
+            if (!isForcedMoving)
+            {
+                rb.linearVelocity = Vector2.zero;
+                animator.SetBool("isWalking", false);
+                return;
+            }
+
+            Vector2 forcedDirection = Vector2.up;
+            rb.linearVelocity = forcedDirection * moveSpeed * forcedMoveSpeedMultiplier;
+            animator.SetBool("isWalking", true);
+            animator.SetFloat("InputX", forcedDirection.x);
+            animator.SetFloat("InputY", forcedDirection.y);
             return;
         }
 
@@ -42,6 +63,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isInputLocked)
+        {
+            return;
+        }
+
         if (context.performed)
         {
             moveInput = context.ReadValue<Vector2>();
@@ -84,6 +110,33 @@ public class PlayerController : MonoBehaviour
         {
             sprintSpeedMultiplier = sprintMultiplier;
             canSprint = true;
+        }
+    }
+
+    public void SetMovementLocked(bool locked)
+    {
+        isInputLocked = locked;
+        isForcedMoving = false;
+
+        if (locked)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", false);
+            return;
+        }
+
+        animator.SetBool("isWalking", moveInput.sqrMagnitude > 0f);
+    }
+
+    public void SetForcedForwardMovement(bool enabled)
+    {
+        isInputLocked = enabled;
+        isForcedMoving = enabled;
+
+        if (!enabled)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", moveInput.sqrMagnitude > 0f);
         }
     }
 }

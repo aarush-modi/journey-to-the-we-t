@@ -54,6 +54,7 @@ public class ModiGuard : MonoBehaviour, IDamageable
         {
             if (guard != null && !guard.isDead && guard.gameObject.activeInHierarchy)
             {
+                Debug.Log($"[ModiGuard] Still alive: {guard.name}", guard);
                 return true;
             }
         }

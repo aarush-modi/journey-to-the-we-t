@@ -16,6 +16,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private enum PickpocketState
     {
         ChasingPlayer,
+        FleeingUpward,
         FleeingPlayer,
         Cornered
     }
@@ -28,11 +29,15 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         WhoSentChoice,
         RevealSender,
         TeachSprint,
-        SprintMiracle
+        SprintMiracle,
+        PostSprintReminder
     }
 
     [SerializeField] private float chaseSpeed = 2.5f;
     [SerializeField] private float fleeSpeed = 3.5f;
+    [SerializeField] private float fleeUpwardDistance = 7f;
+    [SerializeField] private float obstacleProbeDistance = 0.9f;
+    [SerializeField] private float obstacleProbeRadius = 0.2f;
     [SerializeField] private float touchDamage = 1f;
     [SerializeField] private float talkDistance = 1.5f;
     [SerializeField] private float sprintLessonMultiplier = 2f;
@@ -62,6 +67,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private bool hasTaughtSprint;
     private bool isDead;
     private float currentHP = MaxHP;
+    private float fleeUpwardTargetY;
     private int currentMoveStateHash;
     private Coroutine hurtFlashRoutine;
 
@@ -70,6 +76,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private TMP_Text nameText;
     private Image npcPortraitImage;
     private Transform choiceContainer;
+    private readonly Vector2[] avoidanceProbeDirections = new Vector2[7];
 
     private void Awake()
     {
@@ -94,6 +101,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     {
         FindPlayerReferences();
         BindDialogueUi();
+        playerController?.SetForcedForwardMovement(true);
     }
 
     private void Update()
@@ -224,6 +232,21 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             return;
         }
 
+        if (pickpocketState == PickpocketState.FleeingUpward)
+        {
+            if (transform.position.y >= fleeUpwardTargetY)
+            {
+                pickpocketState = PickpocketState.FleeingPlayer;
+            }
+            else
+            {
+                Vector2 upwardVelocity = GetObstacleAwareVelocity(Vector2.up, fleeSpeed);
+                thiefBody.linearVelocity = upwardVelocity;
+                PlayMoveAnimation(upwardVelocity);
+                return;
+            }
+        }
+
         Vector2 toPlayer = (Vector2)playerTarget.position - thiefBody.position;
         if (toPlayer.sqrMagnitude < 0.0001f)
         {
@@ -233,8 +256,8 @@ public class PickpocketThief : MonoBehaviour, IDamageable
 
         Vector2 moveDirection = toPlayer.normalized;
         Vector2 velocity = pickpocketState == PickpocketState.ChasingPlayer
-            ? moveDirection * chaseSpeed
-            : -moveDirection * fleeSpeed;
+            ? GetObstacleAwareVelocity(moveDirection, chaseSpeed)
+            : GetObstacleAwareVelocity(-moveDirection, fleeSpeed);
 
         thiefBody.linearVelocity = velocity;
         PlayMoveAnimation(velocity);
@@ -269,9 +292,11 @@ public class PickpocketThief : MonoBehaviour, IDamageable
 
         if (pickpocketState == PickpocketState.ChasingPlayer)
         {
+            playerController?.SetForcedForwardMovement(false);
             playerCombat?.TakeDamage(touchDamage);
             RemoveAllGreed();
-            pickpocketState = PickpocketState.FleeingPlayer;
+            fleeUpwardTargetY = transform.position.y + fleeUpwardDistance;
+            pickpocketState = PickpocketState.FleeingUpward;
             waitingForPlayerSeparation = true;
             return;
         }
@@ -399,8 +424,17 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     {
         BindDialogueUi();
         isPostCatchDialogueOpen = true;
-        postCatchDialogueStep = PostCatchDialogueStep.OpeningChoice;
         ShowInteractionIcon(false);
+
+        if (hasTaughtSprint)
+        {
+            postCatchDialogueStep = PostCatchDialogueStep.PostSprintReminder;
+            ShowSpeakerLine("What do you want? I already told you everything I know!");
+            PauseController.SetPause(true);
+            return;
+        }
+
+        postCatchDialogueStep = PostCatchDialogueStep.OpeningChoice;
         ShowSpeakerLine("Aw man, you caught me! Please don't hurt me!");
         ShowChoiceButtons(("Threaten him", ChooseThreaten), ("Ignore him", ChooseIgnore));
         PauseController.SetPause(true);
@@ -422,9 +456,10 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             case PostCatchDialogueStep.TeachSprint:
                 postCatchDialogueStep = PostCatchDialogueStep.SprintMiracle;
                 TeachPlayerSprint();
-                ShowNarrationLine("*You suddenly learn how to sprint. What a miracle.*");
+                ShowNarrationLine("*You learned to sprint.*\n*What a miracle. Did nobody teach you this...?*\n*Hold SHIFT to sprint.*");
                 break;
             case PostCatchDialogueStep.SprintMiracle:
+            case PostCatchDialogueStep.PostSprintReminder:
                 EndPostCatchDialogue();
                 break;
         }
@@ -693,6 +728,71 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         return velocity.y > 0f ? RunUpStateHash : RunDownStateHash;
     }
 
+    private Vector2 GetObstacleAwareVelocity(Vector2 preferredDirection, float speed)
+    {
+        if (preferredDirection.sqrMagnitude < 0.0001f)
+        {
+            return Vector2.zero;
+        }
+
+        Vector2 normalizedDirection = preferredDirection.normalized;
+        avoidanceProbeDirections[0] = normalizedDirection;
+        avoidanceProbeDirections[1] = RotateDirection(normalizedDirection, 35f);
+        avoidanceProbeDirections[2] = RotateDirection(normalizedDirection, -35f);
+        avoidanceProbeDirections[3] = RotateDirection(normalizedDirection, 70f);
+        avoidanceProbeDirections[4] = RotateDirection(normalizedDirection, -70f);
+        avoidanceProbeDirections[5] = RotateDirection(normalizedDirection, 110f);
+        avoidanceProbeDirections[6] = RotateDirection(normalizedDirection, -110f);
+
+        foreach (Vector2 candidateDirection in avoidanceProbeDirections)
+        {
+            if (!HasBlockingObstacle(candidateDirection))
+            {
+                return candidateDirection * speed;
+            }
+        }
+
+        return normalizedDirection * speed;
+    }
+
+    private bool HasBlockingObstacle(Vector2 direction)
+    {
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(
+            thiefBody.position,
+            obstacleProbeRadius,
+            direction,
+            obstacleProbeDistance
+        );
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider == null
+                || hit.collider.isTrigger
+                || hit.collider.attachedRigidbody == thiefBody
+                || hit.collider.CompareTag("Player")
+                || (playerTarget != null && hit.collider.transform.IsChildOf(playerTarget)))
+            {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private static Vector2 RotateDirection(Vector2 direction, float degrees)
+    {
+        float radians = degrees * Mathf.Deg2Rad;
+        float sin = Mathf.Sin(radians);
+        float cos = Mathf.Cos(radians);
+
+        return new Vector2(
+            (direction.x * cos) - (direction.y * sin),
+            (direction.x * sin) + (direction.y * cos)
+        ).normalized;
+    }
+
     private IEnumerator HurtFlash()
     {
         Color originalColor = thiefSprite.color;
@@ -706,4 +806,5 @@ public class PickpocketThief : MonoBehaviour, IDamageable
 
         hurtFlashRoutine = null;
     }
+
 }

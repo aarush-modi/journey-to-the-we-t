@@ -36558,11 +36558,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1484863426447913325, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.97
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1484863426447913325, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.24
+      value: -15.35
       objectReference: {fileID: 0}
     - target: {fileID: 1484863426447913325, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -46162,6 +46162,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseSpeed: 2.5
   fleeSpeed: 6
+  fleeUpwardDistance: 7
+  obstacleProbeDistance: 0.9
+  obstacleProbeRadius: 0.2
   touchDamage: 0.0001
   talkDistance: 1.5
   sprintLessonMultiplier: 1.35
