@@ -16,7 +16,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private enum PickpocketState
     {
         ChasingPlayer,
-        FleeingUpward,
+        FleeingScriptedRoute,
         FleeingPlayer,
         Cornered
     }
@@ -35,9 +35,10 @@ public class PickpocketThief : MonoBehaviour, IDamageable
 
     [SerializeField] private float chaseSpeed = 2.5f;
     [SerializeField] private float fleeSpeed = 3.5f;
-    [SerializeField] private float fleeUpwardDistance = 7f;
-    [SerializeField] private float obstacleProbeDistance = 0.9f;
-    [SerializeField] private float obstacleProbeRadius = 0.2f;
+    [SerializeField] private float fleeRouteWaypointReachDistance = 0.15f;
+    [SerializeField] private Vector2 scriptedFleeTargetPosition = new Vector2(15f, 15f);
+    [SerializeField] private float obstacleProbeDistance = 1.5f;
+    [SerializeField] private float obstacleProbeRadius = 0.35f;
     [SerializeField] private float touchDamage = 1f;
     [SerializeField] private float talkDistance = 1.5f;
     [SerializeField] private float sprintLessonMultiplier = 2f;
@@ -51,6 +52,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     [SerializeField] private Color flashColor = Color.red;
 
     private Rigidbody2D thiefBody;
+    private Collider2D[] thiefColliders;
     private Animator thiefAnimator;
     private SpriteRenderer thiefSprite;
     private SpriteRenderer interactionIconRenderer;
@@ -67,7 +69,6 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private bool hasTaughtSprint;
     private bool isDead;
     private float currentHP = MaxHP;
-    private float fleeUpwardTargetY;
     private int currentMoveStateHash;
     private Coroutine hurtFlashRoutine;
 
@@ -92,6 +93,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         thiefBody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         thiefBody.interpolation = RigidbodyInterpolation2D.Interpolate;
 
+        thiefColliders = GetComponents<Collider2D>();
         thiefAnimator = GetComponent<Animator>();
         thiefSprite = GetComponent<SpriteRenderer>();
         BuildInteractionIcon();
@@ -232,17 +234,10 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             return;
         }
 
-        if (pickpocketState == PickpocketState.FleeingUpward)
+        if (pickpocketState == PickpocketState.FleeingScriptedRoute)
         {
-            if (transform.position.y >= fleeUpwardTargetY)
+            if (!TryMoveAlongScriptedFleeRoute())
             {
-                pickpocketState = PickpocketState.FleeingPlayer;
-            }
-            else
-            {
-                Vector2 upwardVelocity = GetObstacleAwareVelocity(Vector2.up, fleeSpeed);
-                thiefBody.linearVelocity = upwardVelocity;
-                PlayMoveAnimation(upwardVelocity);
                 return;
             }
         }
@@ -295,13 +290,13 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             playerController?.SetForcedForwardMovement(false);
             playerCombat?.TakeDamage(touchDamage);
             RemoveAllGreed();
-            fleeUpwardTargetY = transform.position.y + fleeUpwardDistance;
-            pickpocketState = PickpocketState.FleeingUpward;
+            SetThiefCollisionsEnabled(false);
+            pickpocketState = PickpocketState.FleeingScriptedRoute;
             waitingForPlayerSeparation = true;
             return;
         }
 
-        if (waitingForPlayerSeparation)
+        if (pickpocketState == PickpocketState.FleeingScriptedRoute || waitingForPlayerSeparation)
         {
             return;
         }
@@ -728,7 +723,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         return velocity.y > 0f ? RunUpStateHash : RunDownStateHash;
     }
 
-    private Vector2 GetObstacleAwareVelocity(Vector2 preferredDirection, float speed)
+    private Vector2 GetObstacleAwareVelocity(Vector2 preferredDirection, float speed, bool useBlockedFallback = true)
     {
         if (preferredDirection.sqrMagnitude < 0.0001f)
         {
@@ -752,7 +747,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             }
         }
 
-        return normalizedDirection * speed;
+        return useBlockedFallback ? normalizedDirection * speed : Vector2.zero;
     }
 
     private bool HasBlockingObstacle(Vector2 direction)
@@ -779,6 +774,41 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         }
 
         return false;
+    }
+
+    private bool TryMoveAlongScriptedFleeRoute()
+    {
+        Vector2 toTarget = scriptedFleeTargetPosition - thiefBody.position;
+        if (toTarget.sqrMagnitude <= fleeRouteWaypointReachDistance * fleeRouteWaypointReachDistance)
+        {
+            thiefBody.position = scriptedFleeTargetPosition;
+            thiefBody.linearVelocity = Vector2.zero;
+            SetThiefCollisionsEnabled(true);
+            waitingForPlayerSeparation = false;
+            pickpocketState = PickpocketState.FleeingPlayer;
+            return true;
+        }
+
+        Vector2 routeVelocity = toTarget.normalized * fleeSpeed;
+        thiefBody.linearVelocity = routeVelocity;
+        PlayMoveAnimation(routeVelocity);
+        return false;
+    }
+
+    private void SetThiefCollisionsEnabled(bool collisionsEnabled)
+    {
+        if (thiefColliders == null)
+        {
+            return;
+        }
+
+        foreach (Collider2D thiefCollider in thiefColliders)
+        {
+            if (thiefCollider != null)
+            {
+                thiefCollider.enabled = collisionsEnabled;
+            }
+        }
     }
 
     private static Vector2 RotateDirection(Vector2 direction, float degrees)

@@ -46162,9 +46162,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseSpeed: 2.5
   fleeSpeed: 6
-  fleeUpwardDistance: 7
-  obstacleProbeDistance: 0.9
-  obstacleProbeRadius: 0.2
+  fleeRouteWaypointReachDistance: 0.15
+  scriptedFleeTargetPosition: {x: 15, y: 15}
+  obstacleProbeDistance: 1.5
+  obstacleProbeRadius: 0.35
   touchDamage: 0.0001
   talkDistance: 1.5
   sprintLessonMultiplier: 1.35
