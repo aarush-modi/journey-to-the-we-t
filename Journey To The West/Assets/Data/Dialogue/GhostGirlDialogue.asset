@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: GhostGirlDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: ...
+  npcSprite: {fileID: -7527145504033472756, guid: ff192bb5ef19c0d45b32cddb1792b53e, type: 3}
+  dialogue:
+  - Hello, could you please deliver this red packet to the king?
+  - I want to thank him for all that he has dont for me.
+  - The next town is on the island past the cave.
+  dialogueTime: []
+  typingSpeed: 0.05
+  voiceSounds: {fileID: 0}
+  voucePitch: 1
+  autoProgressLines: 
+  autoProgressDelay: 1.5
+  endDialogueOutcomes: []
+  nextLineOverride: 
+  choices: []
