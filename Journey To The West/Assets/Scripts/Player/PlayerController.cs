@@ -292,7 +292,10 @@ public class PlayerController : MonoBehaviour
                 continue;
             }
         }
+
         return false;
+    }
+
     // --- Added from newLock Branch ---
     public void ApplySprintLesson(float sprintMultiplier)
     {
