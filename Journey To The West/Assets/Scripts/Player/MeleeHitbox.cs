@@ -11,7 +11,8 @@ public class MeleeHitbox : MonoBehaviour
         combat = GetComponentInParent<PlayerCombat>();
     }
 
-    private void OnEnable()
+    // Called by WeaponDisplay each time an attack starts
+    public void PrepareForAttack()
     {
         hitThisSwing.Clear();
 

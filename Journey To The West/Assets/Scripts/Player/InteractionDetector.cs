@@ -7,14 +7,18 @@ public class InteractionDetector : MonoBehaviour
 
     private void Update()
     {
-        if (interactableInRange == null) return;
+        IInteractable interactable = NPCBase.CurrentDialogueNpc != null
+            ? NPCBase.CurrentDialogueNpc
+            : interactableInRange;
+
+        if (interactable == null) return;
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             GameObject player = transform.parent != null ? transform.parent.gameObject : gameObject;
-            interactableInRange.Interact(player);
+            interactable.Interact(player);
 
-            if (!interactableInRange.CanInteract())
+            if (interactable == interactableInRange && !interactableInRange.CanInteract())
             {
                 interactableInRange.ShowInteractionIcon(false);
             }

@@ -2284,6 +2284,7 @@ GameObject:
   - component: {fileID: 296328974}
   - component: {fileID: 296328973}
   - component: {fileID: 296328976}
+  - component: {fileID: 296328977}
   m_Layer: 0
   m_Name: CmCam
   m_TagString: Untagged
@@ -2400,6 +2401,18 @@ MonoBehaviour:
     MaxWindowSize: 0
     Padding: 0
   m_LegacyMaxWindowSize: -2
+--- !u!114 &296328977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296328972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e213a7755993304f8c878634b1e933a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentCamera
 --- !u!1 &296612057
 GameObject:
   m_ObjectHideFlags: 0
@@ -3469,6 +3482,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 177578388}
+  - {fileID: 2054747661}
   m_Father: {fileID: 562829977}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &453786826
@@ -28436,10 +28450,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VillageElderNPC
   npcName: Village Elder
   faceSprite: {fileID: 0}
+  interactionIcon: {fileID: 0}
   dialoguePanel: {fileID: 841510794}
   dialogueText: {fileID: 830678581}
   nameText: {fileID: 6439881}
   npcPortraitImage: {fileID: 2083500454}
+  choiceContainer: {fileID: 0}
+  choiceButtonPrefab: {fileID: 0}
   OnDialogueComplete:
     m_PersistentCalls:
       m_Calls: []
@@ -29077,7 +29094,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2068178565644637166, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2013207031}
   m_SourcePrefab: {fileID: 100100000, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
 --- !u!1 &1378298209
 GameObject:
@@ -30728,10 +30748,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VillageElderNPC
   npcName: Merchant
   faceSprite: {fileID: -7527145504033472756, guid: 3c71281c42b3afa48b68ba353e90be29, type: 3}
+  interactionIcon: {fileID: 0}
   dialoguePanel: {fileID: 841510794}
   dialogueText: {fileID: 830678581}
   nameText: {fileID: 6439881}
   npcPortraitImage: {fileID: 2083500454}
+  choiceContainer: {fileID: 0}
+  choiceButtonPrefab: {fileID: 0}
   OnDialogueComplete:
     m_PersistentCalls:
       m_Calls: []
@@ -36790,6 +36813,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971510499}
   m_CullTransparentMesh: 1
+--- !u!1 &2013207020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2068178565644637166, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
+  m_PrefabInstance: {fileID: 1376081859}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2013207031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013207020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06477e984d1d0024e903e1291eb36ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentPlayer
 --- !u!1 &2014528073
 GameObject:
   m_ObjectHideFlags: 0
@@ -37167,6 +37207,99 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023749393}
   m_CullTransparentMesh: 1
+--- !u!1 &2054747660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2054747661}
+  - component: {fileID: 2054747663}
+  - component: {fileID: 2054747662}
+  m_Layer: 0
+  m_Name: Town1_Waypoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2054747661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054747660}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.68, y: 53.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 453786825}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2054747662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054747660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ba4a497e57dbe4395d25e97d1d3f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTeleporter
+  targetSceneAsset: {fileID: 102900000, guid: 8d477b30faa2deb41a3840cc80fbb81a, type: 3}
+  targetScene: testing 1
+--- !u!61 &2054747663
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054747660}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.049112797, y: 0.25170326}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.2659936, y: 0.49659348}
+  m_EdgeRadius: 0
 --- !u!1 &2062179317
 GameObject:
   m_ObjectHideFlags: 0

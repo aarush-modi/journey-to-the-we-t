@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MerchantDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Merchant
-  npcSprite: {fileID: 0}
+  npcSprite: {fileID: -7527145504033472756, guid: 3c71281c42b3afa48b68ba353e90be29, type: 3}
   dialogue:
   - Welcome to the Merchant Shop!
   - Would you like to make a purchase?
@@ -31,6 +31,7 @@ MonoBehaviour:
   - 
   - 
   - PostShop
+  - 
   nextLineOverride: 
   choices:
   - dialogueIndex: 1

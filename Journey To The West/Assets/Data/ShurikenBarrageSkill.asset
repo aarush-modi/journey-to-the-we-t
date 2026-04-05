@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShurikenBarrageSkill
   skillName: Shuriken Barrage
   description: Throw a spread of spinning shuriken in the current facing direction.
-  icon: {fileID: -8298685195069441819, guid: d7eabf5e8bfb7364b8fb906250833c45, type: 3}
+  icon: {fileID: -6454969007074664543, guid: be26b6568372d074191320a883fb85bb, type: 3}
   cooldown: 4
   goldCost: 60
+  skillPrefab: {fileID: 3542047087971786624, guid: a33ec6453b3a959448ce7bad576e9d93, type: 3}
   projectilePrefab: {fileID: 810000000000000003, guid: 4f5277fbdad4442688fd9e7f07673027, type: 3}
   projectileSpeed: 12
   damage: 15

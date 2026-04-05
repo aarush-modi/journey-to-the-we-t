@@ -30,6 +30,8 @@ public class HUDManager : MonoBehaviour
 
     private void OnEnable()
     {
+        BindPlayerReferences();
+
         if (playerCombat != null)
         {
             playerCombat.OnHPChanged.AddListener(UpdateHP);
@@ -60,12 +62,14 @@ public class HUDManager : MonoBehaviour
 
     private void Start()
     {
+        BindPlayerReferences();
+
         // Initialize all HUD elements to current state
         if (playerCombat != null)
         {
             hpBar.minValue = 0f;
             hpBar.maxValue = playerCombat.GetMaxHP();
-            hpBar.value = playerCombat.GetCurrentHP();
+            UpdateHP(playerCombat.GetCurrentHP(), playerCombat.GetMaxHP());
 
             SkillData skill = playerCombat.GetEquippedSkill();
             if (skillIcon != null)
@@ -89,6 +93,30 @@ public class HUDManager : MonoBehaviour
         }
     }
 
+    private void BindPlayerReferences()
+    {
+        if (playerCombat != null && greedMeter != null)
+        {
+            return;
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            return;
+        }
+
+        if (playerCombat == null)
+        {
+            playerCombat = player.GetComponent<PlayerCombat>();
+        }
+
+        if (greedMeter == null)
+        {
+            greedMeter = player.GetComponent<GreedMeter>();
+        }
+    }
+
     private void UpdateHP(float current, float max)
     {
         hpBar.maxValue = max;
@@ -99,8 +127,16 @@ public class HUDManager : MonoBehaviour
 
     private void UpdateGold(int gold)
     {
-        greedSlider.value = gold;
-        goldText.text = gold.ToString();
+        if (greedSlider != null)
+        {
+            greedSlider.maxValue = Mathf.Max(greedSlider.maxValue, gold);
+            greedSlider.value = gold;
+        }
+
+        if (goldText != null)
+        {
+            goldText.text = gold.ToString();
+        }
     }
 
     private void UpdateGreedTier(GreedTier tier)

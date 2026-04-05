@@ -18,8 +18,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     [Header("Attack")]
     [SerializeField] private float baseDamage = 10f;
     [SerializeField] private float attackCooldown = 0.5f;
-    [SerializeField] private float hitboxDuration = 0.15f;
-    [SerializeField] private GameObject meleeHitbox;
 
     [Header("Equipment")]
     [SerializeField] private SkillData equippedSkill;
@@ -57,7 +55,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         effectiveMaxHP = baseMaxHP * maxHPModifier;
         currentHP = effectiveMaxHP;
         lastCheckpoint = transform.position;
-        meleeHitbox.SetActive(false);
         HustleStyleManager.Instance?.RefreshStyleEffects();
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
     }
@@ -75,6 +72,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (PauseController.IsGamePaused) return;
         if (!context.performed || isDead) return;
         if (attackCooldownTimer > 0f) return;
 
@@ -92,23 +90,16 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         }
 
         animator.SetTrigger("Attack");
-        StartCoroutine(ActivateHitbox());
     }
 
     public void OnSkill(InputAction.CallbackContext context)
     {
+        if (PauseController.IsGamePaused) return;
         if (!context.performed || isDead) return;
         ActivateSkill();
     }
 
     // --- Attack ---
-
-    private IEnumerator ActivateHitbox()
-    {
-        meleeHitbox.SetActive(true);
-        yield return new WaitForSeconds(hitboxDuration);
-        meleeHitbox.SetActive(false);
-    }
 
     public float GetAttackDamage()
     {

@@ -7,6 +7,7 @@ public abstract class SkillData : ScriptableObject
     public Sprite icon;
     public float cooldown;
     public int goldCost;
+    public GameObject skillPrefab;
 
     public abstract void Activate(PlayerController user);
 }
