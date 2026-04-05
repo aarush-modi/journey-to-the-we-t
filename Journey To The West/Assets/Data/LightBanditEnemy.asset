@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LightBanditEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Light Bandit
-  maxHP: 30
-  damage: 8
-  baseGoldDrop: 15
+  maxHP: 40
+  damage: 15
+  baseGoldDrop: 30
   moveSpeed: 2.5
   sprite: {fileID: 0}

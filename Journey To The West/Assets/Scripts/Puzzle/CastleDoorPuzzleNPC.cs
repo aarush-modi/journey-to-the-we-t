@@ -247,7 +247,7 @@ public class CastleDoorPuzzleNPC : NPCBase
         msgRT.anchorMax = new Vector2(1, 0);
         msgRT.pivot = new Vector2(0.5f, 0);
         msgRT.sizeDelta = new Vector2(0, 40);
-        msgRT.anchoredPosition = new Vector2(0, 10);
+        msgRT.anchoredPosition = new Vector2(0, 50);
 
         cipherUI = canvasObj.AddComponent<CipherPuzzleUI>();
         SetField(cipherUI, "puzzlePanel", border);
@@ -271,6 +271,13 @@ public class CastleDoorPuzzleNPC : NPCBase
         if (hasSolved)
         {
             PlayDialogue(solvedDialogue);
+            return;
+        }
+
+        if (awaitingPuzzle)
+        {
+            if (isDialogueActive)
+                PlayDialogue(introDialogue);
             return;
         }
 

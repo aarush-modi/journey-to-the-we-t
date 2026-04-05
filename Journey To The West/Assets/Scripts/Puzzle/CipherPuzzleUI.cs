@@ -22,6 +22,9 @@ public class CipherPuzzleUI : MonoBehaviour
     private int currentRound;
     private float timeRemaining;
     private bool isActive;
+    private bool waitingForNext;
+    private bool failed;
+    private float failTimer;
 
     public event Action<bool> OnPuzzleComplete;
 
@@ -29,6 +32,8 @@ public class CipherPuzzleUI : MonoBehaviour
     {
         currentRound = 0;
         isActive = true;
+        waitingForNext = false;
+        failed = false;
         puzzlePanel.SetActive(true);
         PauseController.SetPause(true);
         StartRound();
@@ -37,6 +42,7 @@ public class CipherPuzzleUI : MonoBehaviour
     public void Close()
     {
         isActive = false;
+        waitingForNext = false;
         puzzlePanel.SetActive(false);
         PauseController.SetPause(false);
     }
@@ -44,8 +50,11 @@ public class CipherPuzzleUI : MonoBehaviour
     private void StartRound()
     {
         puzzle = new CipherPuzzle(currentRound);
+        Debug.Log($"[CipherPuzzle] Round {currentRound + 1} Answer: {puzzle.Answer}");
         currentInput = "";
         timeRemaining = roundTimers[currentRound];
+        waitingForNext = false;
+        failed = false;
 
         titleText.text = $"ROUND {currentRound + 1} / 3";
         encryptedText.text = puzzle.EncryptedText;
@@ -58,6 +67,25 @@ public class CipherPuzzleUI : MonoBehaviour
     {
         if (!isActive) return;
 
+        if (failed)
+        {
+            failTimer -= Time.unscaledDeltaTime;
+            if (failTimer <= 0f)
+            {
+                failed = false;
+                FailPuzzle();
+            }
+            return;
+        }
+
+        if (waitingForNext)
+        {
+            Keyboard wkb = Keyboard.current;
+            if (wkb != null && (wkb.enterKey.wasPressedThisFrame || wkb.numpadEnterKey.wasPressedThisFrame))
+                AdvanceFromWait();
+            return;
+        }
+
         timeRemaining -= Time.unscaledDeltaTime;
         timerText.text = Mathf.CeilToInt(timeRemaining).ToString();
 
@@ -69,8 +97,8 @@ public class CipherPuzzleUI : MonoBehaviour
         if (timeRemaining <= 0f)
         {
             SetMessage($"Time's up! Answer: {puzzle.Answer}");
-            isActive = false;
-            Invoke(nameof(FailPuzzle), 2f);
+            failed = true;
+            failTimer = 2f;
             return;
         }
 
@@ -137,14 +165,13 @@ public class CipherPuzzleUI : MonoBehaviour
             currentRound++;
             if (currentRound >= 3)
             {
-                SetMessage("All ciphers decoded!");
-                isActive = false;
-                Invoke(nameof(SucceedPuzzle), 1.5f);
+                SetMessage("All ciphers decoded! Press Enter to finish.");
+                waitingForNext = true;
             }
             else
             {
-                SetMessage("Correct! Next round...");
-                Invoke(nameof(StartRound), 1.5f);
+                SetMessage("Correct! Press Enter for next round.");
+                waitingForNext = true;
             }
         }
         else
@@ -153,6 +180,14 @@ public class CipherPuzzleUI : MonoBehaviour
             currentInput = "";
             UpdateInputDisplay();
         }
+    }
+
+    private void AdvanceFromWait()
+    {
+        if (currentRound >= 3)
+            SucceedPuzzle();
+        else
+            StartRound();
     }
 
     private void SucceedPuzzle()
