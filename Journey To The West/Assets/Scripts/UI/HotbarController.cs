@@ -106,6 +106,19 @@ public class HotbarController : MonoBehaviour
             Skill skill = slot.currentItem.GetComponent<Skill>();
             if (skill != null && skill.data != null)
             {
+                // Toggle off if pressing the same slot again
+                if (activeSlotIndex == index)
+                {
+                    slot.SetActive(false);
+                    activeSlotIndex = -1;
+
+                    if (playerCombat != null)
+                    {
+                        playerCombat.EquipSkill(null);
+                    }
+                    return;
+                }
+
                 // Deactivate the previous slot highlight
                 if (activeSlotIndex >= 0)
                 {
