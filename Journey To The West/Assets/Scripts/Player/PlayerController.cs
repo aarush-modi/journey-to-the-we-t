@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private PlayerCombat combat;
+    private DashAttackHandler dashAttackHandler;
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
     
@@ -30,11 +31,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         combat = GetComponent<PlayerCombat>();
+        dashAttackHandler = GetComponent<DashAttackHandler>();
     }
 
     private void FixedUpdate()
     {
-        if (combat != null && combat.IsAttacking())
+        if (combat != null && combat.IsActionLocked())
         {
             rb.linearVelocity = Vector2.zero;
             animator.SetBool("isWalking", false);
@@ -244,8 +246,11 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
-            animator.SetFloat("LastInputX", moveInput.x);
-            animator.SetFloat("LastInputY", moveInput.y);
+            if (combat == null || !combat.IsActionLocked())
+            {
+                animator.SetFloat("LastInputX", moveInput.x);
+                animator.SetFloat("LastInputY", moveInput.y);
+            }
             moveInput = Vector2.zero;
             animator.SetBool("isWalking", false);
         }
@@ -261,6 +266,8 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 GetFacingDirection()
     {
+        if (dashAttackHandler != null && dashAttackHandler.IsLocked())
+            return dashAttackHandler.GetDashDirection();
         return moveInput.sqrMagnitude > 0f ? moveInput.normalized : lastFacingDirection;
     }
 
@@ -293,6 +300,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    }
+
     // --- Added from newLock Branch ---
     public void ApplySprintLesson(float sprintMultiplier)
     {

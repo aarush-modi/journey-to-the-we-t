@@ -49,8 +49,14 @@ public class EnemyController : MonoBehaviour, IDamageable
         isDead = true;
 
         DropGold();
-        gameObject.SetActive(false);
+        var deathEffect = GetComponent<EnemyDeathEffect>();
+        if (deathEffect != null)
+            deathEffect.PlayDeath();
+        else
+            gameObject.SetActive(false);
     }
+
+    public bool IsDead() => isDead;
 
     private void DropGold()
     {

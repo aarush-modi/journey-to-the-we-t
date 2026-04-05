@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -34,6 +36,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     protected bool isDialogueActive;
     protected bool isTyping;
     private bool isWaitingForChoice;
+    private List<int> choiceNextIndexes = new List<int>();
     private PlayerCombat activeDialogueCombat;
     private bool disabledCombatForDialogue;
     protected string lastDialogueOutcome { get; private set; }
@@ -45,6 +48,21 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
         ConfigureDialogueRaycasts();
+    }
+
+    protected virtual void Update()
+    {
+        if (!isWaitingForChoice) return;
+        if (Keyboard.current == null) return;
+
+        for (int i = 0; i < choiceNextIndexes.Count && i < 9; i++)
+        {
+            if (Keyboard.current[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame)
+            {
+                ChooseOption(choiceNextIndexes[i]);
+                return;
+            }
+        }
     }
 
     protected virtual void OnDisable()
@@ -217,11 +235,13 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     private void DisplayChoices(DialogueChoice choice)
     {
         isWaitingForChoice = true;
+        choiceNextIndexes.Clear();
         Button firstButton = null;
         for (int i = 0; i < choice.choices.Length; i++)
         {
             int nextIndex = choice.nextDialogueIndexes[i];
-            Button button = CreateChoiceButton(choice.choices[i], nextIndex);
+            choiceNextIndexes.Add(nextIndex);
+            Button button = CreateChoiceButton(choice.choices[i], nextIndex, i + 1);
             if (firstButton == null)
                 firstButton = button;
         }
@@ -233,7 +253,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
     }
 
-    private Button CreateChoiceButton(string text, int nextIndex)
+    private Button CreateChoiceButton(string text, int nextIndex, int displayNumber)
     {
         if (choiceButtonPrefab == null || choiceContainer == null) return null;
 
@@ -241,7 +261,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
 
         var buttonText = button.GetComponentInChildren<TMP_Text>();
         if (buttonText != null)
-            buttonText.text = text;
+            buttonText.text = $"[{displayNumber}] {text}";
 
         var buttonComponent = button.GetComponent<Button>();
         if (buttonComponent != null)
