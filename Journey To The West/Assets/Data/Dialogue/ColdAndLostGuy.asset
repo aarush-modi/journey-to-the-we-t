@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
   m_Name: ColdAndLostGuy
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: ColdAndLostGuy
+  npcName: Cold and Lost Guy
   npcSprite: {fileID: -7527145504033472756, guid: 445fd8ecac4758c40991f4b2b1f13d38, type: 3}
   dialogue:
   - I'm so cold....
