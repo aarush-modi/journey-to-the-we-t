@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float tileSize = 1f;
+    [SerializeField] private HotbarController hotbar;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
                 Vector2 pushDir = (collision.transform.position - transform.position).normalized;
                 pushDir = SnapToCardinal(pushDir);
 
-                bool pushed = rock.TryPush(pushDir);
+                bool pushed = HasRockPushSkillInHotbar() && rock.TryPush(pushDir);
 
                 // Whether the push succeeded or not, stop the player
                 moveInput = Vector2.zero;
@@ -227,5 +228,28 @@ public class PlayerController : MonoBehaviour
             return new Vector2(Mathf.Sign(dir.x), 0f);
         else
             return new Vector2(0f, Mathf.Sign(dir.y));
+    }
+
+    private bool HasRockPushSkillInHotbar()
+    {
+        if (hotbar == null || hotbar.hotbarPanel == null) return false;
+
+        foreach (Transform slotTransform in hotbar.hotbarPanel.transform)
+        {
+            try
+            {
+                InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
+                if (slot == null) continue;
+                if (slot.currentItem == null) continue;
+                if (slot.currentItem.GetComponent<RockPushSkill>() != null)
+                    return true;
+            }
+            catch
+            {
+                // Slot is unassigned so skip it
+                continue;
+            }
+        }
+        return false;
     }
 }
