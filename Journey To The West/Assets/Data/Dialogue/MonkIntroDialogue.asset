@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: MonkIntroDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Grieving Monk
+  npcSprite: {fileID: 0}
+  dialogue:
+  - Traveller... please, a moment of your time.
+  - A shadow descended upon my village in the night. It killed everyone. My brothers,
+    my students... all gone.
+  - I alone survived, but I am too old and too weak to face it myself.
+  - The creature still lurks nearby, feeding on the souls of the fallen. It must
+    be destroyed.
+  - If you slay this shadow for me, I will give you my sacred charm. It was blessed
+    by the monks of my order long ago.
+  - It will make you far stronger than you are now. Strong enough to face even a
+    king.
+  dialogueTime: []
+  typingSpeed: 0.04
+  voiceSounds: {fileID: 0}
+  voucePitch: 1
+  autoProgressLines:
+  autoProgressDelay: 1.5
+  endDialogueOutcomes: []
+  nextLineOverride:
+  choices: []

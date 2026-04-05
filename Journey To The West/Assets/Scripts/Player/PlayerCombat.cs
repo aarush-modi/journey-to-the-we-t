@@ -18,6 +18,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     [Header("Attack")]
     [SerializeField] private float baseDamage = 10f;
     [SerializeField] private float attackCooldown = 0.5f;
+    private float damageBoost = 1f;
 
     [Header("Equipment")]
     [SerializeField] private SkillData equippedSkill;
@@ -103,7 +104,12 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public float GetAttackDamage()
     {
-        return baseDamage * greedMeter.GetDamageMultiplier();
+        return baseDamage * greedMeter.GetDamageMultiplier() * damageBoost;
+    }
+
+    public void ApplyDamageBoost(float multiplier)
+    {
+        damageBoost = multiplier;
     }
 
     // --- IDamageable ---

@@ -30,6 +30,7 @@ public class WordlePuzzle
     {
         var words = WordleWordList.AllWords;
         targetWord = words[Random.Range(0, words.Length)];
+        Debug.Log($"[Wordle] Answer: {targetWord}");
     }
 
     public WordlePuzzle(string word)
