@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // --- Merged Movement Logic ---
+        //Merged Movement Logic
         if (isOnIce)
         {
             rb.linearVelocity = iceVelocity;
@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    // --- Added from newLock Branch ---
+    // Added from newLock Branch
     public void ApplySprintLesson(float sprintMultiplier)
     {
         if (sprintMultiplier > 1f)
@@ -326,6 +326,12 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetBool("isWalking", moveInput.sqrMagnitude > 0f);
+    }
+
+    public void ResetInput()
+    {
+        moveInput = Vector2.zero;
+        animator.SetBool("isWalking", false);
     }
 
     public void SetForcedForwardMovement(bool enabled)
