@@ -135,8 +135,14 @@ public class ModiGuard : MonoBehaviour, IDamageable
             guardAnimator.SetBool(IsChasingHash, false);
             PlayMoveState(GuardIdleStateHash);
         }
-        gameObject.SetActive(false);
+        var deathEffect = GetComponent<EnemyDeathEffect>();
+        if (deathEffect != null)
+            deathEffect.PlayDeath();
+        else
+            gameObject.SetActive(false);
     }
+
+    public bool IsDead() => isDead;
 
     private void FixedUpdate()
     {

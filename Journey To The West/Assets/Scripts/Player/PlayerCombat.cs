@@ -8,6 +8,8 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 {
     public UnityEvent<float, float> OnHPChanged;
     public UnityEvent<float> OnSkillActivated;
+    public UnityEvent OnSkillCooldownReset;
+    public UnityEvent<SkillData> OnSkillEquipped;
     [Header("HP")]
     [FormerlySerializedAs("maxHP")]
     [SerializeField] private float baseMaxHP = 100f;
@@ -22,9 +24,13 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     [Header("Equipment")]
     [SerializeField] private SkillData equippedSkill;
     [SerializeField] private ArmorData equippedArmor;
+    [SerializeField] private SkillData defaultSkill;
 
     [Header("Death")]
     [SerializeField] private GameObject droppedGoldPrefab;
+
+    [Header("Dash")]
+    [SerializeField] private DashAttackHandler dashAttackHandler;
 
     [Header("Hurt Feedback")]
     [SerializeField] private float flashDuration = 0.1f;
@@ -39,6 +45,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     private float skillCooldownTimer;
     private Vector3 lastCheckpoint;
     private bool isDead;
+    private bool chainDashReady;
 
     private void Awake()
     {
@@ -57,6 +64,11 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         lastCheckpoint = transform.position;
         HustleStyleManager.Instance?.RefreshStyleEffects();
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+
+        // No skill equipped until player selects one from the hotbar
+        equippedSkill = null;
+        if (dashAttackHandler != null)
+            dashAttackHandler.SetReticleActive(false);
     }
 
     private void Update()
@@ -65,7 +77,24 @@ public class PlayerCombat : MonoBehaviour, IDamageable
             attackCooldownTimer -= Time.deltaTime;
 
         if (skillCooldownTimer > 0f)
+        {
             skillCooldownTimer -= Time.deltaTime;
+            if (skillCooldownTimer <= 0f)
+            {
+                skillCooldownTimer = 0f;
+                Debug.Log("[Skill] Cooldown expired — skill ready again");
+                OnSkillCooldownReset?.Invoke();
+            }
+        }
+
+        // Direct right-click check for skill activation
+        if (!PauseController.IsGamePaused && !isDead && !IsActionLocked())
+        {
+            if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                ActivateSkill();
+            }
+        }
     }
 
     // --- Input ---
@@ -75,6 +104,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         if (PauseController.IsGamePaused) return;
         if (!context.performed || isDead) return;
         if (attackCooldownTimer > 0f) return;
+        if (dashAttackHandler != null && dashAttackHandler.IsLocked()) return;
 
         attackCooldownTimer = attackCooldown;
 
@@ -96,6 +126,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (PauseController.IsGamePaused) return;
         if (!context.performed || isDead) return;
+        if (!chainDashReady && IsAttacking()) return;
         ActivateSkill();
     }
 
@@ -174,7 +205,20 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public void EquipSkill(SkillData skill)
     {
+        // Hide reticle from previous skill if it was a dash skill
+        if (dashAttackHandler != null && equippedSkill is DashAttackSkill)
+        {
+            dashAttackHandler.SetReticleActive(false);
+        }
+
         equippedSkill = skill;
+        OnSkillEquipped?.Invoke(skill);
+
+        // Show reticle if new skill is a dash skill
+        if (dashAttackHandler != null && skill is DashAttackSkill newDashSkill)
+        {
+            dashAttackHandler.SetReticleActive(true, newDashSkill);
+        }
     }
 
     public void EquipArmor(ArmorData armor)
@@ -192,11 +236,35 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         if (skillCooldownTimer > 0f) return;
         if (playerController == null) return;
 
+        chainDashReady = false;
         skillCooldownTimer = equippedSkill.cooldown;
+        Debug.Log($"[Skill] Used: {equippedSkill.skillName} — cooldown {equippedSkill.cooldown}s");
         OnSkillActivated?.Invoke(equippedSkill.cooldown);
 
         equippedSkill.Activate(playerController);
-        Debug.Log($"Activated skill: {equippedSkill.skillName}");
+    }
+
+    public void SetSkillCooldown(float duration)
+    {
+        Debug.Log($"[Skill] Cooldown extended to {duration}s (was {skillCooldownTimer}s)");
+        float newTimer = Mathf.Max(skillCooldownTimer, duration);
+        if (newTimer > skillCooldownTimer)
+        {
+            skillCooldownTimer = newTimer;
+            OnSkillActivated?.Invoke(skillCooldownTimer);
+        }
+        else
+        {
+            skillCooldownTimer = newTimer;
+        }
+    }
+
+    public void ResetSkillCooldown()
+    {
+        skillCooldownTimer = 0f;
+        chainDashReady = true;
+        Debug.Log("[Skill] Cooldown reset (chain dash) — skill ready again");
+        OnSkillCooldownReset?.Invoke();
     }
 
     public void ApplyMaxHPModifier(float modifier)
@@ -230,5 +298,13 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         return stateInfo.IsTag("Attack");
+    }
+
+    public bool IsActionLocked()
+    {
+        if (chainDashReady) return false;
+        if (IsAttacking()) return true;
+        if (dashAttackHandler != null && dashAttackHandler.IsLocked()) return true;
+        return false;
     }
 }

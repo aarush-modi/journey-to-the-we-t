@@ -192,6 +192,8 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         ShowDeathLootDialogue();
     }
 
+    public bool IsDead() => isDead;
+
     private void StartModiIntro()
     {
         isDialogueActive = true;

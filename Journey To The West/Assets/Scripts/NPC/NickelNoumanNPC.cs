@@ -45,8 +45,10 @@ public class NickelNoumanNPC : NPCBase, IDamageable
         BuildLockedTeleporterEmote();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (Keyboard.current == null
             || (!Keyboard.current.digit9Key.wasPressedThisFrame && !Keyboard.current.numpad9Key.wasPressedThisFrame))
         {
@@ -137,6 +139,8 @@ public class NickelNoumanNPC : NPCBase, IDamageable
         ModiGuard.AlertAllGuards();
         ShowDeathDialogue();
     }
+
+    public bool IsDead() => isNickelDeadThisSession;
 
     public void PlayRedPacketEscapeWarning(Action onComplete)
     {
