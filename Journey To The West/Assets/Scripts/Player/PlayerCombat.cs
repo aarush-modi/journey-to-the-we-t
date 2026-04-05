@@ -143,6 +143,9 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        if (equippedArmor != null)
+            amount = Mathf.Max(0f, amount - equippedArmor.damageReduction);
+
         Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
         currentHP = Mathf.Max(0f, currentHP - amount);
         if (hurtFlashRoutine != null) StopCoroutine(hurtFlashRoutine);
@@ -227,10 +230,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     public void EquipArmor(ArmorData armor)
     {
         equippedArmor = armor;
-        if (armor != null && armor.armorSprite != null)
-        {
-            spriteRenderer.sprite = armor.armorSprite;
-        }
     }
 
     public void ActivateSkill()
