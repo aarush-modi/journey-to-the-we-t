@@ -76,16 +76,27 @@ public class MonkNPC : NPCBase
     private void OnIntroComplete()
     {
         OnDialogueComplete.RemoveListener(OnIntroComplete);
+        Debug.Log($"[Monk] OnIntroComplete fired. hasGivenQuest={hasGivenQuest}, blocker={southVillageBlocker != null}");
 
         if (hasGivenQuest) return;
 
         hasGivenQuest = true;
 
-        if (questToStart != null)
-            QuestManager.Instance.StartQuest(questToStart);
+        try
+        {
+            if (questToStart != null && QuestManager.Instance != null)
+                QuestManager.Instance.StartQuest(questToStart);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[Monk] Quest start failed: {e.Message}");
+        }
 
         if (southVillageBlocker != null)
+        {
+            southVillageBlocker.SetActive(false);
             Destroy(southVillageBlocker);
+        }
     }
 
     private void OnRewardComplete()

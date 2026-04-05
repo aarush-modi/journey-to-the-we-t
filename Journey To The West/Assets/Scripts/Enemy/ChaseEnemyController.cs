@@ -62,7 +62,7 @@ public class ChaseEnemyController : MonoBehaviour, IDamageable
         if (found)
             animator.Play(hash);
         else
-            Debug.LogWarning($"[Wizard] State NOT found: '{animName}' on controller: {animator.runtimeAnimatorController.name}");
+            Debug.LogWarning($"[ChaseEnemy] State NOT found: '{animName}' on controller: {animator.runtimeAnimatorController.name}");
     }
 
     private void Update()
