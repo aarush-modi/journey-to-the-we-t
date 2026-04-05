@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4324817acb5b3d64ab631a2b7a4c3117, type: 3}
-  m_Name: Level1Package
+  m_Name: Level2Package
   m_EditorClassIdentifier: Assembly-CSharp::PackageData
-  packageName: Elder's Red Packet
-  sealDescription: A red packet sealed with the village elder's stamp, destined for the king.
+  packageName: Ghost Girl's Red Packet
+  sealDescription: A red packet that looks worn and old, destined for the king.

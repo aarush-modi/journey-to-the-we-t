@@ -162,4 +162,11 @@ public class RockController : MonoBehaviour
     }
 
     public bool IsSliding() => isSliding;
+
+    public void ResetState()
+    {
+        isSliding = false;
+        isPushed = false;
+    }
+
 }
