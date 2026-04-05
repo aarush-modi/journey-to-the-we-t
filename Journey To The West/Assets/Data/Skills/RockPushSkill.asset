@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8efea4bdacb1a04799aadc2b20a20b1, type: 3}
+  m_Name: RockPushSkill
+  m_EditorClassIdentifier: Assembly-CSharp::RockPushSkillData
+  skillName: Rock Push
+  description: Allows you to push rocks away.
+  icon: {fileID: 4006003791991473683, guid: aca20400d6134f742b1af7e030b30f3f, type: 3}
+  cooldown: 0
+  goldCost: 50
+  skillPrefab: {fileID: 5175482962297391901, guid: 48aa979d106b4564cbb025d48a4e63eb, type: 3}

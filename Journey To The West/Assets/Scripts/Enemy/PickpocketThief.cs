@@ -226,6 +226,8 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         ShowDeathDialogue();
     }
 
+    public bool IsDead() => isDead;
+
     private void FixedUpdate()
     {
         if (pickpocketState == PickpocketState.Cornered || playerTarget == null)

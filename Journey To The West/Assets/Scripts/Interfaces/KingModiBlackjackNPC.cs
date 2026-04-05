@@ -200,6 +200,8 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         ShowDeathLootDialogue();
     }
 
+    public bool IsDead() => isDead;
+
     private void SetPlayerGreedToModiFortune()
     {
         if (playerGreedMeter == null)

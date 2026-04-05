@@ -10,10 +10,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float forcedMoveSpeedMultiplier = 0.5f;
     // [SerializeField] public HustleStyleData hustleStyle; // null for now, T3-12 fills this but we skipped it for task 3
     [SerializeField] private float tileSize = 1f;
+    [SerializeField] private HotbarController hotbar;
 
     private Rigidbody2D rb;
     private Animator animator;
     private PlayerCombat combat;
+    private DashAttackHandler dashAttackHandler;
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
     
@@ -29,11 +31,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         combat = GetComponent<PlayerCombat>();
+        dashAttackHandler = GetComponent<DashAttackHandler>();
     }
 
     private void FixedUpdate()
     {
-        if (combat != null && combat.IsAttacking())
+        if (combat != null && combat.IsActionLocked())
         {
             rb.linearVelocity = Vector2.zero;
             animator.SetBool("isWalking", false);
@@ -125,7 +128,7 @@ public class PlayerController : MonoBehaviour
                 Vector2 pushDir = (collision.transform.position - transform.position).normalized;
                 pushDir = SnapToCardinal(pushDir);
 
-                bool pushed = rock.TryPush(pushDir);
+                bool pushed = HasRockPushSkillInHotbar() && rock.TryPush(pushDir);
 
                 // Whether the push succeeded or not, stop the player
                 moveInput = Vector2.zero;
@@ -243,8 +246,11 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
-            animator.SetFloat("LastInputX", moveInput.x);
-            animator.SetFloat("LastInputY", moveInput.y);
+            if (combat == null || !combat.IsActionLocked())
+            {
+                animator.SetFloat("LastInputX", moveInput.x);
+                animator.SetFloat("LastInputY", moveInput.y);
+            }
             moveInput = Vector2.zero;
             animator.SetBool("isWalking", false);
         }
@@ -260,6 +266,8 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 GetFacingDirection()
     {
+        if (dashAttackHandler != null && dashAttackHandler.IsLocked())
+            return dashAttackHandler.GetDashDirection();
         return moveInput.sqrMagnitude > 0f ? moveInput.normalized : lastFacingDirection;
     }
 
@@ -269,6 +277,30 @@ public class PlayerController : MonoBehaviour
             return new Vector2(Mathf.Sign(dir.x), 0f);
         else
             return new Vector2(0f, Mathf.Sign(dir.y));
+    }
+
+    private bool HasRockPushSkillInHotbar()
+    {
+        if (hotbar == null || hotbar.hotbarPanel == null) return false;
+
+        foreach (Transform slotTransform in hotbar.hotbarPanel.transform)
+        {
+            try
+            {
+                InventorySlot slot = slotTransform.GetComponent<InventorySlot>();
+                if (slot == null) continue;
+                if (slot.currentItem == null) continue;
+                if (slot.currentItem.GetComponent<RockPushSkill>() != null)
+                    return true;
+            }
+            catch
+            {
+                // Slot is unassigned so skip it
+                continue;
+            }
+        }
+
+        return false;
     }
 
     // --- Added from newLock Branch ---
