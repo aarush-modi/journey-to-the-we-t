@@ -6,83 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Animations.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Animations/EVil Wizard anim.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Animations/EVil Wizard anim.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Animations/Idle_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Animations/Idle_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/License.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/License.txt.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Scene demo.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Scene demo/demo.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Scene demo/demo.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Attack.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Attack.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Death.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Death.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Idle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Idle.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Move.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Move.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Take Hit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/EVil Wizard/Sprites/Take Hit.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Attack.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Attack.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Attack_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Attack_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Death.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Death.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Get hit_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Get hit_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Idle.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Idle.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Idle_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Idle_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Jump.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Jump.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Jump_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Jump_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Moving_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Moving_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Projectile.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Projectile.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Run.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Run.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Run_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Run_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Walk.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Walk.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Walk_0.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Animations/Walk_0.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Scene demo.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Scene demo/Demo.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Scene demo/Demo.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Attack.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Attack.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Death.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Death.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Fall.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Fall.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Get hit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Get hit.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Idle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Idle.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Jump.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Jump.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Projectile.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Projectile/Explode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Projectile/Explode.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Projectile/Moving.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Projectile/Moving.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Run.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Run.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Walk.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Evil Wizard 3/Sprites/Walk.png.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,6 +17,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Data/Dialogue/CastleWarnerIntroDialogue.asset" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Data/Dialogue/CastleWarnerReminderDialogue.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/InteractionDetector.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
@@ -135,7 +60,7 @@
       <option name="presentableId" value="Default" />
       <updated>1774289022930</updated>
       <workItem from="1774289025850" duration="28000" />
-      <workItem from="1775199827484" duration="4425000" />
+      <workItem from="1775199827484" duration="5176000" />
     </task>
     <servers />
   </component>

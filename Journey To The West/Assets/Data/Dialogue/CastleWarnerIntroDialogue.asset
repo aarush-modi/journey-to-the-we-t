@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: CastleWarnerIntroDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Weary Courier
+  npcSprite: {fileID: 0}
+  dialogue:
+  - You there... you look like someone with a death wish. Perfect.
+  - I was supposed to deliver this last red packet to the king, but I am not going
+    anywhere near that castle.
+  - The king is furious. The deliveries are late and he has been taking it out on
+    everyone.
+  - The guards look ready to attack, and the castle door is sealed with some kind
+    of cipher lock. No one has been able to crack it.
+  - Going in there is a suicide mission. But someone has to do it.
+  - "Here, take this packet. Deliver it to the king if you can. May fortune favour
+    you."
+  dialogueTime: []
+  typingSpeed: 0.04
+  voiceSounds: {fileID: 0}
+  voucePitch: 1
+  autoProgressLines:
+  autoProgressDelay: 1.5
+  endDialogueOutcomes: []
+  nextLineOverride:
+  choices: []

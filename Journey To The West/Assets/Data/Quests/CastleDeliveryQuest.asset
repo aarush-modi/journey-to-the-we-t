@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0b85b3f01b5ea4fb367d25d751830c, type: 3}
+  m_Name: CastleDeliveryQuest
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  questName: Deliver the Last Red Packet
+  description: A weary courier has entrusted you with the final red packet. Fight
+    past the castle guards, crack the cipher at the castle door, and deliver it to
+    the king.
+  questType: 0
+  isCompleted: 0
