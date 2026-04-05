@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class KingModiBlackjackNPC : NPCBase, IDamageable
 {
     private const float ModiMaxHP = 1f;
+    private const int ModiFortuneGreedAmount = 1000;
     private const int BlackjackLossGreedPenalty = 100;
     private const int PostWinTalkGreedPenalty = 5;
     private static bool hasRedPacketThisSession;
@@ -50,6 +51,12 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         "TELL ME, JIN. WOULD YOU LIKE TO KEEP LOSING TO ME?"
     };
 
+    private static readonly string[] WinDialogueLines =
+    {
+        "*Modi sighs as he hands you the red packet.\nIt seems as if the packet was almost as important to him as money.*",
+        "*Modi also hands you the all of the money in the Merchant Kingdom.\nYou feel incredibly rich after taking the fortune of the Modi family.*"
+    };
+
     private static readonly string[] PostWinDialogueLines =
     {
         "What do you want from me, you greedy boy?",
@@ -60,6 +67,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     private ModiState modiState = ModiState.Closed;
     private int introDialogueIndex;
     private int acceptedGambleLineIndex;
+    private int winDialogueIndex;
     private int lossDialogueIndex;
     private int postWinDialogueIndex;
     private GreedMeter playerGreedMeter;
@@ -131,7 +139,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
 
         if (modiState == ModiState.WinDialogue)
         {
-            EndBlackjackDialogue();
+            AdvanceWinDialogue();
             return;
         }
 
@@ -190,6 +198,33 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
 
         ModiGuard.AlertAllGuards();
         ShowDeathLootDialogue();
+    }
+
+    private void SetPlayerGreedToModiFortune()
+    {
+        if (playerGreedMeter == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                playerGreedMeter = player.GetComponent<GreedMeter>();
+            }
+        }
+
+        if (playerGreedMeter == null)
+        {
+            return;
+        }
+
+        int goldDelta = ModiFortuneGreedAmount - playerGreedMeter.GetCurrentGold();
+        if (goldDelta > 0)
+        {
+            playerGreedMeter.AddGold(goldDelta);
+        }
+        else if (goldDelta < 0)
+        {
+            playerGreedMeter.RemoveGold(-goldDelta);
+        }
     }
 
     private void StartModiIntro()
@@ -424,13 +459,12 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         {
             hasPlayerWonPacket = true;
             hasRedPacketThisSession = true;
+            SetPlayerGreedToModiFortune();
             ModiGuard.AlertAllGuards();
             modiState = ModiState.WinDialogue;
+            winDialogueIndex = 0;
             Debug.Log("[KingModi] Player won blackjack. Post-win dialogue unlocked.");
-            if (dialogueText != null)
-            {
-                dialogueText.text = "*Modi sighs as he hands you the red packet.\nIt seems as if the packet was almost as important to him as money.*";
-            }
+            ShowCurrentWinDialogueLine();
             return;
         }
 
@@ -469,6 +503,29 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         }
 
         ShowCurrentLossDialogueLine();
+    }
+
+    private void AdvanceWinDialogue()
+    {
+        winDialogueIndex++;
+        if (winDialogueIndex >= WinDialogueLines.Length)
+        {
+            EndBlackjackDialogue();
+            return;
+        }
+
+        ShowCurrentWinDialogueLine();
+    }
+
+    private void ShowCurrentWinDialogueLine()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = WinDialogueLines[winDialogueIndex];
+        }
     }
 
     private void ShowCurrentLossDialogueLine()
@@ -577,10 +634,11 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         {
             dialogueText.text = hasPlayerWonPacket
                 ? "You kill Modi for absolutely no reason."
-                : "*You take the red packet off of the greedy King's body.*";
+                : "You take the red packet and great fortune of Modi from his corpse.";
         }
 
         hasRedPacketThisSession = true;
+        SetPlayerGreedToModiFortune();
 
         PauseController.SetPause(true);
     }
@@ -652,6 +710,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         modiState = ModiState.Closed;
         introDialogueIndex = 0;
         acceptedGambleLineIndex = 0;
+        winDialogueIndex = 0;
         lossDialogueIndex = 0;
         postWinDialogueIndex = 0;
         isWaitingForLossChoice = false;

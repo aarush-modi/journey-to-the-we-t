@@ -21,13 +21,14 @@ public class NickelNoumanNPC : NPCBase, IDamageable
     [SerializeField] private Vector3 lockedTeleporterEmoteOffset = new Vector3(0f, 1.25f, 0f);
     [SerializeField] private float lockedTeleporterEmoteDuration = 0.75f;
 
-    public bool IsTeleporterUnlocked => isTeleporterUnlockedThisSession || isNickelDeadThisSession;
+    public bool IsTeleporterUnlocked => isTeleporterUnlockedThisSession || isNickelDeadThisSession || !ModiGuard.HasLivingGuards();
     public bool IsNickelDead => isNickelDeadThisSession;
 
     private SpriteRenderer lockedTeleporterEmoteRenderer;
     private Coroutine lockedTeleporterEmoteRoutine;
     private int pendingAnswerResponseLineIndex = -1;
     private bool isRedPacketEscapeWarningActive;
+    private bool isNoGuardsMercyDialogueActive;
     private bool isDeathDialogueActive;
     private Action onRedPacketEscapeWarningComplete;
     private float currentHP = NickelMaxHP;
@@ -70,6 +71,22 @@ public class NickelNoumanNPC : NPCBase, IDamageable
             FinishRedPacketEscapeWarning();
             return;
         }
+
+        if (isNoGuardsMercyDialogueActive)
+        {
+            FinishNoGuardsMercyDialogue();
+            return;
+        }
+
+        if (!ModiGuard.HasLivingGuards())
+        {
+            Debug.Log("[NickelNouman] No living guards detected. Showing mercy dialogue and unlocking 1+.", this);
+            SetTeleporterUnlocked(true);
+            ShowNoGuardsMercyDialogue();
+            return;
+        }
+
+        Debug.Log("[NickelNouman] At least one living guard detected. Showing normal dialogue.", this);
 
         if (isDialogueActive
             && !isTyping
@@ -286,11 +303,77 @@ public class NickelNoumanNPC : NPCBase, IDamageable
 
         if (dialogueText != null)
         {
-            dialogueText.text = "You killed the annoying prince. The guards attack!";
+            dialogueText.text = ModiGuard.HasLivingGuards()
+                ? "You killed the annoying prince. The guards attack!"
+                : "You kill the annoying prince. Thankfully, nobody is around to stop you.";
         }
 
         PauseController.SetPause(true);
         ShowInteractionIcon(false);
+    }
+
+    private void ShowNoGuardsMercyDialogue()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        isDialogueActive = true;
+        isNoGuardsMercyDialogueActive = true;
+        CurrentDialogueNpc = this;
+
+        if (nameText != null)
+        {
+            nameText.enableWordWrapping = false;
+            nameText.overflowMode = TMPro.TextOverflowModes.Overflow;
+            nameText.text = npcName;
+            nameText.gameObject.SetActive(true);
+        }
+
+        if (npcPortraitImage != null)
+        {
+            npcPortraitImage.sprite = faceSprite;
+            npcPortraitImage.gameObject.SetActive(true);
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(true);
+            dialoguePanel.transform.SetAsLastSibling();
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "Please don't hurt me!";
+        }
+
+        PauseController.SetPause(true);
+        ShowInteractionIcon(false);
+    }
+
+    private void FinishNoGuardsMercyDialogue()
+    {
+        StopAllCoroutines();
+        ClearChoices();
+
+        isNoGuardsMercyDialogueActive = false;
+        isDialogueActive = false;
+
+        if (CurrentDialogueNpc == this)
+        {
+            CurrentDialogueNpc = null;
+        }
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = "";
+        }
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(false);
+        }
+
+        PauseController.SetPause(false);
     }
 
     private void FinishDeathDialogue()

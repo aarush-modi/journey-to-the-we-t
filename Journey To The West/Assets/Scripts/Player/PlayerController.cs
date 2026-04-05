@@ -4,6 +4,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    
+    // --- Merged Variables ---
+    [SerializeField] private float sprintSpeedMultiplier = 2f;
+    [SerializeField] private float forcedMoveSpeedMultiplier = 0.5f;
+    // [SerializeField] public HustleStyleData hustleStyle; // null for now, T3-12 fills this but we skipped it for task 3
     [SerializeField] private float tileSize = 1f;
     [SerializeField] private HotbarController hotbar;
 
@@ -12,6 +17,10 @@ public class PlayerController : MonoBehaviour
     private PlayerCombat combat;
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
+    
+    private bool canSprint;
+    private bool isInputLocked;
+    private bool isForcedMoving;
 
     private bool isOnIce = false;
     private Vector2 iceVelocity = Vector2.zero;
@@ -28,16 +37,43 @@ public class PlayerController : MonoBehaviour
         if (combat != null && combat.IsAttacking())
         {
             rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", false);
             return;
         }
 
+        if (isInputLocked)
+        {
+            if (!isForcedMoving)
+            {
+                rb.linearVelocity = Vector2.zero;
+                animator.SetBool("isWalking", false);
+                return;
+            }
+
+            Vector2 forcedDirection = Vector2.up;
+            rb.linearVelocity = forcedDirection * moveSpeed * forcedMoveSpeedMultiplier;
+            animator.SetBool("isWalking", true);
+            animator.SetFloat("InputX", forcedDirection.x);
+            animator.SetFloat("InputY", forcedDirection.y);
+            return;
+        }
+
+        // --- Merged Movement Logic ---
         if (isOnIce)
         {
             rb.linearVelocity = iceVelocity;
         }
         else
         {
-            rb.linearVelocity = moveInput * moveSpeed;
+            float activeMoveSpeed = moveSpeed;
+            if (canSprint
+                && Keyboard.current != null
+                && (Keyboard.current.leftShiftKey.isPressed || Keyboard.current.rightShiftKey.isPressed))
+            {
+                activeMoveSpeed *= sprintSpeedMultiplier;
+            }
+
+            rb.linearVelocity = moveInput * activeMoveSpeed;
         }
     }
 
@@ -133,6 +169,7 @@ public class PlayerController : MonoBehaviour
         SnapToGridBeforeObstacle(capturedSlideDir);
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
+
     private void SnapToGridBeforeObstacle(Vector2 slideDir)
     {
         Collider2D col = GetComponent<Collider2D>();
@@ -178,6 +215,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (isInputLocked)
+        {
+            return;
+        }
+
         if (context.performed)
         {
             moveInput = context.ReadValue<Vector2>();
@@ -251,5 +293,40 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    // --- Added from newLock Branch ---
+    public void ApplySprintLesson(float sprintMultiplier)
+    {
+        if (sprintMultiplier > 1f)
+        {
+            sprintSpeedMultiplier = sprintMultiplier;
+            canSprint = true;
+        }
+    }
+
+    public void SetMovementLocked(bool locked)
+    {
+        isInputLocked = locked;
+        isForcedMoving = false;
+
+        if (locked)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", false);
+            return;
+        }
+
+        animator.SetBool("isWalking", moveInput.sqrMagnitude > 0f);
+    }
+
+    public void SetForcedForwardMovement(bool enabled)
+    {
+        isInputLocked = enabled;
+        isForcedMoving = enabled;
+
+        if (!enabled)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("isWalking", moveInput.sqrMagnitude > 0f);
+        }
     }
 }
