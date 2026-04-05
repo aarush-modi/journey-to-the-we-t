@@ -111,6 +111,8 @@ public class Level5Boss : MonoBehaviour, IDamageable
         gameObject.SetActive(false);
     }
 
+    public bool IsDead() => isDead;
+
     private IEnumerator HurtFlash()
     {
         if (spriteRenderer == null) yield break;

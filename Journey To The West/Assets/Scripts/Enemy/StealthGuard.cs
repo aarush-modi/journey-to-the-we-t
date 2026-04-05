@@ -224,6 +224,8 @@ public class StealthGuard : MonoBehaviour, IDamageable
         gameObject.SetActive(false);
     }
 
+    public bool IsDead() => isDead;
+
     private void DropGold()
     {
         if (droppedGoldPrefab == null || baseGoldDrop <= 0) return;
