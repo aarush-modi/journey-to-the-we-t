@@ -12,7 +12,6 @@ public class StealthDetector : MonoBehaviour
     [Header("Detection Range")]
     [SerializeField] private float unawareRange = 4f;
     [SerializeField] private float alertedRange = 10f;
-    [SerializeField] [Range(0f, 360f)] private float fieldOfViewAngle = 90f;
     [SerializeField] private LayerMask obstacleLayers;
 
     [Header("Detection Timing")]
@@ -73,12 +72,6 @@ public class StealthDetector : MonoBehaviour
         float range = _state == DetectionState.Alerted ? alertedRange : unawareRange;
         if (dist > range) return false;
 
-        if (fieldOfViewAngle < 360f)
-        {
-            if (Vector2.Angle(GetFacingDirection(), toPlayer.normalized) > fieldOfViewAngle * 0.5f)
-                return false;
-        }
-
         if (obstacleLayers != 0)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer.normalized, dist, obstacleLayers);
@@ -86,14 +79,6 @@ public class StealthDetector : MonoBehaviour
         }
 
         return true;
-    }
-
-    private Vector2 GetFacingDirection()
-    {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null && rb.linearVelocity.sqrMagnitude > 0.01f)
-            return rb.linearVelocity.normalized;
-        return Vector2.down;
     }
 
     private void EvaluateState()

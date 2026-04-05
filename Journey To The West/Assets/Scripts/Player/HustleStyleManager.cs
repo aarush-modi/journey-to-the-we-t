@@ -100,17 +100,20 @@ public class HustleStyleManager : MonoBehaviour
 
     public float GetCombatGoldModifier()
     {
-        return GetCurrentStyle().combatGoldModifier;
+        var style = GetCurrentStyle();
+        return style != null ? style.combatGoldModifier : 1f;
     }
 
     public float GetNPCGoldModifier()
     {
-        return GetCurrentStyle().npcGoldModifier;
+        var style = GetCurrentStyle();
+        return style != null ? style.npcGoldModifier : 1f;
     }
 
     public float GetShopPriceModifier()
     {
-        return GetCurrentStyle().shopPriceModifier;
+        var style = GetCurrentStyle();
+        return style != null ? style.shopPriceModifier : 1f;
     }
 
     public void RefreshStyleEffects()
