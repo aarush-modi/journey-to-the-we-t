@@ -16,5 +16,5 @@ MonoBehaviour:
   description: Allows you to push rocks away.
   icon: {fileID: 4006003791991473683, guid: aca20400d6134f742b1af7e030b30f3f, type: 3}
   cooldown: 0
-  goldCost: 0
+  goldCost: 50
   skillPrefab: {fileID: 5175482962297391901, guid: 48aa979d106b4564cbb025d48a4e63eb, type: 3}

@@ -16,7 +16,7 @@ MonoBehaviour:
   npcSprite: {fileID: -7527145504033472756, guid: ff192bb5ef19c0d45b32cddb1792b53e, type: 3}
   dialogue:
   - Hello, could you please deliver this red packet to the king?
-  - I want to thank him for all that he has dont for me.
+  - I want to thank him for all that he has done for me.
   - The next town is on the island past the cave.
   dialogueTime: []
   typingSpeed: 0.05
