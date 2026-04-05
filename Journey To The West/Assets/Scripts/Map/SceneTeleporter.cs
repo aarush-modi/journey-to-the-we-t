@@ -28,6 +28,11 @@ public class SceneTeleporter : MonoBehaviour
         if (other.CompareTag("Player") && !isTransitioning)
         {
             isTransitioning = true;
+
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.SetMovementLocked(true);
+
             _ = TransitionToScene();
         }
     }
