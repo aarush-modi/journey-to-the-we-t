@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -64,6 +65,8 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     };
 
     private readonly BlackjackRound blackjackRound = new BlackjackRound();
+    [SerializeField] private float deathFlashDuration = 0.15f;
+    [SerializeField] private Color deathFlashColor = Color.red;
     private ModiState modiState = ModiState.Closed;
     private int introDialogueIndex;
     private int acceptedGambleLineIndex;
@@ -190,14 +193,8 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
             modiCollider.enabled = false;
         }
 
-        SpriteRenderer modiSprite = GetComponent<SpriteRenderer>();
-        if (modiSprite != null)
-        {
-            modiSprite.enabled = false;
-        }
-
         ModiGuard.AlertAllGuards();
-        ShowDeathLootDialogue();
+        StartCoroutine(PlayDeathSequence());
     }
 
     public bool IsDead() => isDead;
@@ -731,5 +728,26 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         }
 
         ShowInteractionIcon(true);
+    }
+
+    private IEnumerator PlayDeathSequence()
+    {
+        SpriteRenderer modiSprite = GetComponent<SpriteRenderer>();
+        Color originalColor = modiSprite != null ? modiSprite.color : Color.white;
+
+        if (modiSprite != null)
+        {
+            modiSprite.color = deathFlashColor;
+        }
+
+        yield return new WaitForSecondsRealtime(deathFlashDuration);
+
+        if (modiSprite != null)
+        {
+            modiSprite.color = originalColor;
+            modiSprite.enabled = false;
+        }
+
+        ShowDeathLootDialogue();
     }
 }

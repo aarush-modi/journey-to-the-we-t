@@ -50,6 +50,179 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         ConfigureDialogueRaycasts();
     }
 
+    protected void EnsureDialogueReferencesFromScene()
+    {
+        CopyDialogueReferencesFromExistingNpc();
+
+        GameObject[] sceneObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        if (dialoguePanel == null)
+        {
+            foreach (GameObject sceneObject in sceneObjects)
+            {
+                if (sceneObject.name == "DialoguePanel" && sceneObject.scene.IsValid())
+                {
+                    dialoguePanel = sceneObject;
+                    break;
+                }
+            }
+        }
+
+        if (dialoguePanel == null)
+        {
+            return;
+        }
+
+        if (dialogueText == null || nameText == null)
+        {
+            TMP_Text dialogueTextComponent = FindTextInDialoguePanel("DialogueText");
+            if (dialogueText == null && dialogueTextComponent != null)
+            {
+                dialogueText = dialogueTextComponent;
+            }
+
+            TMP_Text nameTextComponent = FindTextInDialoguePanel("NameText");
+            if (nameTextComponent == null)
+            {
+                nameTextComponent = FindTextInDialoguePanel("NPCNameText");
+            }
+            if (nameText == null && nameTextComponent != null)
+            {
+                nameText = nameTextComponent;
+            }
+        }
+
+        if (npcPortraitImage == null)
+        {
+            Image portraitImage = FindImageInDialoguePanel("DialoguePortrait");
+            if (portraitImage != null)
+            {
+                npcPortraitImage = portraitImage;
+            }
+        }
+
+        if (continuePrompt == null)
+        {
+            Transform continuePromptTransform = FindChildRecursive(dialoguePanel != null ? dialoguePanel.transform : null, "ContinuePrompt");
+            continuePrompt = continuePromptTransform != null ? continuePromptTransform.gameObject : null;
+        }
+
+        if (choiceContainer == null)
+        {
+            choiceContainer = FindChildRecursive(dialoguePanel != null ? dialoguePanel.transform : null, "ChoiceContainer");
+        }
+
+        if (choiceButtonPrefab == null)
+        {
+            CopyDialogueReferencesFromExistingNpc();
+        }
+
+        ConfigureDialogueRaycasts();
+    }
+
+    private void CopyDialogueReferencesFromExistingNpc()
+    {
+        foreach (NPCBase npc in Resources.FindObjectsOfTypeAll<NPCBase>())
+        {
+            if (npc == null || npc == this || !npc.gameObject.scene.IsValid())
+            {
+                continue;
+            }
+
+            if (dialoguePanel == null && npc.dialoguePanel != null)
+            {
+                dialoguePanel = npc.dialoguePanel;
+            }
+
+            if (dialogueText == null && npc.dialogueText != null)
+            {
+                dialogueText = npc.dialogueText;
+            }
+
+            if (nameText == null && npc.nameText != null)
+            {
+                nameText = npc.nameText;
+            }
+
+            if (npcPortraitImage == null && npc.npcPortraitImage != null)
+            {
+                npcPortraitImage = npc.npcPortraitImage;
+            }
+
+            if (continuePrompt == null && npc.continuePrompt != null)
+            {
+                continuePrompt = npc.continuePrompt;
+            }
+
+            if (choiceContainer == null && npc.choiceContainer != null)
+            {
+                choiceContainer = npc.choiceContainer;
+            }
+
+            if (choiceButtonPrefab == null && npc.choiceButtonPrefab != null)
+            {
+                choiceButtonPrefab = npc.choiceButtonPrefab;
+            }
+
+            if (dialoguePanel != null
+                && dialogueText != null
+                && nameText != null
+                && npcPortraitImage != null
+                && continuePrompt != null
+                && choiceContainer != null
+                && choiceButtonPrefab != null)
+            {
+                return;
+            }
+        }
+    }
+
+    private TMP_Text FindTextInDialoguePanel(string objectName)
+    {
+        if (dialoguePanel == null)
+        {
+            return null;
+        }
+
+        Transform child = FindChildRecursive(dialoguePanel.transform, objectName);
+        return child != null ? child.GetComponent<TMP_Text>() : null;
+    }
+
+    private Image FindImageInDialoguePanel(string objectName)
+    {
+        if (dialoguePanel == null)
+        {
+            return null;
+        }
+
+        Transform child = FindChildRecursive(dialoguePanel.transform, objectName);
+        return child != null ? child.GetComponent<Image>() : null;
+    }
+
+    private Transform FindChildRecursive(Transform parent, string objectName)
+    {
+        if (parent == null)
+        {
+            return null;
+        }
+
+        if (parent.name == objectName)
+        {
+            return parent;
+        }
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform result = FindChildRecursive(parent.GetChild(i), objectName);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
     protected virtual void Update()
     {
         if (!isWaitingForChoice) return;
@@ -110,6 +283,14 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
 
     private void StartDialogue(NPCDialogue dialogue)
     {
+        EnsureDialogueReferencesFromScene();
+
+        if (dialoguePanel == null || dialogueText == null || nameText == null || npcPortraitImage == null)
+        {
+            Debug.LogWarning($"[NPCBase] Missing dialogue UI references for {name}. Dialogue aborted.", this);
+            return;
+        }
+
         currentDialogue = dialogue;
         isDialogueActive = true;
         dialogueIndex = 0;
@@ -196,6 +377,11 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
             yield return new WaitForSecondsRealtime(currentDialogue.typingSpeed);
         }
         isTyping = false;
+
+        if (CheckForChoices())
+        {
+            yield break;
+        }
 
         if (currentDialogue.autoProgressLines != null
             && currentDialogue.autoProgressLines.Length > dialogueIndex
