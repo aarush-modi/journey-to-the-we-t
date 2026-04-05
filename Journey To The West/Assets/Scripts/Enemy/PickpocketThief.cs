@@ -50,6 +50,8 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     [SerializeField] private string corneredDialogue = "You corner the pickpocket and take back your money.";
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
+    [SerializeField] private float deathFlashDuration = 0.15f;
+    [SerializeField] private Color deathFlashColor = Color.red;
 
     private Rigidbody2D thiefBody;
     private Collider2D[] thiefColliders;
@@ -210,11 +212,6 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             thiefCollider.enabled = false;
         }
 
-        if (thiefSprite != null)
-        {
-            thiefSprite.enabled = false;
-        }
-
         thiefBody.linearVelocity = Vector2.zero;
         thiefBody.bodyType = RigidbodyType2D.Static;
 
@@ -223,7 +220,7 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             thiefAnimator.enabled = false;
         }
 
-        ShowDeathDialogue();
+        StartCoroutine(PlayDeathSequence());
     }
 
     public bool IsDead() => isDead;
@@ -837,6 +834,32 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         }
 
         hurtFlashRoutine = null;
+    }
+
+    private IEnumerator PlayDeathSequence()
+    {
+        if (hurtFlashRoutine != null)
+        {
+            StopCoroutine(hurtFlashRoutine);
+            hurtFlashRoutine = null;
+        }
+
+        Color originalColor = thiefSprite != null ? thiefSprite.color : Color.white;
+
+        if (thiefSprite != null)
+        {
+            thiefSprite.color = deathFlashColor;
+        }
+
+        yield return new WaitForSecondsRealtime(deathFlashDuration);
+
+        if (thiefSprite != null)
+        {
+            thiefSprite.color = originalColor;
+            thiefSprite.enabled = false;
+        }
+
+        ShowDeathDialogue();
     }
 
 }

@@ -20,6 +20,8 @@ public class NickelNoumanNPC : NPCBase, IDamageable
     [SerializeField] private Sprite lockedTeleporterEmote;
     [SerializeField] private Vector3 lockedTeleporterEmoteOffset = new Vector3(0f, 1.25f, 0f);
     [SerializeField] private float lockedTeleporterEmoteDuration = 0.75f;
+    [SerializeField] private float deathFlashDuration = 0.15f;
+    [SerializeField] private Color deathFlashColor = Color.red;
 
     public bool IsTeleporterUnlocked => isTeleporterUnlockedThisSession || isNickelDeadThisSession || !ModiGuard.HasLivingGuards();
     public bool IsNickelDead => isNickelDeadThisSession;
@@ -147,14 +149,8 @@ public class NickelNoumanNPC : NPCBase, IDamageable
             nickelCollider.enabled = false;
         }
 
-        SpriteRenderer nickelSprite = GetComponent<SpriteRenderer>();
-        if (nickelSprite != null)
-        {
-            nickelSprite.enabled = false;
-        }
-
         ModiGuard.AlertAllGuards();
-        ShowDeathDialogue();
+        StartCoroutine(PlayDeathSequence());
     }
 
     public bool IsDead() => isNickelDeadThisSession;
@@ -447,5 +443,26 @@ public class NickelNoumanNPC : NPCBase, IDamageable
         yield return new WaitForSecondsRealtime(lockedTeleporterEmoteDuration);
         lockedTeleporterEmoteRenderer.enabled = false;
         lockedTeleporterEmoteRoutine = null;
+    }
+
+    private IEnumerator PlayDeathSequence()
+    {
+        SpriteRenderer nickelSprite = GetComponent<SpriteRenderer>();
+        Color originalColor = nickelSprite != null ? nickelSprite.color : Color.white;
+
+        if (nickelSprite != null)
+        {
+            nickelSprite.color = deathFlashColor;
+        }
+
+        yield return new WaitForSecondsRealtime(deathFlashDuration);
+
+        if (nickelSprite != null)
+        {
+            nickelSprite.color = originalColor;
+            nickelSprite.enabled = false;
+        }
+
+        ShowDeathDialogue();
     }
 }
