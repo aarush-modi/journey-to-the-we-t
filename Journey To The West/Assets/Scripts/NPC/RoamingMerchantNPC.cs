@@ -59,7 +59,8 @@ public class RoamingMerchantNPC : NPCBase, IDamageable
     private int currentBet = 50;
     private MerchantDialogueMode dialogueMode;
     private GreedMeter playerGreed;
-    private int gamblingSessionStartingGold = -1;
+    private int gamblingSessionNetGold;
+    private bool gamblingSessionActive;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void EnsureMerchantSceneSetup()
@@ -402,15 +403,16 @@ public class RoamingMerchantNPC : NPCBase, IDamageable
             }
         }
 
+        if (!gamblingSessionActive)
+        {
+            gamblingSessionActive = true;
+            gamblingSessionNetGold = 0;
+        }
+
         if (playerGreed == null)
         {
             ShowSimpleDialogue("No wallet, no wager.");
             return;
-        }
-
-        if (gamblingSessionStartingGold < 0)
-        {
-            gamblingSessionStartingGold = playerGreed.GetCurrentGold();
         }
 
         if (playerGreed.GetCurrentGold() <= 0 || playerGreed.GetCurrentGold() < currentBet)
@@ -471,6 +473,8 @@ public class RoamingMerchantNPC : NPCBase, IDamageable
             outcomeLine = "Push. Nobody wins. Nobody loses.";
         }
 
+        gamblingSessionNetGold += netGoldChange;
+
         if (playerGreed.GetCurrentGold() <= 0)
         {
             ShowSimpleDialogueSequence(new[]
@@ -509,15 +513,15 @@ public class RoamingMerchantNPC : NPCBase, IDamageable
     {
         int finalGold = playerGreed != null ? playerGreed.GetCurrentGold() : 0;
         dialogueMode = MerchantDialogueMode.None;
-        int netSessionGold = gamblingSessionStartingGold >= 0 ? finalGold - gamblingSessionStartingGold : 0;
-        string merchantReaction = netSessionGold > 0
+        string merchantReaction = gamblingSessionNetGold > 0
             ? "*The degenerate merchant realized you made money off of them and curses you under their breath.*"
-            : netSessionGold < 0
+            : gamblingSessionNetGold < 0
                 ? "*The merchant grins at you greedily, collecting their winnings.*"
                 : "*The merchant eyes the table, annoyed that nobody came out ahead.*";
 
         OpenMerchantDialogue(BuildSimpleDialogue($"{merchantReaction}\nFinal gold: {finalGold}"));
-        gamblingSessionStartingGold = -1;
+        gamblingSessionActive = false;
+        gamblingSessionNetGold = 0;
     }
 
     private void ShowSimpleDialogue(string message)
