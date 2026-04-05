@@ -148,7 +148,8 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
         Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
         currentHP = Mathf.Max(0f, currentHP - amount);
-        StartCoroutine(HurtFlash());
+        if (hurtFlashRoutine != null) StopCoroutine(hurtFlashRoutine);
+        hurtFlashRoutine = StartCoroutine(HurtFlash());
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
 
         if (currentHP <= 0f)
@@ -196,12 +197,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
     }
 
+    private Coroutine hurtFlashRoutine;
+
     private IEnumerator HurtFlash()
     {
-        Color original = spriteRenderer.color;
         spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);
-        spriteRenderer.color = original;
+        spriteRenderer.color = Color.white;
+        hurtFlashRoutine = null;
     }
 
     // --- Equipment ---

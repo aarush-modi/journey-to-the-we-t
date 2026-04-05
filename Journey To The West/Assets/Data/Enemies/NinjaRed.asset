@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7099bde601f62845a253a68317bdfe4, type: 3}
+  m_Name: NinjaRed
+  m_EditorClassIdentifier: Assembly-CSharp::RangedEnemyData
+  maxHP: 30
+  contactDamage: 8
+  contactCooldown: 0.5
+  patrolSpeed: 1.5
+  chaseSpeed: 3
+  combatMoveSpeed: 2.5
+  retreatSpeed: 3.5
+  waypointReachDist: 0.3
+  waypointPauseDuration: 1
+  preferredDistance: 7
+  minSafeDistance: 3
+  maxEngageDistance: 12
+  projectileSpeed: 8
+  projectileDamage: 12
+  shootCooldown: 1.2
+  aimPauseDuration: 0.3
+  strafeDuration: 0.8
+  strafeChangeChance: 0.3
+  searchDuration: 4
+  lostSightChaseTime: 2
+  pathUpdateInterval: 0.4
+  obstacleProbeDistance: 1.5
+  obstacleProbeRadius: 0.35
+  baseGoldDrop: 20
