@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] private float lifetime = 3f;
+    [SerializeField] private float spinSpeed = 720f;
     [SerializeField] private LayerMask obstacleLayers;
 
     private Rigidbody2D rb;
@@ -15,6 +16,7 @@ public class EnemyProjectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0f;
         Collider2D triggerCollider = GetComponent<Collider2D>();
         triggerCollider.isTrigger = true;
     }
@@ -30,7 +32,10 @@ public class EnemyProjectile : MonoBehaviour
         if (lifetimeTimer <= 0f)
         {
             Destroy(gameObject);
+            return;
         }
+
+        transform.Rotate(0f, 0f, spinSpeed * Time.deltaTime);
     }
 
     public void Initialize(GameObject projectileOwner, Vector2 direction, float speed, float projectileDamage)

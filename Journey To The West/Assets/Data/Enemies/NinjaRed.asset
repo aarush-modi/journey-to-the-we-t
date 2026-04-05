@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7099bde601f62845a253a68317bdfe4, type: 3}
   m_Name: NinjaRed
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemyData
-  maxHP: 40
+  maxHP: 30
   contactDamage: 8
   contactCooldown: 0.5
   patrolSpeed: 1.5
