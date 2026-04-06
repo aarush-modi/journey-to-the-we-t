@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7322885499304307244, guid: 0153ae65c98c058448a68ed108ce7d09, type: 3}
+  m_Sprite: {fileID: 897710771807637462, guid: 66a151c8fb49e1145a017bc4f4b45a45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,3 +105,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArmorPickup
   armorData: {fileID: 11400000, guid: edb39ea797566af4383c43fd64d97f69, type: 2}
+  pickupSprite: {fileID: 897710771807637462, guid: 66a151c8fb49e1145a017bc4f4b45a45, type: 3}
+  pickupDialogue: {fileID: 0}
+  dialoguePanel: {fileID: 0}
+  dialogueText: {fileID: 0}
+  nameText: {fileID: 0}
+  continuePrompt: {fileID: 0}
