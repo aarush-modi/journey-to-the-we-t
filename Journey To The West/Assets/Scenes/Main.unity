@@ -1086,6 +1086,97 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94779025}
   m_CullTransparentMesh: 1
+--- !u!1 &99835313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 99835314}
+  - component: {fileID: 99835316}
+  - component: {fileID: 99835315}
+  m_Layer: 9
+  m_Name: DoorBlocker1 (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &99835314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99835313}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.79, y: -0.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1568821666}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &99835315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99835313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462fc5d45816be540add5cc5b01b3de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorBlocker
+--- !u!61 &99835316
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99835313}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.826252, y: 0.38231754}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 9.026405, y: 0.32636452}
+  m_EdgeRadius: 0
 --- !u!1001 &115769451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1456,7 +1547,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -1943,7 +2034,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -2164,7 +2255,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -2374,7 +2465,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5142498, y: 1.0218315}
+  m_Offset: {x: 0.5142498, y: -3.6943407}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2384,7 +2475,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.30150223, y: 3.9882278}
+  m_Size: {x: 0.30150223, y: 14.062166}
   m_EdgeRadius: 0
 --- !u!1 &201237747
 GameObject:
@@ -2661,7 +2752,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -3083,7 +3174,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -3430,7 +3521,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -3807,7 +3898,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.19011307, y: 0.38231754}
+  m_Offset: {x: -0.12153816, y: 0.38231754}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3817,7 +3908,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.0684967, y: 0.32636452}
+  m_Size: {x: 8.259678, y: 0.32636452}
   m_EdgeRadius: 0
 --- !u!1 &331316277 stripped
 GameObject:
@@ -4008,7 +4099,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.3653221, y: 0.8378601}
+  m_Offset: {x: 0.3653221, y: 0.83785915}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4018,7 +4109,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.31902313, y: 3.8305435}
+  m_Size: {x: 0.31902313, y: 12.008707}
   m_EdgeRadius: 0
 --- !u!1 &334681388
 GameObject:
@@ -5049,7 +5140,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -5396,7 +5487,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -5648,7 +5739,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -28033,7 +28124,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -29387,7 +29478,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -30009,7 +30100,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -30247,7 +30338,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -31106,7 +31197,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5142498, y: 1.0218315}
+  m_Offset: {x: 0.5142498, y: 1.8537388}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -31116,7 +31207,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.30150223, y: 3.9882278}
+  m_Size: {x: 0.30150223, y: 5.6520424}
   m_EdgeRadius: 0
 --- !u!1 &830678579
 GameObject:
@@ -31457,7 +31548,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -31895,7 +31986,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -32144,7 +32235,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -32810,7 +32901,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -33062,7 +33153,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -33314,7 +33405,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -33807,7 +33898,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -43826,7 +43917,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -44071,7 +44162,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -44186,7 +44277,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -44414,7 +44505,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -44564,7 +44655,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -45060,7 +45151,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -45179,7 +45270,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.19011307, y: 0.38231754}
+  m_Offset: {x: -0.8580494, y: 0.38231754}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -45189,7 +45280,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.0684967, y: 0.32636452}
+  m_Size: {x: 6.1648216, y: 0.32636452}
   m_EdgeRadius: 0
 --- !u!1 &1180132804
 GameObject:
@@ -45658,7 +45749,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -45910,7 +46001,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -46025,7 +46116,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -47273,7 +47364,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -47451,6 +47542,10 @@ PrefabInstance:
     - target: {fileID: 2068178565644637166, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068178565644637166, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7596305707919127649, guid: c06d2514e12f0b14a8c3c931a6ca480b, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -48114,7 +48209,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -48944,7 +49039,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -49811,7 +49906,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5142498, y: 1.0218315}
+  m_Offset: {x: 0.5142498, y: -3.2579126}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -49821,7 +49916,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.30150223, y: 3.9882278}
+  m_Size: {x: 0.30150223, y: 12.963251}
   m_EdgeRadius: 0
 --- !u!1 &1544961518
 GameObject:
@@ -50067,6 +50162,7 @@ Transform:
   - {fileID: 1868311730}
   - {fileID: 323807099}
   - {fileID: 1169173385}
+  - {fileID: 99835314}
   - {fileID: 331632752}
   - {fileID: 1543769368}
   - {fileID: 198946363}
@@ -52031,7 +52127,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -52146,7 +52242,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -52334,7 +52430,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -56202,7 +56298,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.19011307, y: 0.38231754}
+  m_Offset: {x: 0.17090607, y: 0.38231754}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56212,7 +56308,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.0684967, y: 0.32636452}
+  m_Size: {x: 13.959953, y: 0.32636452}
   m_EdgeRadius: 0
 --- !u!1 &1881190934
 GameObject:
@@ -57088,7 +57184,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -58118,7 +58214,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
@@ -58510,7 +58606,7 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 768
-  timeToAlert: 1.5
+  timeToAlert: 0
   drainDelay: 0.5
   timeToCalm: 4
   suspicionIcon: {fileID: 0}
