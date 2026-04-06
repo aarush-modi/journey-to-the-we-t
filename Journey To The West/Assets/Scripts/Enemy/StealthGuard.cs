@@ -187,7 +187,13 @@ public class StealthGuard : MonoBehaviour, IDamageable
         {
             if (col.gameObject == gameObject) continue;
             StealthDetector nearbyDetector = col.GetComponent<StealthDetector>();
-            if (nearbyDetector != null) nearbyDetector.ForceAlert();
+            if (nearbyDetector == null) continue;
+
+            // Don't alert through walls/doors
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, col.transform.position, detector.ObstacleLayers);
+            if (hit.collider != null) continue;
+
+            nearbyDetector.ForceAlert();
         }
     }
 

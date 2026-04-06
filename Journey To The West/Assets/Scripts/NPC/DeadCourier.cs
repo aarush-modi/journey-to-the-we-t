@@ -1,20 +1,9 @@
-using System.Collections;
 using UnityEngine;
-using TMPro;
 
-/// <summary>
-/// Level 5 only. The dead courier narrative scene object.
-/// Shows a story message when the player enters the trigger zone and spawns
-/// scattered gold coins around the body on Start.
-/// </summary>
-public class DeadCourier : MonoBehaviour
+public class DeadCourier : NPCBase
 {
-    [Header("Narrative")]
-    [SerializeField] private GameObject narrativePanel;
-    [SerializeField] private TMP_Text narrativeText;
-    [SerializeField] [TextArea(4, 8)] private string narrativeMessage =
-        "A courier.\n\nHe didn't make it.\n\nCoins litter the dirt around him — the package torn open, contents scattered.\n\nJin pockets the gold. He doesn't think about what it means.";
-    [SerializeField] private float displayDuration = 5f;
+    [Header("Courier Dialogue")]
+    [SerializeField] private NPCDialogue courierDialogue;
 
     [Header("Scattered Gold")]
     [SerializeField] private GameObject droppedGoldPrefab;
@@ -24,14 +13,19 @@ public class DeadCourier : MonoBehaviour
 
     private bool triggered;
 
-    private void Start()
+    public override bool CanInteract() => !triggered;
+
+    public override void Interact(GameObject player)
     {
-        SpawnScatteredGold();
-        if (narrativePanel != null) narrativePanel.SetActive(false);
+        triggered = true;
+        OnDialogueComplete.AddListener(SpawnScatteredGold);
+        PlayDialogue(courierDialogue);
     }
 
     private void SpawnScatteredGold()
     {
+        OnDialogueComplete.RemoveListener(SpawnScatteredGold);
+
         if (droppedGoldPrefab == null || totalGold <= 0) return;
 
         int perPile = totalGold / goldPileCount;
@@ -45,21 +39,5 @@ public class DeadCourier : MonoBehaviour
             DroppedGold dg = drop.GetComponent<DroppedGold>();
             if (dg != null) dg.SetGoldAmount(perPile + (i == 0 ? remainder : 0));
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (triggered || !other.CompareTag("Player")) return;
-        triggered = true;
-        StartCoroutine(ShowNarrative());
-    }
-
-    private IEnumerator ShowNarrative()
-    {
-        if (narrativePanel == null) yield break;
-        if (narrativeText != null) narrativeText.text = narrativeMessage;
-        narrativePanel.SetActive(true);
-        yield return new WaitForSeconds(displayDuration);
-        narrativePanel.SetActive(false);
     }
 }

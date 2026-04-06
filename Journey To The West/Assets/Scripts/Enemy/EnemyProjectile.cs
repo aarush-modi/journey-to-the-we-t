@@ -47,7 +47,7 @@ public class EnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (owner != null && other.transform.root.gameObject == owner)
+        if (owner != null && other.transform.IsChildOf(owner.transform))
         {
             return;
         }
