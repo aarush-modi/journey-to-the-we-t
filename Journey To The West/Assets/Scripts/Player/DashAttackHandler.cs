@@ -37,6 +37,12 @@ public class DashAttackHandler : MonoBehaviour
     private Vector2 lastDashPos;
     private bool dashFirstTick;
 
+    private float dashElapsed;
+    private float dashMaxDuration;
+    private int stuckFrameCount;
+
+    private Coroutine shieldFlashRoutine;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -45,6 +51,8 @@ public class DashAttackHandler : MonoBehaviour
         playerCombat = GetComponent<PlayerCombat>();
         playerSprite = GetComponent<SpriteRenderer>();
     }
+
+    public bool IsDashing => currentState == DashState.Dashing;
 
     public bool IsLocked()
     {
@@ -84,12 +92,19 @@ public class DashAttackHandler : MonoBehaviour
         ContactFilter2D wallFilter = new ContactFilter2D();
         wallFilter.SetLayerMask(wallLayer);
         wallFilter.useLayerMask = true;
+        wallFilter.useTriggers = false;
         RaycastHit2D[] hits = new RaycastHit2D[1];
         int hitCount = rb.Cast(toTarget.normalized, wallFilter, hits, toTarget.magnitude);
         if (hitCount > 0)
         {
             dashDestination = rb.position + toTarget.normalized * Mathf.Max(0f, hits[0].distance - wallStopOffset);
         }
+
+        // Calculate max duration for guaranteed arrival
+        float distance = Vector2.Distance(rb.position, dashDestination);
+        dashMaxDuration = Mathf.Max(0.15f, (distance / config.dashSpeed) * 1.5f);
+        dashElapsed = 0f;
+        stuckFrameCount = 0;
 
         currentConfig = config;
 
@@ -136,53 +151,115 @@ public class DashAttackHandler : MonoBehaviour
             ghostSpawnTimer = ghostSpawnInterval;
         }
 
+        dashElapsed += Time.fixedDeltaTime;
+
         rb.MovePosition(Vector2.MoveTowards(rb.position, dashDestination, currentConfig.dashSpeed * Time.fixedDeltaTime));
 
-        // Stuck detection: if we haven't moved, end dash early (skip first tick — MovePosition is deferred on dynamic bodies)
-        if (!dashFirstTick && Vector2.Distance(rb.position, lastDashPos) < 0.01f)
+        // --- Arrival check (takes priority over stuck) ---
+        if (Vector2.Distance(rb.position, dashDestination) < 0.1f)
         {
-            // Wall blocked us — end dash as a whiff
             if (dashTrail != null)
                 dashTrail.emitting = false;
-            CameraShakeManager.Instance?.Shake(0.15f);
-            if (playerCombat != null)
-                playerCombat.SetSkillCooldown(currentConfig.whiffCooldown);
-            currentState = DashState.Idle;
-            currentConfig = null;
-            snapshotTargets = null;
+            HandleArrival();
             return;
+        }
+
+        // --- Stuck / timeout detection ---
+        bool isStuck = false;
+        if (!dashFirstTick && Vector2.Distance(rb.position, lastDashPos) < 0.01f)
+        {
+            stuckFrameCount++;
+            isStuck = stuckFrameCount >= 2;
+        }
+        else
+        {
+            stuckFrameCount = 0;
         }
         dashFirstTick = false;
         lastDashPos = rb.position;
 
-        if (Vector2.Distance(rb.position, dashDestination) < 0.1f)
-        {
-            // Arrived at destination
-            if (dashTrail != null)
-                dashTrail.emitting = false;
+        bool timedOut = dashElapsed > dashMaxDuration;
 
+        if (isStuck || timedOut)
+        {
             if (snapshotHadTargets)
             {
-                float damage = currentConfig.baseDashDamage * (greedMeter != null ? greedMeter.GetDamageMultiplier() : 1f);
+                ForceArrival();
+                return;
+            }
+            else
+            {
+                if (dashTrail != null)
+                    dashTrail.emitting = false;
+                CameraShakeManager.Instance?.Shake(0.15f);
+                if (playerCombat != null)
+                    playerCombat.SetSkillCooldown(currentConfig.whiffCooldown);
+                EndDash();
+                return;
+            }
+        }
+    }
 
-                foreach (IDamageable target in snapshotTargets)
-                {
-                    if (target is MonoBehaviour mb && mb != null && mb.gameObject.activeInHierarchy)
-                        target.TakeDamage(damage);
-                }
+    private void HandleArrival()
+    {
+        if (snapshotHadTargets)
+        {
+            float damage = currentConfig.baseDashDamage * (greedMeter != null ? greedMeter.GetDamageMultiplier() : 1f);
 
-                if (slashVFXPrefabs != null && slashVFXPrefabs.Length > 0)
+            bool hitShield = false;
+            foreach (IDamageable target in snapshotTargets)
+            {
+                if (target is MonoBehaviour mb && mb != null && mb.gameObject.activeInHierarchy)
                 {
-                    GameObject prefab = slashVFXPrefabs[Random.Range(0, slashVFXPrefabs.Length)];
-                    if (prefab != null)
+                    EnemyShield shield = mb.GetComponent<EnemyShield>();
+                    bool hadShields = shield != null && shield.HasShields();
+                    target.TakeDamage(damage);
+                    if (hadShields)
                     {
-                        float angle = Mathf.Atan2(dashSnappedY, dashSnappedX) * Mathf.Rad2Deg;
-                        Instantiate(prefab, transform.position, Quaternion.Euler(0f, 0f, angle));
+                        hitShield = true;
                     }
                 }
+            }
 
-                CameraShakeManager.Instance?.Shake(0.5f);
+            if (slashVFXPrefabs != null && slashVFXPrefabs.Length > 0)
+            {
+                GameObject prefab = slashVFXPrefabs[Random.Range(0, slashVFXPrefabs.Length)];
+                if (prefab != null)
+                {
+                    float angle = Mathf.Atan2(dashSnappedY, dashSnappedX) * Mathf.Rad2Deg;
+                    Instantiate(prefab, transform.position, Quaternion.Euler(0f, 0f, angle));
+                }
+            }
 
+            CameraShakeManager.Instance?.Shake(0.5f);
+
+            if (hitShield)
+            {
+                // Knockback: push player away from dash destination
+                Vector2 knockbackDir = (rb.position - dashDestination).normalized;
+                if (knockbackDir.sqrMagnitude < 0.01f)
+                    knockbackDir = -new Vector2(dashSnappedX, dashSnappedY);
+
+                float knockbackDist = 2f;
+                ContactFilter2D wallFilter = new ContactFilter2D();
+                wallFilter.SetLayerMask(wallLayer);
+                wallFilter.useLayerMask = true;
+                wallFilter.useTriggers = false;
+                RaycastHit2D[] hits = new RaycastHit2D[1];
+                int hitCount = rb.Cast(knockbackDir, wallFilter, hits, knockbackDist);
+                if (hitCount > 0)
+                    knockbackDist = Mathf.Max(0f, hits[0].distance - 0.1f);
+
+                rb.MovePosition(rb.position + knockbackDir * knockbackDist);
+
+                if (playerSprite != null)
+                    StartShieldFlash();
+
+                if (playerCombat != null)
+                    playerCombat.ResetSkillCooldown();
+            }
+            else
+            {
                 // Check if all targets were killed — allow chain dash
                 bool allKilled = true;
                 foreach (IDamageable target in snapshotTargets)
@@ -198,20 +275,33 @@ public class DashAttackHandler : MonoBehaviour
                 {
                     playerCombat.ResetSkillCooldown();
                 }
-
-                StartCoroutine(HitStop());
-            }
-            else
-            {
-                CameraShakeManager.Instance?.Shake(0.15f);
-                if (playerCombat != null)
-                    playerCombat.SetSkillCooldown(currentConfig.whiffCooldown);
             }
 
-            currentState = DashState.Idle;
-            currentConfig = null;
-            snapshotTargets = null;
+            StartCoroutine(HitStop());
         }
+        else
+        {
+            CameraShakeManager.Instance?.Shake(0.15f);
+            if (playerCombat != null)
+                playerCombat.SetSkillCooldown(currentConfig.whiffCooldown);
+        }
+
+        EndDash();
+    }
+
+    private void ForceArrival()
+    {
+        rb.position = dashDestination;
+        if (dashTrail != null)
+            dashTrail.emitting = false;
+        HandleArrival();
+    }
+
+    private void EndDash()
+    {
+        currentState = DashState.Idle;
+        currentConfig = null;
+        snapshotTargets = null;
     }
 
     private void SpawnGhost()
@@ -233,10 +323,32 @@ public class DashAttackHandler : MonoBehaviour
         }
     }
 
+    private void StartShieldFlash()
+    {
+        if (shieldFlashRoutine != null)
+            StopCoroutine(shieldFlashRoutine);
+        shieldFlashRoutine = StartCoroutine(ShieldHitFlash());
+    }
+
+    private IEnumerator ShieldHitFlash()
+    {
+        playerSprite.color = Color.cyan;
+        yield return new WaitForSecondsRealtime(0.15f);
+        if (playerSprite != null)
+            playerSprite.color = Color.white;
+        shieldFlashRoutine = null;
+    }
+
     private IEnumerator HitStop()
     {
-        Time.timeScale = 0f;
+        float savedAnimSpeed = animator.speed;
+        Vector2 savedVelocity = rb.linearVelocity;
+        animator.speed = 0f;
+        rb.linearVelocity = Vector2.zero;
+
         yield return new WaitForSecondsRealtime(0.05f);
-        Time.timeScale = 1f;
+
+        if (animator != null) animator.speed = savedAnimSpeed;
+        if (rb != null) rb.linearVelocity = savedVelocity;
     }
 }

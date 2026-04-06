@@ -142,6 +142,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         if (isDead) return;
+        if (dashAttackHandler != null && dashAttackHandler.IsDashing) return;
 
         Debug.Log($"TakeDamage: HP before={currentHP}, damage={amount}");
         currentHP = Mathf.Max(0f, currentHP - amount);

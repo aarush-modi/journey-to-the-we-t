@@ -88,7 +88,7 @@ public class CursorReticle : MonoBehaviour
             if (hit.CompareTag("Player")) continue;
 
             IDamageable damageable = hit.GetComponent<IDamageable>();
-            if (damageable != null)
+            if (damageable != null && !damageable.IsDead())
             {
                 currentTargets.Add(damageable);
             }
