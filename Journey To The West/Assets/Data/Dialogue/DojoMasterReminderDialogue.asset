@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
-  m_Name: ElderReminderDialogue
+  m_Name: DojoMasterReminderDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Village Elder
-  npcSprite: {fileID: 21300000, guid: a7b9de86dd332fc4eb204ef08c7d734e, type: 3}
+  npcName: Dojo Master
+  npcSprite: {fileID: 21300000, guid: fcd1c053812e40444b91d2b4e683f7ec, type: 3}
   dialogue:
-  - Have you delivered the packet yet? The king awaits!
-  - Remember to go to the Dojo first!
+  - The fighters in the second dojo still stand. Defeat them all and return to me.
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}

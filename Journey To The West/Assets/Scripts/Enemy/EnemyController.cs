@@ -33,6 +33,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        EnemyShield shield = GetComponent<EnemyShield>();
+        if (shield != null && shield.TryAbsorbHit()) return;
+
         currentHP -= amount;
         StartCoroutine(HurtFlash());
 

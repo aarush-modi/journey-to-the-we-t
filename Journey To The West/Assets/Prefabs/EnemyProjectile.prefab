@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyProjectile
   lifetime: 2
+  spinSpeed: 720
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768

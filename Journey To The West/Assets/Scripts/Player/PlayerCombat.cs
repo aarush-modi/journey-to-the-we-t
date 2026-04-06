@@ -142,6 +142,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         if (isDead) return;
+        if (dashAttackHandler != null && dashAttackHandler.IsDashing) return;
 
         if (equippedArmor != null)
             amount = Mathf.Max(0f, amount - equippedArmor.damageReduction);

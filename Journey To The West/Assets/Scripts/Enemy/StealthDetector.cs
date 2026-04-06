@@ -32,6 +32,7 @@ public class StealthDetector : MonoBehaviour
 
     public DetectionState State => _state;
     public float DetectionMeter => _meter;
+    public LayerMask ObstacleLayers => obstacleLayers;
 
     private void Start()
     {
