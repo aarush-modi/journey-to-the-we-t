@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
-  m_Name: ElderReminderDialogue
+  m_Name: StarterVillager1
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Village Elder
-  npcSprite: {fileID: 21300000, guid: a7b9de86dd332fc4eb204ef08c7d734e, type: 3}
+  npcName: Friendly Villager
+  npcSprite: {fileID: -7527145504033472756, guid: e1a91663cf848b84595e07ffc3df2b3b, type: 3}
   dialogue:
-  - Have you delivered the packet yet? The king awaits!
-  - Remember to go to the Dojo first!
+  - The road ahead is riddled with bandits... stay safe!
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}

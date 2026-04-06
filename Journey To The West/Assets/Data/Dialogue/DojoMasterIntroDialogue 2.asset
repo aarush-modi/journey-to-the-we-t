@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
-  m_Name: ElderIntroDialogue
+  m_Name: DojoMasterIntroDialogue 2
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Village Elder
-  npcSprite: {fileID: 21300000, guid: a7b9de86dd332fc4eb204ef08c7d734e, type: 3}
+  npcName: Dojo Master
+  npcSprite: {fileID: 21300000, guid: fcd1c053812e40444b91d2b4e683f7ec, type: 3}
   dialogue:
-  - Ah, young traveler. I have been waiting for you. Will you stay a while and listen?
-  - Thanks! I knew you'd help
-  - 'Oh. Okay. '
-  - There is a red packet that must reach the king. It is of great importance.
-  - Take this and deliver it safely. You will be rewarded.
-  - A ninja must always be prepared. Head to the DOJO first.
+  - Welcome, young warrior. Before I entrust you with an important package, you must
+    prove yourself.
+  - 'Good. Use the dash attack by equipping it (1) then right-click to dash-attack. '
+  - 'Come back when you are ready.  '
+  - Now go to the second dojo and defeat every fighter there.
+  - 'Show me your strength, and I will reward you with a Red Packet.   '
+  - 
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}
@@ -32,12 +33,11 @@ MonoBehaviour:
   - 
   - declined
   - 
-  - 
   - accepted
-  nextLineOverride: ffffffff03000000ffffffffffffffffffffffffffffffff
+  nextLineOverride: ffffffff03000000ffffffff04000000ffffffffffffffff
   choices:
   - dialogueIndex: 0
     choices:
-    - Yes
-    - No
+    - Accept
+    - Decline
     nextDialogueIndexes: 0100000002000000
