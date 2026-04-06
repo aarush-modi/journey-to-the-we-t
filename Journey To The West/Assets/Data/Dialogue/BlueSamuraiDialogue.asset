@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
   m_Name: BlueSamuraiDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: 
-  npcSprite: {fileID: 0}
-  dialogue: []
+  npcName: Blue Samurai
+  npcSprite: {fileID: -7527145504033472756, guid: 3e2b7b7ebd97ee94cb37ae70e12c8631, type: 3}
+  dialogue:
+  - HAHAHAHA!!!
+  - Another imbecile has fallen into my trap.
+  - Did you think the courier was dead for no reason?!
+  - I KILLED HIM!
+  - Now it's your turn....
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}

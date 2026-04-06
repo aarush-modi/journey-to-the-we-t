@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8603ae2ea3fa87c4d8a5543528fc3537, type: 3}
   m_Name: GoldTrimmedRobe
   m_EditorClassIdentifier: Assembly-CSharp::ArmorData
-  armorName: 
-  damageReduction: 0
-  armorSprite: {fileID: 0}
+  armorName: Gold Trimmed Robe
+  damageReduction: 15
+  armorSprite: {fileID: 7216472495260951955, guid: e293994e01a05b04182686f3b5f3dd99, type: 3}
