@@ -74,6 +74,7 @@ public class RangedEnemy : MonoBehaviour, IDamageable
     private float lostSightTimer;
     private float searchTimer;
 
+    private Collider2D movementBounds;
     private readonly Vector2[] avoidanceProbeDirections = new Vector2[7];
 
     private void Awake()
@@ -93,6 +94,13 @@ public class RangedEnemy : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        if (movementBounds == null)
+        {
+            EnemyBoundary boundary = EnemyBoundary.FindContaining(rb.position);
+            if (boundary != null)
+                movementBounds = boundary.BoundsCollider;
+        }
+
         detector.OnStateChanged += HandleDetectionStateChanged;
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -339,6 +347,14 @@ public class RangedEnemy : MonoBehaviour, IDamageable
             distanceAdjust = toPlayer * 0.5f;
 
         rb.linearVelocity = (strafeDir + distanceAdjust).normalized * enemyData.combatMoveSpeed;
+
+        if (movementBounds != null)
+        {
+            Vector2 nextPos = rb.position + rb.linearVelocity * Time.fixedDeltaTime;
+            if (!movementBounds.OverlapPoint(nextPos))
+                rb.linearVelocity = Vector2.zero;
+        }
+
         PlayMoveAnimation(rb.linearVelocity);
     }
 
@@ -361,7 +377,15 @@ public class RangedEnemy : MonoBehaviour, IDamageable
         Vector2 awayFromPlayer = (rb.position - (Vector2)playerTarget.position).normalized;
         Vector2 retreatVelocity = GetObstacleAwareVelocity(awayFromPlayer, enemyData.retreatSpeed);
         rb.linearVelocity = retreatVelocity;
-        PlayMoveAnimation(retreatVelocity);
+
+        if (movementBounds != null)
+        {
+            Vector2 nextPos = rb.position + rb.linearVelocity * Time.fixedDeltaTime;
+            if (!movementBounds.OverlapPoint(nextPos))
+                rb.linearVelocity = Vector2.zero;
+        }
+
+        PlayMoveAnimation(rb.linearVelocity);
 
         // Still fire while retreating if shoot timer is ready
         shootTimer -= Time.fixedDeltaTime;
@@ -417,10 +441,17 @@ public class RangedEnemy : MonoBehaviour, IDamageable
 
     // ── Pathfinding helpers ─────────────────────────────────────────────
 
+    private Vector2 ClampToBounds(Vector2 position)
+    {
+        if (movementBounds == null) return position;
+        return movementBounds.ClosestPoint(position);
+    }
+
     private void RequestPath(Vector2 destination)
     {
         if (Pathfinding2D.Instance == null) return;
 
+        destination = ClampToBounds(destination);
         List<Vector2> path = Pathfinding2D.Instance.FindPath(rb.position, destination);
         if (path != null && path.Count > 0)
         {
@@ -438,6 +469,13 @@ public class RangedEnemy : MonoBehaviour, IDamageable
         }
 
         Vector2 target = currentPath[pathIndex];
+
+        // Skip waypoints outside bounds
+        if (movementBounds != null && !movementBounds.OverlapPoint(target))
+        {
+            target = ClampToBounds(target);
+        }
+
         Vector2 toTarget = target - rb.position;
 
         if (toTarget.magnitude <= enemyData.waypointReachDist)
@@ -586,6 +624,14 @@ public class RangedEnemy : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         if (isDead) return;
+
+        EnemyShield shield = GetComponent<EnemyShield>();
+        if (shield != null && shield.TryAbsorbHit())
+        {
+            detector.ForceAlert();
+            return;
+        }
+
         currentHP -= amount;
         StartCoroutine(HurtFlash());
         detector.ForceAlert();
