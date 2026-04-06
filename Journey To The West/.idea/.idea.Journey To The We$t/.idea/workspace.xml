@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Data/LightBanditEnemy.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/LightBanditEnemy.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Palettes/Furniture Palette/Furniture.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Palettes/Furniture Palette/Furniture.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Guard.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Guard.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InsideCastle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InsideCastle.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/ChaseEnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/ChaseEnemyController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/GuardController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/GuardController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,25 +38,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "lv6",
-    "junie.onboarding.icon.badge.shown": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lv6&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="" />
@@ -61,6 +66,7 @@
       <updated>1774289022930</updated>
       <workItem from="1774289025850" duration="28000" />
       <workItem from="1775199827484" duration="5176000" />
+      <workItem from="1775488132517" duration="360000" />
     </task>
     <servers />
   </component>

@@ -9,9 +9,12 @@ public class GuardController : MonoBehaviour, IDamageable
     [SerializeField] private float attackRange = 1.2f;
     [SerializeField] private float attackCooldown = 1.5f;
 
+    [SerializeField] private bool startInactive;
+
     private float currentHP;
     private bool isDead;
     private bool canAttack = true;
+    private bool activated;
     private Transform player;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -27,6 +30,7 @@ public class GuardController : MonoBehaviour, IDamageable
     private void Start()
     {
         currentHP = enemyData.maxHP;
+        activated = !startInactive;
         if (animator != null)
         {
             animator.SetBool("Grounded", true);
@@ -37,9 +41,14 @@ public class GuardController : MonoBehaviour, IDamageable
             player = playerObj.transform;
     }
 
+    public void Activate()
+    {
+        activated = true;
+    }
+
     private void FixedUpdate()
     {
-        if (isDead || player == null) return;
+        if (isDead || !activated || player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
 

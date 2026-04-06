@@ -15,10 +15,12 @@ public class ChaseEnemyController : MonoBehaviour, IDamageable
     [SerializeField] private string attackAnim = "Attack";
     [SerializeField] private string hurtAnim = "Take Hit";
     [SerializeField] private string deathAnim = "Death";
+    [SerializeField] private bool startInactive;
 
     private float currentHP;
     private bool isDead;
     private bool canAttack = true;
+    private bool activated;
     private bool isAttacking;
     private bool isHurt;
     private string currentAnim = "";
@@ -37,10 +39,16 @@ public class ChaseEnemyController : MonoBehaviour, IDamageable
     private void Start()
     {
         currentHP = enemyData.maxHP;
+        activated = !startInactive;
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
         PlayAnim(idleAnim);
+    }
+
+    public void Activate()
+    {
+        activated = true;
     }
 
     private void PlayAnim(string animName)
@@ -67,7 +75,7 @@ public class ChaseEnemyController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        if (isDead || isAttacking || isHurt || player == null) return;
+        if (isDead || !activated || isAttacking || isHurt || player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
 

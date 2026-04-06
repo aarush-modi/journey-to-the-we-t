@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9af57614579214c3aa519ce65c03b3d2, type: 3}
-  m_Name: LightBanditEnemy
+  m_Name: KingEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Light Bandit
-  maxHP: 45
-  damage: 10
-  baseGoldDrop: 30
-  moveSpeed: 5
+  enemyName: The King
+  maxHP: 200
+  damage: 30
+  baseGoldDrop: 150
+  moveSpeed: 2.5
   sprite: {fileID: 0}
