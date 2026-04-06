@@ -801,6 +801,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 71073840}
+  - component: {fileID: 71073841}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: SpawnPoint
@@ -823,6 +824,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1961452656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &71073841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71073839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1b2693553a0c54b8ca362714ebd954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+  spawnId: from_town_b
 --- !u!1 &82450450
 GameObject:
   m_ObjectHideFlags: 0
@@ -6585,7 +6599,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 13
-      m_TileSpriteIndex: 10
+      m_TileSpriteIndex: 69
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6595,7 +6609,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 12
-      m_TileSpriteIndex: 11
+      m_TileSpriteIndex: 68
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6665,7 +6679,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 9
-      m_TileSpriteIndex: 12
+      m_TileSpriteIndex: 67
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6675,7 +6689,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 10
-      m_TileSpriteIndex: 13
+      m_TileSpriteIndex: 66
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -6685,7 +6699,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 11
-      m_TileSpriteIndex: 14
+      m_TileSpriteIndex: 65
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -19498,16 +19512,16 @@ Tilemap:
     m_Data: {fileID: 8422927115599155574, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
   - m_RefCount: 95
     m_Data: {fileID: -6869613983314767778, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -1388890917, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -69341549, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 1166855454, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 1341627577, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 570698635, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 2059123299, guid: 7da8efa2aacfa144390cc155d75cdc35, type: 3}
   - m_RefCount: 1
@@ -19608,16 +19622,16 @@ Tilemap:
     m_Data: {fileID: -1588429813, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1190957983, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 570698635, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 1341627577, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 1166855454, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -69341549, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -1388890917, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
   - m_RefCount: 6
     m_Data: {fileID: -1101930179, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
   - m_RefCount: 1
@@ -21434,6 +21448,101 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804023839}
   m_CullTransparentMesh: 1
+--- !u!1 &807215097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 807215098}
+  - component: {fileID: 807215100}
+  - component: {fileID: 807215099}
+  m_Layer: 0
+  m_Name: Forest_Waypoint2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &807215098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807215097}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.44, y: 10.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 904255860}
+  m_Father: {fileID: 2096141490}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &807215099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807215097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ba4a497e57dbe4395d25e97d1d3f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTeleporter
+  targetSceneAsset: {fileID: 102900000, guid: 50b58c9c3cc516b459e14d91351646c8, type: 3}
+  targetScene: Main
+  targetSpawnId: from_town_b
+--- !u!61 &807215100
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807215097}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1.4251795, y: 0.74854994}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 5.3590946, y: 0.40949345}
+  m_EdgeRadius: 0
 --- !u!1001 &819697890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23962,6 +24071,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1965001409}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &904255859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 904255860}
+  - component: {fileID: 904255861}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: SpawnPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &904255860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904255859}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.38, y: 2.68, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 807215098}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &904255861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904255859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1b2693553a0c54b8ca362714ebd954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+  spawnId: from_town_a
 --- !u!1001 &927061350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132519,7 +132673,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 39
-      m_TileSpriteIndex: 21
+      m_TileSpriteIndex: 94
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -132529,7 +132683,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 38
-      m_TileSpriteIndex: 22
+      m_TileSpriteIndex: 93
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -132659,7 +132813,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 40
-      m_TileSpriteIndex: 23
+      m_TileSpriteIndex: 92
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -132919,7 +133073,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 95
-      m_TileSpriteIndex: 24
+      m_TileSpriteIndex: 91
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -132929,7 +133083,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 96
-      m_TileSpriteIndex: 25
+      m_TileSpriteIndex: 90
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -177060,16 +177214,16 @@ Tilemap:
     m_Data: {fileID: -598287033, guid: dfaff0cbd22079845b71b7ba263e32c7, type: 3}
   - m_RefCount: 65
     m_Data: {fileID: 2128634484, guid: dfaff0cbd22079845b71b7ba263e32c7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -312155560, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 1344624418, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -335230054, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 954076569, guid: 7da8efa2aacfa144390cc155d75cdc35, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 1394317425, guid: 7da8efa2aacfa144390cc155d75cdc35, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 98
     m_Data: {fileID: -415152030, guid: 3fcd6603eeaa47941b5cc408c601fcb4, type: 3}
   - m_RefCount: 8
@@ -177198,16 +177352,16 @@ Tilemap:
     m_Data: {fileID: 1329656492, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
   - m_RefCount: 19
     m_Data: {fileID: -2110350280201256191, guid: 26dbca1a6354a97498fccf138885d62f, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 1394317425, guid: 7da8efa2aacfa144390cc155d75cdc35, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 954076569, guid: 7da8efa2aacfa144390cc155d75cdc35, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -335230054, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 1344624418, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -312155560, guid: 963a4680b4b131e48b152e629546b0b7, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -282840852, guid: a331256eb9c3f0d4ea9023433148619c, type: 3}
   - m_RefCount: 787
@@ -215430,6 +215584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTeleporter
   targetSceneAsset: {fileID: 102900000, guid: f727236f0dd9d5c4db6665e90699a641, type: 3}
   targetScene: MerchantTown
+  targetSpawnId: from_town_a
 --- !u!61 &1961452658
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -216590,6 +216745,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1745563437}
+  - {fileID: 807215098}
   m_Father: {fileID: 1532629800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2118770262 stripped

@@ -6,8 +6,10 @@ public class PersistentPlayer : MonoBehaviour
     private const string MerchantTownSceneName = "MerchantTown";
     private const int MerchantTownMaxGreedGold = 600;
 
+    public static string PendingSpawnId = "default";
+
     private static PersistentPlayer instance;
-    private static bool hasSpawned = false; // tracks if we've teleported at least once
+    private static bool hasSpawned = false;
     private PlayerController playerController;
 
     void Awake()
@@ -45,17 +47,16 @@ public class PersistentPlayer : MonoBehaviour
             playerInput.enabled = true;
         }
 
-        // Only move to SpawnPoint if we teleported, not on first game load
         if (hasSpawned)
         {
-            GameObject spawn = GameObject.FindWithTag("SpawnPoint");
-            if (spawn != null)
-                playerController.Respawn(spawn.transform.position);
+            SpawnPoint spawnPoint = FindSpawnById(PendingSpawnId);
+            if (spawnPoint != null)
+                playerController.Respawn(spawnPoint.transform.position);
             else
-                Debug.LogWarning("No SpawnPoint found in scene: " + scene.name);
+                Debug.LogWarning($"No SpawnPoint with id '{PendingSpawnId}' found in scene: {scene.name}");
         }
 
-        hasSpawned = true; // any subsequent scene load is a teleport
+        hasSpawned = true;
 
         await System.Threading.Tasks.Task.Yield();
 
@@ -68,25 +69,29 @@ public class PersistentPlayer : MonoBehaviour
             playerController.SetMovementLocked(false);
     }
 
+    private SpawnPoint FindSpawnById(string id)
+    {
+        foreach (SpawnPoint sp in FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None))
+        {
+            if (sp.spawnId == id)
+                return sp;
+        }
+        return null;
+    }
+
     private void ApplySceneStartupStats(Scene scene)
     {
         if (scene.name != MerchantTownSceneName)
-        {
             return;
-        }
 
         GreedMeter greedMeter = GetComponent<GreedMeter>();
         if (greedMeter != null)
-        {
             greedMeter.AddGold(MerchantTownMaxGreedGold - greedMeter.GetCurrentGold());
-        }
 
         HustleStyleManager.Instance?.RefreshStyleEffects();
 
         PlayerCombat playerCombat = GetComponent<PlayerCombat>();
         if (playerCombat != null)
-        {
             playerCombat.Heal(playerCombat.GetMaxHP());
-        }
     }
 }
