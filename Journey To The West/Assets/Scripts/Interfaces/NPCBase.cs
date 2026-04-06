@@ -447,7 +447,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
 
         var buttonText = button.GetComponentInChildren<TMP_Text>();
         if (buttonText != null)
-            buttonText.text = $"[{displayNumber}] {text}";
+            buttonText.text = text;
 
         var buttonComponent = button.GetComponent<Button>();
         if (buttonComponent != null)
