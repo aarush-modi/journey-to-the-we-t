@@ -2,10 +2,18 @@ using System;
 using UnityEngine;
 
 public enum DetectionState { Unaware, Suspicious, Alerted }
+public enum SuspicionLevel { None, Low, Medium, High }
 
 /// <summary>
 /// Tracks how aware this enemy is of the player using a fill meter.
 /// Attach alongside any enemy script. Other components subscribe to OnStateChanged.
+///
+/// The meter is split into graduated suspicion tiers while building toward full alert:
+///   0           → Unaware  (None)
+///   0   – 0.33  → Suspicious (Low   — !)
+///   0.33– 0.66  → Suspicious (Medium— !!)
+///   0.66– 1.0   → Suspicious (High  — !!!)
+///   1.0         → Alerted   (attacking)
 /// </summary>
 public class StealthDetector : MonoBehaviour
 {
@@ -15,22 +23,25 @@ public class StealthDetector : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayers;
 
     [Header("Detection Timing")]
-    [SerializeField] private float timeToAlert = 1.5f;
+    [SerializeField] private float timeToAlert = 3f;
     [SerializeField] private float drainDelay = 0.5f;
     [SerializeField] private float timeToCalm = 4f;
 
-    [Header("Detection Icons (optional)")]
-    [SerializeField] private GameObject suspicionIcon;
-    [SerializeField] private GameObject alertIcon;
+    [Header("Suspicion Thresholds")]
+    [SerializeField] private float mediumThreshold = 0.33f;
+    [SerializeField] private float highThreshold = 0.66f;
 
     public event Action<DetectionState> OnStateChanged;
+    public event Action<SuspicionLevel> OnSuspicionLevelChanged;
 
     private DetectionState _state = DetectionState.Unaware;
-    private float _meter = 0f;
-    private float _drainTimer = 0f;
+    private SuspicionLevel _suspicionLevel = SuspicionLevel.None;
+    private float _meter;
+    private float _drainTimer;
     private Transform _playerTransform;
 
     public DetectionState State => _state;
+    public SuspicionLevel CurrentSuspicionLevel => _suspicionLevel;
     public float DetectionMeter => _meter;
     public LayerMask ObstacleLayers => obstacleLayers;
 
@@ -38,7 +49,6 @@ public class StealthDetector : MonoBehaviour
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) _playerTransform = player.transform;
-        RefreshIcons(_state);
     }
 
     private void Update()
@@ -84,25 +94,44 @@ public class StealthDetector : MonoBehaviour
 
     private void EvaluateState()
     {
-        DetectionState next;
-        if (_meter >= 1f)       next = DetectionState.Alerted;
-        else if (_meter > 0f)   next = DetectionState.Suspicious;
-        else                    next = DetectionState.Unaware;
+        DetectionState nextState;
+        SuspicionLevel nextLevel;
 
-        if (next == _state) return;
+        if (_meter >= 1f)
+        {
+            nextState = DetectionState.Alerted;
+            nextLevel = SuspicionLevel.High;
+        }
+        else if (_meter > 0f)
+        {
+            nextState = DetectionState.Suspicious;
 
-        _state = next;
-        OnStateChanged?.Invoke(_state);
-        RefreshIcons(_state);
+            if (_meter >= highThreshold)
+                nextLevel = SuspicionLevel.High;
+            else if (_meter >= mediumThreshold)
+                nextLevel = SuspicionLevel.Medium;
+            else
+                nextLevel = SuspicionLevel.Low;
+        }
+        else
+        {
+            nextState = DetectionState.Unaware;
+            nextLevel = SuspicionLevel.None;
+        }
+
+        if (nextLevel != _suspicionLevel)
+        {
+            _suspicionLevel = nextLevel;
+            OnSuspicionLevelChanged?.Invoke(_suspicionLevel);
+        }
+
+        if (nextState != _state)
+        {
+            _state = nextState;
+            OnStateChanged?.Invoke(_state);
+        }
     }
 
-    private void RefreshIcons(DetectionState state)
-    {
-        if (suspicionIcon != null) suspicionIcon.SetActive(state == DetectionState.Suspicious);
-        if (alertIcon != null)     alertIcon.SetActive(state == DetectionState.Alerted);
-    }
-
-    /// <summary>Force this detector to fully alert state (e.g. hit by player, heard noise).</summary>
     public void ForceAlert()
     {
         _meter = 1f;
