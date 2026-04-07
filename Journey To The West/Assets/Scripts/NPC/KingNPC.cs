@@ -7,6 +7,9 @@ public class KingNPC : NPCBase
     [Header("Dialogue")]
     [SerializeField] private NPCDialogue introDialogue;
 
+    [Header("Auto Start")]
+    [SerializeField] private bool startDialogueOnLoad = true;
+
     [Header("Enemies To Activate")]
     [SerializeField] private GuardController[] guards;
     [SerializeField] private ChaseEnemyController[] chaseEnemies;
@@ -19,6 +22,13 @@ public class KingNPC : NPCBase
             BuildDialogueUI();
 
         base.Start();
+
+        if (startDialogueOnLoad)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                Interact(playerObj);
+        }
     }
 
     public override void Interact(GameObject player)
