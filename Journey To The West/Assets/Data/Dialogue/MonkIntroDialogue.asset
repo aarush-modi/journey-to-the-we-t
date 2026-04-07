@@ -25,6 +25,8 @@ MonoBehaviour:
     by the monks of my order long ago.
   - It will make you far stronger than you are now. Strong enough to face even a
     king.
+  - But first, here. Consume this heal. You will need your full strength to face
+    the shadow.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}

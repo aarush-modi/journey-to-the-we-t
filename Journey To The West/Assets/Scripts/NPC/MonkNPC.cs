@@ -92,6 +92,9 @@ public class MonkNPC : NPCBase
             Debug.LogWarning($"[Monk] Quest start failed: {e.Message}");
         }
 
+        if (playerCombat != null)
+            playerCombat.Heal(playerCombat.GetMaxHP());
+
         if (southVillageBlocker != null)
         {
             southVillageBlocker.SetActive(false);
