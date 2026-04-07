@@ -23,6 +23,10 @@ MonoBehaviour:
   - The guards look ready to attack, and the castle door is sealed with some kind
     of cipher lock. No one has been able to crack it.
   - Going in there is a suicide mission. But someone has to do it.
+  - I have heard rumours though... something about monks in a hidden village to the
+    north. They say those monks know things that could turn the tide.
+  - Probably just old tales. But if I were you, I would explore every path before
+    walking into that castle.
   - "Here, take this packet. Deliver it to the king if you can. May fortune favour
     you."
   dialogueTime: []
