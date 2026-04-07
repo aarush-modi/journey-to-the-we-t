@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: KingEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: The King
-  maxHP: 200
-  damage: 30
+  maxHP: 800
+  damage: 60
   baseGoldDrop: 150
   moveSpeed: 2.5
   sprite: {fileID: 0}
