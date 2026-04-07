@@ -104,7 +104,9 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public float GetAttackDamage()
     {
-        return baseDamage * greedMeter.GetDamageMultiplier() * damageBoost;
+        float dmg = baseDamage * greedMeter.GetDamageMultiplier() * damageBoost;
+        Debug.Log($"[Combat] baseDamage={baseDamage}, greedMult={greedMeter.GetDamageMultiplier()}, damageBoost={damageBoost}, total={dmg}");
+        return dmg;
     }
 
     public void ApplyDamageBoost(float multiplier)
