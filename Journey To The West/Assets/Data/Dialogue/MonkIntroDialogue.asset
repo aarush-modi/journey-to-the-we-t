@@ -15,18 +15,14 @@ MonoBehaviour:
   npcName: Grieving Monk
   npcSprite: {fileID: 0}
   dialogue:
-  - Traveller... please, a moment of your time.
-  - A shadow descended upon my village in the night. It killed everyone. My brothers,
-    my students... all gone.
-  - I alone survived, but I am too old and too weak to face it myself.
-  - The creature still lurks nearby, feeding on the souls of the fallen. It must
-    be destroyed.
-  - If you slay this shadow for me, I will give you my sacred charm. It was blessed
-    by the monks of my order long ago.
-  - It will make you far stronger than you are now. Strong enough to face even a
-    king.
-  - But first, here. Consume this heal. You will need your full strength to face
-    the shadow.
+  - Traveller... please, a moment.
+  - A shadow attacked my village. It killed everyone.
+  - My brothers, my students... all gone.
+  - I alone survived. I am too old to fight it.
+  - The creature lurks to the south. It must be destroyed.
+  - Slay it, and I will give you my sacred charm.
+  - It will make you strong enough to face a king.
+  - Here, take this heal first. You will need it.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}

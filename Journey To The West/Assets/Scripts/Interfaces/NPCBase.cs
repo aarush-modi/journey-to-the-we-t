@@ -18,6 +18,11 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     [Header("Interaction")]
     [SerializeField] private GameObject interactionIcon;
 
+    [Header("Exclamation Mark")]
+    [SerializeField] private Sprite exclamationSprite;
+    [SerializeField] private Vector3 exclamationOffset = new Vector3(0f, 1.5f, 0f);
+    private SpriteRenderer exclamationRenderer;
+
     [Header("Dialogue UI")]
     [SerializeField] protected GameObject dialoguePanel;
     [SerializeField] protected TMP_Text dialogueText;
@@ -48,6 +53,32 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
         ConfigureDialogueRaycasts();
+        BuildExclamationIcon();
+    }
+
+    private void BuildExclamationIcon()
+    {
+        if (exclamationSprite == null) return;
+
+        GameObject iconObj = new GameObject("ExclamationMark");
+        iconObj.transform.SetParent(transform, false);
+        iconObj.transform.localPosition = exclamationOffset;
+
+        exclamationRenderer = iconObj.AddComponent<SpriteRenderer>();
+        exclamationRenderer.sprite = exclamationSprite;
+        exclamationRenderer.sortingOrder = 100;
+    }
+
+    protected void HideExclamation()
+    {
+        if (exclamationRenderer != null)
+            exclamationRenderer.gameObject.SetActive(false);
+    }
+
+    protected void ShowExclamation()
+    {
+        if (exclamationRenderer != null)
+            exclamationRenderer.gameObject.SetActive(true);
     }
 
     protected void EnsureDialogueReferencesFromScene()

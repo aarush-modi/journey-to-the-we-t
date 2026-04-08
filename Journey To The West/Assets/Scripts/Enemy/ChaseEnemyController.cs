@@ -165,6 +165,8 @@ public class ChaseEnemyController : MonoBehaviour, IDamageable
         currentAnim = "";
     }
 
+    public bool IsDead() { return isDead; }
+
     public void Die()
     {
         if (isDead) return;

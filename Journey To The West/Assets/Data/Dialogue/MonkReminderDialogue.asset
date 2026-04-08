@@ -15,8 +15,10 @@ MonoBehaviour:
   npcName: Grieving Monk
   npcSprite: {fileID: 0}
   dialogue:
-  - The shadow still lives. I can feel its darkness from here.
-  - Please, you must destroy it. I cannot rest until it is gone.
+  - The shadow still lives. I can feel it.
+  - It lurks to the south of this village.
+  - Destroy it and return to me for the charm.
+  - Please hurry. I cannot rest until it is gone.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}
