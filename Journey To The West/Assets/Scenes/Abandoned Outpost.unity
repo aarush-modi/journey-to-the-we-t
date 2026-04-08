@@ -76057,6 +76057,7 @@ GameObject:
   - component: {fileID: 2083862312}
   - component: {fileID: 2083862311}
   - component: {fileID: 2083862310}
+  - component: {fileID: 2083862314}
   m_Layer: 0
   m_Name: CmCam
   m_TagString: Untagged
@@ -76173,6 +76174,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2083862314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083862309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e213a7755993304f8c878634b1e933a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PersistentCamera
 --- !u!224 &2088120108 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6858495043924371070, guid: be896946233a4df4b889be5a248e6edf, type: 3}

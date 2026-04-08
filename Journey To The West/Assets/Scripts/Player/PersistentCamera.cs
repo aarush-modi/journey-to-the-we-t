@@ -15,7 +15,7 @@ public class PersistentCamera : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Make sure the main camera has a CinemachineBrain
         Camera mainCam = Camera.main;
@@ -23,6 +23,9 @@ public class PersistentCamera : MonoBehaviour
         {
             mainCam.gameObject.AddComponent<CinemachineBrain>();
         }
+
+        // Wait a frame so duplicate players are destroyed first
+        await System.Threading.Tasks.Task.Yield();
 
         // Reassign the player as the tracking target
         GameObject player = GameObject.FindWithTag("Player");
