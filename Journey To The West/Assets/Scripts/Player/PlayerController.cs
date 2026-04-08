@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lastFacingDirection = Vector2.down;
     
+    private GreedMeter greedMeter;
+    private float greedBonusSpeed;
+
     private bool canSprint;
     private bool isInputLocked;
     private bool isForcedMoving;
@@ -32,6 +36,12 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         combat = GetComponent<PlayerCombat>();
         dashAttackHandler = GetComponent<DashAttackHandler>();
+        greedMeter = GetComponent<GreedMeter>();
+        if (greedMeter != null)
+        {
+            greedMeter.OnTierChanged.AddListener(OnGreedTierChanged);
+            greedBonusSpeed = GreedMeterLogic.GetBonusSpeed(greedMeter.GetCurrentTier());
+        }
     }
 
     private void FixedUpdate()
@@ -67,7 +77,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float activeMoveSpeed = moveSpeed;
+            float activeMoveSpeed = moveSpeed + greedBonusSpeed;
             if (canSprint
                 && Keyboard.current != null
                 && (Keyboard.current.leftShiftKey.isPressed || Keyboard.current.rightShiftKey.isPressed))
@@ -262,6 +272,9 @@ public class PlayerController : MonoBehaviour
         iceVelocity = Vector2.zero;
         rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        if (PersistentCamera.Instance != null)
+            PersistentCamera.Instance.SnapToPlayer(position);
     }
 
     public Vector2 GetFacingDirection()
@@ -301,6 +314,11 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnGreedTierChanged(GreedTier tier)
+    {
+        greedBonusSpeed = GreedMeterLogic.GetBonusSpeed(tier);
     }
 
     // Added from newLock Branch

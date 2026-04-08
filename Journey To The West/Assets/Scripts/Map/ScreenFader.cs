@@ -8,14 +8,15 @@ public class ScreenFader : MonoBehaviour
     [SerializeField] float fadeDuration = 0.5f;
 
     private void Awake()
-{
-    if (Instance == null)
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(Instance.gameObject);
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    else Destroy(gameObject);
-}
 
     async Task Fade(float personTransparency)
     {

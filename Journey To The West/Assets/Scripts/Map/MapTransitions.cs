@@ -9,17 +9,12 @@ public class MapTransitions : MonoBehaviour
     [SerializeField] float additionalPosition = 2f;
     [SerializeField] NickelNoumanNPC lockedTeleportNpc;
 
-    CinemachineConfiner2D confiner;
-    CinemachineCamera vcam;
     private bool hasPlayedRedPacketEscapeWarning;
 
     enum Direction { Up, Down, Left, Right, Teleport }
 
     private void Awake()
     {
-        confiner = FindObjectOfType<CinemachineConfiner2D>();
-        vcam = FindObjectOfType<CinemachineCamera>();
-
         if (direction == Direction.Teleport
             && lockedTeleportNpc == null
             && (gameObject.name == "1+" || (teleportTargetPosition != null && teleportTargetPosition.name == "2-")))
@@ -74,6 +69,9 @@ public class MapTransitions : MonoBehaviour
         {
             await ScreenFader.Instance.FadeOut();
         }
+
+        CinemachineConfiner2D confiner = FindFirstObjectByType<CinemachineConfiner2D>();
+        CinemachineCamera vcam = FindFirstObjectByType<CinemachineCamera>();
 
         if (confiner != null && mapBoundary != null)
         {

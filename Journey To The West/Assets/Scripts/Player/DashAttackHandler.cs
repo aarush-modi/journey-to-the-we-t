@@ -88,16 +88,11 @@ public class DashAttackHandler : MonoBehaviour
         dashDestination = cursorReticle.GetWorldPosition();
 
         // Clamp destination if a wall is in the way
-        Vector2 toTarget = dashDestination - rb.position;
-        ContactFilter2D wallFilter = new ContactFilter2D();
-        wallFilter.SetLayerMask(wallLayer);
-        wallFilter.useLayerMask = true;
-        wallFilter.useTriggers = false;
-        RaycastHit2D[] hits = new RaycastHit2D[1];
-        int hitCount = rb.Cast(toTarget.normalized, wallFilter, hits, toTarget.magnitude);
-        if (hitCount > 0)
+        RaycastHit2D wallHit = Physics2D.Linecast(rb.position, dashDestination, wallLayer);
+        if (wallHit.collider != null)
         {
-            dashDestination = rb.position + toTarget.normalized * Mathf.Max(0f, hits[0].distance - wallStopOffset);
+            Vector2 toTarget = dashDestination - rb.position;
+            dashDestination = rb.position + toTarget.normalized * Mathf.Max(0f, wallHit.distance - wallStopOffset);
         }
 
         // Calculate max duration for guaranteed arrival
@@ -204,7 +199,7 @@ public class DashAttackHandler : MonoBehaviour
     {
         if (snapshotHadTargets)
         {
-            float damage = currentConfig.baseDashDamage * (greedMeter != null ? greedMeter.GetDamageMultiplier() : 1f);
+            float damage = currentConfig.baseDashDamage + (greedMeter != null ? greedMeter.GetBonusDamage() : 0f);
 
             bool hitShield = false;
             foreach (IDamageable target in snapshotTargets)
@@ -241,14 +236,10 @@ public class DashAttackHandler : MonoBehaviour
                     knockbackDir = -new Vector2(dashSnappedX, dashSnappedY);
 
                 float knockbackDist = 2f;
-                ContactFilter2D wallFilter = new ContactFilter2D();
-                wallFilter.SetLayerMask(wallLayer);
-                wallFilter.useLayerMask = true;
-                wallFilter.useTriggers = false;
-                RaycastHit2D[] hits = new RaycastHit2D[1];
-                int hitCount = rb.Cast(knockbackDir, wallFilter, hits, knockbackDist);
-                if (hitCount > 0)
-                    knockbackDist = Mathf.Max(0f, hits[0].distance - 0.1f);
+                Vector2 knockbackEnd = rb.position + knockbackDir * knockbackDist;
+                RaycastHit2D knockWallHit = Physics2D.Linecast(rb.position, knockbackEnd, wallLayer);
+                if (knockWallHit.collider != null)
+                    knockbackDist = Mathf.Max(0f, knockWallHit.distance - 0.1f);
 
                 rb.MovePosition(rb.position + knockbackDir * knockbackDist);
 
@@ -291,7 +282,18 @@ public class DashAttackHandler : MonoBehaviour
 
     private void ForceArrival()
     {
-        rb.position = dashDestination;
+        // Re-check for walls from current position before teleporting
+        Vector2 toTarget = dashDestination - rb.position;
+        float dist = toTarget.magnitude;
+        if (dist > 0.01f)
+        {
+            RaycastHit2D wallHit = Physics2D.Linecast(rb.position, dashDestination, wallLayer);
+            if (wallHit.collider != null)
+                rb.position = rb.position + toTarget.normalized * Mathf.Max(0f, wallHit.distance - wallStopOffset);
+            else
+                rb.position = dashDestination;
+        }
+
         if (dashTrail != null)
             dashTrail.emitting = false;
         HandleArrival();
@@ -300,6 +302,7 @@ public class DashAttackHandler : MonoBehaviour
     private void EndDash()
     {
         currentState = DashState.Idle;
+        if (playerCombat != null) playerCombat.GrantIframes(0.15f);
         currentConfig = null;
         snapshotTargets = null;
     }
