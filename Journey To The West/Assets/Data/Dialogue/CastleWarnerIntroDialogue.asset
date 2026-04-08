@@ -12,19 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
   m_Name: CastleWarnerIntroDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Weary Courier
+  npcName: Wandering Stranger
   npcSprite: {fileID: 0}
   dialogue:
-  - You there... you look desperate enough. Perfect.
-  - I was supposed to deliver this red packet to the king.
-  - But I am not going near that castle.
-  - The king is furious. The deliveries are late.
+  - You there... heading to the castle?
+  - The king is in the castle to the northeast.
   - Guards are everywhere. The door has a cipher lock.
   - No one has cracked it yet. It is a suicide mission.
   - I have heard rumours though...
   - Monks in a hidden village to the north. They might help.
   - Probably just old tales. But worth a look.
-  - Here, take the packet. Deliver it if you can.
+  - Good luck. You will need it.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}

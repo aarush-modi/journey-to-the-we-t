@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
   m_Name: CastleWarnerReminderDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Weary Courier
+  npcName: Wandering Stranger
   npcSprite: {fileID: 0}
   dialogue:
-  - You still have the packet? The castle is to the east.
-  - Get past the guards and crack the cipher at the door.
-  - And remember, the monk village to the north might help.
-  - I would not keep the king waiting.
+  - The castle is to the northeast. Watch for guards.
+  - The door has a cipher lock you must crack.
+  - The monk village to the north might help you.
+  - Be careful out there.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}
