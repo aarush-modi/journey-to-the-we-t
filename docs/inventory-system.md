@@ -80,9 +80,12 @@ Equipment is managed by `PlayerCombat`, not `PlayerInventory`.
 | Field | Type | Purpose |
 |-------|------|---------|
 | `skillName` | `string` | Skill name |
-| `damage` | `float` | Damage dealt |
-| `cooldown` | `float` | Cooldown in seconds |
+| `description` | `string` | Skill description text |
 | `icon` | `Sprite` | UI icon for HUD |
+| `disabledIcon` | `Sprite` | Grayed-out icon shown when on cooldown |
+| `cooldown` | `float` | Cooldown in seconds |
+| `goldCost` | `int` | Purchase price in the merchant shop |
+| `skillPrefab` | `GameObject` | Prefab instantiated into inventory slots |
 
 ### PlayerCombat Equipment Methods
 
@@ -97,12 +100,15 @@ Equipment is managed by `PlayerCombat`, not `PlayerInventory`.
 
 ### Greed Tiers
 
-| Tier | Gold Required | Bonus |
-|------|--------------|-------|
-| None | 0-99 | No bonuses |
-| Tier 1 | 100-299 | 1.1x damage |
-| Tier 2 | 300-599 | 1.15x speed |
-| Tier 3 | 600+ | 1.2x HP |
+Thresholds: 300, 600, 900, 1200. All bonuses are flat (additive), not multipliers. See `GreedMeterLogic.cs`.
+
+| Tier | Gold Required | Shield | Speed | Damage | HP |
+|------|--------------|--------|-------|--------|----|
+| None | 0-299 | 0 | +0 | +0 | +0 |
+| Tier 1 | 300-599 | 1 | +0 | +0 | +0 |
+| Tier 2 | 600-899 | 1 | +2 | +0 | +20 |
+| Tier 3 | 900-1199 | 2 | +4 | +20 | +20 |
+| Tier 4 | 1200+ | 3 | +6 | +20 | +30 |
 
 ### Events
 

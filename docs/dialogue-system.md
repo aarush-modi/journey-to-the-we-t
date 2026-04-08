@@ -11,7 +11,7 @@ The dialogue system handles NPC conversations with typing effects, auto-progress
 | `NPCDialogue` | `Scripts/Interfaces/NPCDialogue.cs` | ScriptableObject that holds all dialogue data |
 | `DialogueChoice` | `Scripts/Interfaces/NPCDialogue.cs` | Data class for branching choices (same file) |
 | `NPCBase` | `Scripts/Interfaces/NPCBase.cs` | Abstract base class with all dialogue runtime logic |
-| `GenericNPC` | `Scripts/Interfaces/GenericNPC.cs` | Simple NPC that plays a single dialogue |
+| `GenericNPC` | `Scripts/Interfaces/GenericNPC.cs` | NPC with intro and reminder dialogues |
 | `VillageElderNPC` | `Scripts/NPC/VillageElderNPC.cs` | NPC with quest logic that checks dialogue outcomes |
 
 ## NPCDialogue Fields
@@ -84,11 +84,12 @@ Here's how the Village Elder's dialogue is set up:
 
 ```
 Dialogue Lines:
-  0: "Ah, young traveler. I have been waiting..."
+  0: "Ah, young traveler. I have been waiting for you. Will you stay a while and listen?"
   1: "Thanks! I knew you'd help"
   2: "Oh. Okay."
-  3: "There is a red packet that must be delivered..."
-  4: "Take this and deliver it safely."
+  3: "There are six red packets, one in each town. They must all reach the king. I will give you your first one."
+  4: "Seek out the packet in each town. Prove your strength, and they will bestow upon you the packet."
+  5: "Head to the DOJO first. A ninja must always be prepared."
 
 Choices (1 entry):
   Element 0:
@@ -96,22 +97,24 @@ Choices (1 entry):
     choices: ["Yes", "No"]
     nextDialogueIndexes: [1, 2]  --> Yes->line 1, No->line 2
 
-End Dialogue Outcomes (size 5):
+End Dialogue Outcomes (size 6):
   0: ""           (not an end point, has choices)
   1: ""           (not an end point, continues)
   2: "declined"   (ends here)
   3: ""           (not an end point, continues)
-  4: "accepted"   (ends here)
+  4: ""           (not an end point, continues)
+  5: "accepted"   (ends here)
 
-Next Line Override (size 5):
+Next Line Override (size 6):
   0: -1    (doesn't matter, choices handle it)
   1:  3    (skip line 2, jump to line 3)
   2: -1    (doesn't matter, ends here)
   3: -1    (normal, go to line 4)
-  4: -1    (doesn't matter, ends here)
+  4: -1    (normal, go to line 5)
+  5: -1    (doesn't matter, ends here)
 ```
 
-**Yes path:** 0 --> 1 --> 3 --> 4 --> end (outcome: `"accepted"`)
+**Yes path:** 0 --> 1 --> 3 --> 4 --> 5 --> end (outcome: `"accepted"`)
 
 **No path:** 0 --> 2 --> end (outcome: `"declined"`)
 
