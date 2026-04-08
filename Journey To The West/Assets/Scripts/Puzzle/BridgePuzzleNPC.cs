@@ -18,8 +18,6 @@ public class BridgePuzzleNPC : NPCBase
 
     protected override void Start()
     {
-        if (dialoguePanel == null)
-            BuildDialogueUI();
 
         BuildWordleUI();
         base.Start();

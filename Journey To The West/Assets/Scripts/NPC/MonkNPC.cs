@@ -27,8 +27,7 @@ public class MonkNPC : NPCBase
 
     protected override void Start()
     {
-        if (dialoguePanel == null)
-            BuildDialogueUI();
+
 
         base.Start();
     }

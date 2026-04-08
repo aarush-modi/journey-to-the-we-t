@@ -17,8 +17,7 @@ public class CastleWarnerNPC : NPCBase
 
     protected override void Start()
     {
-        if (dialoguePanel == null)
-            BuildDialogueUI();
+
 
         base.Start();
     }

@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InsideCastle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InsideCastle.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NPC/CastleWarnerNPC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NPC/CastleWarnerNPC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NPC/MonkNPC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NPC/MonkNPC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Puzzle/BridgePuzzleNPC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Puzzle/BridgePuzzleNPC.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +28,7 @@
     <commands />
     <urls />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -73,12 +76,29 @@
       <option name="project" value="LOCAL" />
       <updated>1775635608790</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Removed CastleWarner Dialouge UI Build">
+      <option name="closed" value="true" />
+      <created>1775635676539</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1775635676539</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Remove bridge guardian Dialouge UI build method">
+      <option name="closed" value="true" />
+      <created>1775635730573</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1775635730573</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
     <option name="unityProject" value="true" />
@@ -111,7 +131,9 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Remove monk build dialouge UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove monk build dialouge UI" />
+    <MESSAGE value="Removed CastleWarner Dialouge UI Build" />
+    <MESSAGE value="Remove bridge guardian Dialouge UI build method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove bridge guardian Dialouge UI build method" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
