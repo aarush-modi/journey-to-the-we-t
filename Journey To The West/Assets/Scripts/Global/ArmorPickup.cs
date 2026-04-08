@@ -4,11 +4,16 @@ using TMPro;
 
 /// <summary>
 /// World-space armor pickup. Player walks over it to equip the armor.
+/// Automatically configures its own SpriteRenderer and trigger collider
+/// so it works correctly when spawned at runtime (e.g. dropped by a boss).
 /// Optionally plays a short dialogue before being destroyed.
 /// </summary>
 public class ArmorPickup : MonoBehaviour, ICollectible
 {
     [SerializeField] private ArmorData armorData;
+
+    [Header("Visuals")]
+    [SerializeField] private Sprite pickupSprite;
 
     [Header("Post-Collect Dialogue (optional)")]
     [SerializeField] private NPCDialogue pickupDialogue;
@@ -18,6 +23,32 @@ public class ArmorPickup : MonoBehaviour, ICollectible
     [SerializeField] private GameObject continuePrompt;
 
     private bool collected;
+
+    private void Awake()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null)
+            sr = gameObject.AddComponent<SpriteRenderer>();
+
+        if (pickupSprite != null)
+            sr.sprite = pickupSprite;
+        else if (armorData != null && armorData.armorSprite != null)
+            sr.sprite = armorData.armorSprite;
+
+        sr.sortingOrder = 5;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col == null)
+        {
+            BoxCollider2D box = gameObject.AddComponent<BoxCollider2D>();
+            box.isTrigger = true;
+            box.size = new Vector2(1.5f, 1.5f);
+        }
+        else
+        {
+            col.isTrigger = true;
+        }
+    }
 
     public void Collect(GameObject collector)
     {

@@ -43391,7 +43391,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 982368802}
-  - component: {fileID: 982368803}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: SpawnPoint
@@ -43414,19 +43413,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1219905294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &982368803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 982368801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc1b2693553a0c54b8ca362714ebd954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
-  spawnId: from_town_a
 --- !u!1 &991526431
 GameObject:
   m_ObjectHideFlags: 0
@@ -44975,7 +44961,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTeleporter
   targetSceneAsset: {fileID: 102900000, guid: 74bf44d60a76f3f47a27de149b250535, type: 3}
   targetScene: SnowyTown
-  targetSpawnId: from_town_b
 --- !u!61 &1219905296
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47258,7 +47243,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 845048478}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
