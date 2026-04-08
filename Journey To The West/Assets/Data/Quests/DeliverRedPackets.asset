@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DeliverRedPackets
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questName: DELIVER    SIX    RED    PACKETS    TO    THE    KING
-  description: description    of    the    quest    here
+  description: GO TO ALL 6 TOWNS AND FIND THE RED PACKET IN EACH OF THEM
   questType: 0
   isCompleted: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DojoMasterCompleteDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: 
-  npcSprite: {fileID: 0}
+  npcSprite: {fileID: 21300000, guid: fcd1c053812e40444b91d2b4e683f7ec, type: 3}
   dialogue:
   - Impressive! You have defeated all the fighters. You have proven yourself worthy.
   - 'Take this Red Packet. Guard it well on your journey. '
