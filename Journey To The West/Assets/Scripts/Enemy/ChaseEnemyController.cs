@@ -114,6 +114,9 @@ public class ChaseEnemyController : MonoBehaviour, IDamageable
         isAttacking = true;
         rb.linearVelocity = Vector2.zero;
 
+        if (player != null)
+            FlipTowards((player.position - transform.position).x);
+
         currentAnim = attackAnim;
         PlayAnimForce(attackAnim);
 
