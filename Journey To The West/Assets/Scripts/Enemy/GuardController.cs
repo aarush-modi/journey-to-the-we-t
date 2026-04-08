@@ -125,6 +125,8 @@ public class GuardController : MonoBehaviour, IDamageable
         }
     }
 
+    public bool IsDead() { return isDead; }
+
     public void Die()
     {
         if (isDead) return;
