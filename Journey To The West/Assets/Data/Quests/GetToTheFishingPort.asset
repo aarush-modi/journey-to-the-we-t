@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0b85b3f01b5ea4fb367d25d751830c, type: 3}
   m_Name: GetToTheFishingPort
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questName: MAKE IT TO THE FISHING PORT
-  description: Get through the cave and water to make it to the next town, the Fishing
-    Port.
+  questName: GO    TO    THE    MERCHANT    TOWN
+  description: Get    through    the    cave    to    make    it    to    the   
+    next    town,    the    Merchant    Town.
   questType: 0
   isCompleted: 0

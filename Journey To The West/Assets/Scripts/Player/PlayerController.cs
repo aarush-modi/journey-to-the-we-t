@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         if (combat != null && combat.IsActionLocked())
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.linearVelocity = isOnIce ? iceVelocity : Vector2.zero;
             animator.SetBool("isWalking", false);
             return;
         }
@@ -94,17 +94,20 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Ice"))
         {
-            isOnIce = true;
-            iceVelocity = rb.linearVelocity;
+            if (!isOnIce)
+            {
+                isOnIce = true;
+                iceVelocity = rb.linearVelocity;
 
-            if (iceVelocity.sqrMagnitude < 0.01f)
-                iceVelocity = lastFacingDirection * moveSpeed;
+                if (iceVelocity.sqrMagnitude < 0.01f)
+                    iceVelocity = lastFacingDirection * moveSpeed;
 
-            // No diagonals
-            if (Mathf.Abs(iceVelocity.x) >= Mathf.Abs(iceVelocity.y))
-                iceVelocity = new Vector2(iceVelocity.x > 0 ? moveSpeed : -moveSpeed, 0f);
-            else
-                iceVelocity = new Vector2(0f, iceVelocity.y > 0 ? moveSpeed : -moveSpeed);
+                // No diagonals
+                if (Mathf.Abs(iceVelocity.x) >= Mathf.Abs(iceVelocity.y))
+                    iceVelocity = new Vector2(iceVelocity.x > 0 ? moveSpeed : -moveSpeed, 0f);
+                else
+                    iceVelocity = new Vector2(0f, iceVelocity.y > 0 ? moveSpeed : -moveSpeed);
+            }
         }
     }
 
@@ -112,6 +115,29 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Ice"))
         {
+            Collider2D myCol = GetComponent<Collider2D>();
+            if (myCol != null)
+            {
+                ContactFilter2D filter = new ContactFilter2D();
+                filter.useTriggers = true;
+                filter.useLayerMask = false;
+                
+                Collider2D[] results = new Collider2D[10];
+                int count = myCol.Overlap(filter, results);
+                bool stillOnIce = false;
+                for (int i = 0; i < count; i++)
+                {
+                    if (results[i] != null && results[i].CompareTag("Ice"))
+                    {
+                        stillOnIce = true;
+                        break;
+                    }
+                }
+                
+                // If our main collider is still touching an Ice object, ignore this exit event
+                if (stillOnIce) return;
+            }
+
             isOnIce = false;
             iceVelocity = Vector2.zero;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;

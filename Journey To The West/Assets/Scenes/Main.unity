@@ -56606,9 +56606,9 @@ RectTransform:
   - {fileID: 812372914}
   - {fileID: 474425411}
   - {fileID: 2113425389}
+  - {fileID: 1077869513}
   - {fileID: 1027814916}
   - {fileID: 864144166}
-  - {fileID: 1077869513}
   - {fileID: 841510795}
   - {fileID: 579895643}
   m_Father: {fileID: 0}
