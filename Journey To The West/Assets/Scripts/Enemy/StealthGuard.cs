@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Level 5 patrol guard. Wanders waypoints when unaware, investigates last-seen
-/// position when suspicious, and chases the player when fully alerted.
-/// Requires a StealthDetector on the same GameObject.
+/// Level 5 patrol guard. Wanders waypoints when unaware, reacts with graduated
+/// suspicion (cautious → watchful → investigating), and chases the player when
+/// fully alerted. Requires a StealthDetector on the same GameObject.
 /// </summary>
 [RequireComponent(typeof(StealthDetector))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,6 +13,7 @@ public class StealthGuard : MonoBehaviour, IDamageable
     [Header("Stats")]
     [SerializeField] private float maxHP = 30f;
     [SerializeField] private float patrolSpeed = 1.5f;
+    [SerializeField] private float cautiousSpeedMultiplier = 0.7f;
     [SerializeField] private float chaseSpeed = 3f;
     [SerializeField] private float contactDamage = 10f;
     [SerializeField] private float contactCooldown = 0.5f;
@@ -36,7 +37,7 @@ public class StealthGuard : MonoBehaviour, IDamageable
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
 
-    private enum GuardBehavior { Patrolling, Investigating, Chasing }
+    private enum GuardBehavior { Patrolling, CautiousPatrol, Watching, Investigating, Chasing }
 
     private StealthDetector detector;
     private Rigidbody2D rb;
@@ -72,6 +73,7 @@ public class StealthGuard : MonoBehaviour, IDamageable
     private void Start()
     {
         detector.OnStateChanged += HandleDetectionStateChanged;
+        detector.OnSuspicionLevelChanged += HandleSuspicionLevelChanged;
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) playerTarget = player.transform;
@@ -80,18 +82,16 @@ public class StealthGuard : MonoBehaviour, IDamageable
     private void OnDestroy()
     {
         if (detector != null)
+        {
             detector.OnStateChanged -= HandleDetectionStateChanged;
+            detector.OnSuspicionLevelChanged -= HandleSuspicionLevelChanged;
+        }
     }
 
     private void HandleDetectionStateChanged(DetectionState state)
     {
         switch (state)
         {
-            case DetectionState.Suspicious:
-                if (playerTarget != null) lastSeenPosition = playerTarget.position;
-                SwitchBehavior(GuardBehavior.Investigating);
-                break;
-
             case DetectionState.Alerted:
                 if (playerTarget != null) lastSeenPosition = playerTarget.position;
                 SwitchBehavior(GuardBehavior.Chasing);
@@ -100,6 +100,30 @@ public class StealthGuard : MonoBehaviour, IDamageable
 
             case DetectionState.Unaware:
                 SwitchBehavior(GuardBehavior.Patrolling);
+                break;
+        }
+    }
+
+    private void HandleSuspicionLevelChanged(SuspicionLevel level)
+    {
+        if (detector.State == DetectionState.Alerted) return;
+
+        if (playerTarget != null)
+            lastSeenPosition = playerTarget.position;
+
+        switch (level)
+        {
+            case SuspicionLevel.None:
+                SwitchBehavior(GuardBehavior.Patrolling);
+                break;
+            case SuspicionLevel.Low:
+                SwitchBehavior(GuardBehavior.CautiousPatrol);
+                break;
+            case SuspicionLevel.Medium:
+                SwitchBehavior(GuardBehavior.Watching);
+                break;
+            case SuspicionLevel.High:
+                SwitchBehavior(GuardBehavior.Investigating);
                 break;
         }
     }
@@ -117,13 +141,19 @@ public class StealthGuard : MonoBehaviour, IDamageable
 
         switch (behavior)
         {
-            case GuardBehavior.Patrolling:   DoPatrol();      break;
-            case GuardBehavior.Investigating: DoInvestigate(); break;
-            case GuardBehavior.Chasing:      DoChase();       break;
+            case GuardBehavior.Patrolling:     DoPatrol(patrolSpeed);                                break;
+            case GuardBehavior.CautiousPatrol: DoPatrol(patrolSpeed * cautiousSpeedMultiplier);       break;
+            case GuardBehavior.Watching:       DoWatch();                                             break;
+            case GuardBehavior.Investigating:  DoInvestigate();                                       break;
+            case GuardBehavior.Chasing:        DoChase();                                             break;
         }
+
+        FlipSprite();
     }
 
-    private void DoPatrol()
+    // ── Behaviors ─────────────────────────────────────────────────────────
+
+    private void DoPatrol(float speed)
     {
         if (waypoints == null || waypoints.Length == 0)
         {
@@ -144,7 +174,7 @@ public class StealthGuard : MonoBehaviour, IDamageable
         }
         else
         {
-            rb.linearVelocity = toTarget.normalized * patrolSpeed;
+            rb.linearVelocity = toTarget.normalized * speed;
         }
     }
 
@@ -153,6 +183,14 @@ public class StealthGuard : MonoBehaviour, IDamageable
         isWaitingAtWaypoint = true;
         yield return new WaitForSeconds(waypointPauseDuration);
         isWaitingAtWaypoint = false;
+    }
+
+    private void DoWatch()
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        if (playerTarget != null)
+            lastSeenPosition = playerTarget.position;
     }
 
     private void DoInvestigate()
@@ -180,6 +218,15 @@ public class StealthGuard : MonoBehaviour, IDamageable
         lastSeenPosition = playerTarget.position;
     }
 
+    private void FlipSprite()
+    {
+        if (spriteRenderer == null) return;
+        if (rb.linearVelocity.x > 0.05f) spriteRenderer.flipX = false;
+        else if (rb.linearVelocity.x < -0.05f) spriteRenderer.flipX = true;
+    }
+
+    // ── Alerting ──────────────────────────────────────────────────────────
+
     private void AlertNearbyGuards()
     {
         Collider2D[] nearby = Physics2D.OverlapCircleAll(transform.position, alertNearbyRadius);
@@ -189,7 +236,6 @@ public class StealthGuard : MonoBehaviour, IDamageable
             StealthDetector nearbyDetector = col.GetComponent<StealthDetector>();
             if (nearbyDetector == null) continue;
 
-            // Don't alert through walls/doors
             RaycastHit2D hit = Physics2D.Linecast(transform.position, col.transform.position, detector.ObstacleLayers);
             if (hit.collider != null) continue;
 
@@ -197,12 +243,15 @@ public class StealthGuard : MonoBehaviour, IDamageable
         }
     }
 
+    // ── Collision / Damage ────────────────────────────────────────────────
+
     private void OnCollisionEnter2D(Collision2D collision) => TryDamagePlayer(collision.collider);
     private void OnCollisionStay2D(Collision2D collision)  => TryDamagePlayer(collision.collider);
 
     private void TryDamagePlayer(Collider2D other)
     {
         if (isDead || other == null || !other.CompareTag("Player")) return;
+        if (behavior != GuardBehavior.Chasing) return;
         if (Time.time < nextDamageTime) return;
 
         if (other.TryGetComponent(out PlayerCombat pc))

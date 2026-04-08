@@ -24,9 +24,12 @@ public class DroppedGold : MonoBehaviour, ICollectible
         }
     }
 
-    //Adds gold to the GreedMeter and destroys this object
     public void Collect(GameObject collector)
     {
+        // Prevent dead players/enemies from instantly picking up gold they just dropped
+        IDamageable damageable = collector.GetComponent<IDamageable>();
+        if (damageable != null && damageable.IsDead()) return;
+
         GreedMeter greedMeter = collector.GetComponent<GreedMeter>();
         if (greedMeter == null) return;
 

@@ -78,6 +78,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     private bool isDead;
     private bool hasPlayerWonPacket;
     private bool isWaitingForLossChoice;
+    private int currentChoiceDisplayNumber = 1;
 
     public static bool HasRedPacket => hasRedPacketThisSession;
 
@@ -262,6 +263,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     {
         StopAllCoroutines();
         ClearChoices();
+        currentChoiceDisplayNumber = 1;
 
         if (dialogueText != null)
         {
@@ -307,6 +309,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     {
         StopAllCoroutines();
         ClearChoices();
+        currentChoiceDisplayNumber = 1;
         modiState = ModiState.WaitingForGambleChoice;
 
         if (dialogueText != null)
@@ -422,6 +425,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     {
         StopAllCoroutines();
         ClearChoices();
+        currentChoiceDisplayNumber = 1;
 
         if (dialogueText != null)
         {
@@ -531,6 +535,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     {
         StopAllCoroutines();
         ClearChoices();
+        currentChoiceDisplayNumber = 1;
         isWaitingForLossChoice = lossDialogueIndex == LossDialogueLines.Length - 1;
 
         if (dialogueText != null)
@@ -679,6 +684,8 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         {
             buttonText.text = label;
         }
+
+        currentChoiceDisplayNumber++;
 
         return button;
     }

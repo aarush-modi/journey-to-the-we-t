@@ -16,11 +16,11 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     private float currentHP;
     private float effectiveMaxHP;
     private float maxHPModifier = 1f;
-    private float greedBonusHP;
 
     [Header("Attack")]
     [SerializeField] private float baseDamage = 10f;
     [SerializeField] private float attackCooldown = 0.5f;
+    private float damageBoost = 1f;
 
     [Header("Equipment")]
     [SerializeField] private SkillData equippedSkill;
@@ -29,6 +29,8 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     [Header("Death")]
     [SerializeField] private GameObject droppedGoldPrefab;
+    [SerializeField, Tooltip("Flat amount of gold lost and dropped upon death")] 
+    private int deathGoldLossAmount = 20;
 
     [Header("Dash")]
     [SerializeField] private DashAttackHandler dashAttackHandler;
@@ -38,7 +40,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     [SerializeField] private Color flashColor = Color.red;
 
     private GreedMeter greedMeter;
-    private PlayerShield playerShield;
     private PlayerController playerController;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -48,17 +49,13 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     private Vector3 lastCheckpoint;
     private bool isDead;
     private bool chainDashReady;
-    private float invulnerableUntil;
 
     private void Awake()
     {
         greedMeter = GetComponent<GreedMeter>();
-        playerShield = GetComponent<PlayerShield>();
         playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (greedMeter != null)
-            greedMeter.OnTierChanged.AddListener(OnGreedTierChanged);
         effectiveMaxHP = baseMaxHP * maxHPModifier;
         currentHP = effectiveMaxHP;
     }
@@ -69,12 +66,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         currentHP = effectiveMaxHP;
         lastCheckpoint = transform.position;
         HustleStyleManager.Instance?.RefreshStyleEffects();
-        if (greedMeter != null)
-        {
-            greedBonusHP = GreedMeterLogic.GetBonusHP(greedMeter.GetCurrentTier());
-            effectiveMaxHP = baseMaxHP * maxHPModifier + greedBonusHP;
-            currentHP = effectiveMaxHP;
-        }
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
 
         // No skill equipped until player selects one from the hotbar
@@ -146,7 +137,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     public float GetAttackDamage()
     {
-        return baseDamage + greedMeter.GetBonusDamage();
+        float dmg = baseDamage * greedMeter.GetDamageMultiplier() * damageBoost;
+        Debug.Log($"[Combat] baseDamage={baseDamage}, greedMult={greedMeter.GetDamageMultiplier()}, damageBoost={damageBoost}, total={dmg}");
+        return dmg;
+    }
+
+    public void ApplyDamageBoost(float multiplier)
+    {
+        damageBoost = multiplier;
     }
 
     // --- IDamageable ---
@@ -155,9 +153,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
         if (dashAttackHandler != null && dashAttackHandler.IsDashing) return;
-        if (Time.time < invulnerableUntil) return;
-
-        if (playerShield != null && playerShield.TryAbsorbHit()) return;
 
         if (equippedArmor != null)
             amount = Mathf.Max(0f, amount - equippedArmor.damageReduction);
@@ -166,7 +161,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         currentHP = Mathf.Max(0f, currentHP - amount);
         if (hurtFlashRoutine != null) StopCoroutine(hurtFlashRoutine);
         hurtFlashRoutine = StartCoroutine(HurtFlash());
-        DamageVignette.Instance?.Flash();
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
 
         if (currentHP <= 0f)
@@ -190,13 +184,20 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         if (isDead) return;
         isDead = true;
 
-        // Drop gold
-        int gold = greedMeter.GetCurrentGold();
-        if (gold > 0 && droppedGoldPrefab != null)
+        // Drop a portion of gold
+        int currentGold = greedMeter.GetCurrentGold();
+        int goldToDrop = Mathf.Min(currentGold, deathGoldLossAmount);
+
+        if (goldToDrop > 0)
         {
-            GameObject drop = Instantiate(droppedGoldPrefab, transform.position, Quaternion.identity);
-            drop.GetComponent<DroppedGold>().SetGoldAmount(gold);
-            greedMeter.RemoveGold(gold);
+            if (droppedGoldPrefab != null)
+            {
+                GameObject drop = Instantiate(droppedGoldPrefab, transform.position, Quaternion.identity);
+                drop.GetComponent<DroppedGold>().SetGoldAmount(goldToDrop);
+            }
+            
+            // Remove the dropped amount from the player's inventory
+            greedMeter.RemoveGold(goldToDrop);
         }
 
         // Respawn
@@ -286,11 +287,6 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         OnSkillCooldownReset?.Invoke();
     }
 
-    public void GrantIframes(float duration)
-    {
-        invulnerableUntil = Time.time + duration;
-    }
-
     public void ApplyMaxHPModifier(float modifier)
     {
         float sanitizedModifier = modifier > 0f ? modifier : 1f;
@@ -298,22 +294,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         float healthPercent = previousMaxHP > 0f ? currentHP / previousMaxHP : 1f;
 
         maxHPModifier = sanitizedModifier;
-        effectiveMaxHP = baseMaxHP * maxHPModifier + greedBonusHP;
-        currentHP = Mathf.Clamp(effectiveMaxHP * healthPercent, 0f, effectiveMaxHP);
-
-        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
-    }
-
-    public void OnGreedTierChanged(GreedTier tier)
-    {
-        float newBonus = GreedMeterLogic.GetBonusHP(tier);
-        if (newBonus == greedBonusHP) return;
-
-        float previousMaxHP = effectiveMaxHP > 0f ? effectiveMaxHP : baseMaxHP;
-        float healthPercent = previousMaxHP > 0f ? currentHP / previousMaxHP : 1f;
-
-        greedBonusHP = newBonus;
-        effectiveMaxHP = baseMaxHP * maxHPModifier + greedBonusHP;
+        effectiveMaxHP = baseMaxHP * maxHPModifier;
         currentHP = Mathf.Clamp(effectiveMaxHP * healthPercent, 0f, effectiveMaxHP);
 
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
