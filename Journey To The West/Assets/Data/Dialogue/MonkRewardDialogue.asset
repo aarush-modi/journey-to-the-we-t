@@ -19,7 +19,9 @@ MonoBehaviour:
   - Thank you. You have given an old monk his only wish.
   - Take this sacred charm. It carries the strength of every monk who wore it before
     you.
-  - You will need it. I sense a great battle ahead of you.
+  - Here, take another heal before you go. You will need your full strength for
+    what lies ahead.
+  - May the spirits guide you. I sense a great battle ahead of you.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}

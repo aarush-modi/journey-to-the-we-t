@@ -126,7 +126,10 @@ public class MonkNPC : NPCBase
             playerInventory.AddItem(charmItem);
 
         if (playerCombat != null)
+        {
             playerCombat.ApplyDamageBoost(damageBoostMultiplier);
+            playerCombat.Heal(playerCombat.GetMaxHP());
+        }
 
         if (questToStart != null)
             QuestManager.Instance.CompleteQuest(questToStart);
