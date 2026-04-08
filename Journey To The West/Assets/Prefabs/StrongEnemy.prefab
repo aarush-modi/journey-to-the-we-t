@@ -192,14 +192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8360f322c0c684f4e9e93aa717600c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StealthDetector
-  unawareRange: 4
-  alertedRange: 10
+  detectionData: {fileID: 11400000, guid: c0e3f8de4cb379e42bedcbef852c04d3, type: 2}
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 256
-  timeToAlert: 1.5
-  drainDelay: 0.5
-  timeToCalm: 4
   suspicionIcon: {fileID: 0}
   alertIcon: {fileID: 0}
 --- !u!50 &167517479778299869

@@ -21,7 +21,10 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Color tier1Color = Color.yellow;
     [SerializeField] private Color tier2Color = new Color(1f, 0.5f, 0f); // orange
     [SerializeField] private Color tier3Color = Color.red;
+    [SerializeField] private Color tier4Color = new Color(0.5f, 0f, 0.5f); // purple
 
+    [Header("Greed Buffs")]
+    [SerializeField] private TextMeshProUGUI buffText;
 
     private void OnEnable()
     {
@@ -37,6 +40,7 @@ public class HUDManager : MonoBehaviour
             greedMeter.OnGoldChanged.AddListener(UpdateGold);
             greedMeter.OnTierChanged.AddListener(UpdateGreedTier);
         }
+
     }
 
     private void OnDisable()
@@ -69,10 +73,12 @@ public class HUDManager : MonoBehaviour
         if (greedMeter != null)
         {
             greedSlider.minValue = 0f;
-            greedSlider.maxValue = 600f;
+            greedSlider.maxValue = GreedMeterLogic.GetMaxThreshold();
             UpdateGold(greedMeter.GetCurrentGold());
             UpdateGreedTier(greedMeter.GetCurrentTier());
+            UpdateBuffText(greedMeter.GetCurrentTier());
         }
+
     }
 
     private void BindPlayerReferences()
@@ -104,14 +110,13 @@ public class HUDManager : MonoBehaviour
         hpBar.maxValue = max;
         hpBar.value = current;
         if (hpText != null)
-            hpText.text = $"{current:0}";
+            hpText.text = $"{current:0}/{max:0}";
     }
 
     private void UpdateGold(int gold)
     {
         if (greedSlider != null)
         {
-            greedSlider.maxValue = Mathf.Max(greedSlider.maxValue, gold);
             greedSlider.value = gold;
         }
 
@@ -124,15 +129,25 @@ public class HUDManager : MonoBehaviour
     private void UpdateGreedTier(GreedTier tier)
     {
         Debug.Log($"UpdateGreedTier called: tier={tier}");
-        if (greedFill == null) return;
-
-        greedFill.color = tier switch
+        if (greedFill != null)
         {
-            GreedTier.Tier1 => tier1Color,
-            GreedTier.Tier2 => tier2Color,
-            GreedTier.Tier3 => tier3Color,
-            _ => tierNoneColor
-        };
+            greedFill.color = tier switch
+            {
+                GreedTier.Tier1 => tier1Color,
+                GreedTier.Tier2 => tier2Color,
+                GreedTier.Tier3 => tier3Color,
+                GreedTier.Tier4 => tier4Color,
+                _ => tierNoneColor
+            };
+        }
+
+        UpdateBuffText(tier);
+    }
+
+    private void UpdateBuffText(GreedTier tier)
+    {
+        if (buffText != null)
+            buffText.text = GreedMeterLogic.GetBuffText(tier);
     }
 
 }

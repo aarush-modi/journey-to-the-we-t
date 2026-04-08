@@ -24,4 +24,4 @@ MonoBehaviour:
   baseDashDamage: 30
   dashRange: 5
   whiffCooldown: 1.5
-  detectionRadius: 1
+  detectionRadius: 0.5

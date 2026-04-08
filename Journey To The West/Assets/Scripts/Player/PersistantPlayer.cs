@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class PersistentPlayer : MonoBehaviour
 {
     private const string MerchantTownSceneName = "MerchantTown";
-    private const int MerchantTownMaxGreedGold = 600;
+    private const int MerchantTownMaxGreedGold = 1200;
 
     public static string PendingSpawnId = "default";
 

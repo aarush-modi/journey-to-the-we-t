@@ -12,6 +12,10 @@ public class PlayerMenuUI : MonoBehaviour
     [SerializeField] private string defaultStyleLabel = "NONE";
     [SerializeField] private Sprite defaultPortrait;
 
+    [Header("Red Packets")]
+    [SerializeField] private TMP_Text redPacketLabelText;
+    [SerializeField] private TMP_Text redPacketCountText;
+
     private void OnEnable()
     {
         RefreshDisplay();
@@ -20,6 +24,11 @@ public class PlayerMenuUI : MonoBehaviour
         {
             HustleStyleManager.Instance.OnStyleSelected.AddListener(OnStyleChanged);
         }
+
+        if (RedPacketTracker.Instance != null)
+        {
+            RedPacketTracker.Instance.onRedPacketCollected.AddListener(OnRedPacketCollected);
+        }
     }
 
     private void OnDisable()
@@ -27,6 +36,11 @@ public class PlayerMenuUI : MonoBehaviour
         if (HustleStyleManager.Instance != null)
         {
             HustleStyleManager.Instance.OnStyleSelected.RemoveListener(OnStyleChanged);
+        }
+
+        if (RedPacketTracker.Instance != null)
+        {
+            RedPacketTracker.Instance.onRedPacketCollected.RemoveListener(OnRedPacketCollected);
         }
     }
 
@@ -52,6 +66,19 @@ public class PlayerMenuUI : MonoBehaviour
                 hustleStyleImage.gameObject.SetActive(defaultPortrait != null);
             }
         }
+
+        UpdateRedPacketCount();
+    }
+
+    private void OnRedPacketCollected()
+    {
+        UpdateRedPacketCount();
+    }
+
+    private void UpdateRedPacketCount()
+    {
+        if (redPacketCountText != null && RedPacketTracker.Instance != null)
+            redPacketCountText.text = $"{RedPacketTracker.Instance.GetCount()}/6";
     }
 
     private void ApplyStyle(HustleStyleData style)

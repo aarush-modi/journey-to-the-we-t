@@ -1,12 +1,12 @@
-# Combat & AI Systems
-
-Changes since the ranged enemy AI merge.
+# Combat System
 
 ## Dash Attack
 
 `DashAttackHandler` drives the player's dash skill. Data lives in `DashAttackSkill` (ScriptableObject).
 
 Flow: player activates skill -> `CursorReticle` snapshots targets -> player dashes to destination -> `HandleArrival()` deals damage or whiffs.
+
+Damage formula: `finalDamage = baseDashDamage + greedBonusDamage` (flat bonus from `GreedMeterLogic.GetBonusDamage()`, not a multiplier).
 
 Key behaviors:
 - **Shield interaction**: hitting a shielded enemy triggers knockback (wall-aware), cyan flash, and cooldown reset so the player can dash again immediately

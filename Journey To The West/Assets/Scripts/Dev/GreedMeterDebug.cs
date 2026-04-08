@@ -20,12 +20,12 @@ public class GreedMeterDebug : MonoBehaviour
         if (keyboard.gKey.wasPressedThisFrame)
         {
             greedMeter.AddGold(100);
-            Debug.Log($"Tier: {greedMeter.GetCurrentTier()} | DMG: {greedMeter.GetDamageMultiplier()} | SPD: {greedMeter.GetSpeedMultiplier()} | HP: {greedMeter.GetHPMultiplier()} | Desperate: {greedMeter.IsDesperate()}");
+            Debug.Log($"Tier: {greedMeter.GetCurrentTier()} | DMG: +{greedMeter.GetBonusDamage()} | SPD: +{greedMeter.GetBonusSpeed()} | HP: +{greedMeter.GetBonusHP()} | SHD: {greedMeter.GetShieldCount()}");
         }
         if (keyboard.hKey.wasPressedThisFrame)
         {
             greedMeter.RemoveGold(150);
-            Debug.Log($"Tier: {greedMeter.GetCurrentTier()} | DMG: {greedMeter.GetDamageMultiplier()} | SPD: {greedMeter.GetSpeedMultiplier()} | HP: {greedMeter.GetHPMultiplier()} | Desperate: {greedMeter.IsDesperate()}");
+            Debug.Log($"Tier: {greedMeter.GetCurrentTier()} | DMG: +{greedMeter.GetBonusDamage()} | SPD: +{greedMeter.GetBonusSpeed()} | HP: +{greedMeter.GetBonusHP()} | SHD: {greedMeter.GetShieldCount()}");
         }
     }
 }

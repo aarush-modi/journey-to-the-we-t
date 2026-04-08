@@ -4,11 +4,19 @@ using Unity.Cinemachine;
 
 public class PersistentCamera : MonoBehaviour
 {
+    public static PersistentCamera Instance { get; private set; }
+
     private CinemachineCamera cinemachineCamera;
     private CinemachineConfiner2D confiner;
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
         cinemachineCamera = GetComponent<CinemachineCamera>();
         confiner = GetComponent<CinemachineConfiner2D>();
@@ -35,6 +43,15 @@ public class PersistentCamera : MonoBehaviour
                 Quaternion.identity
             );
         }
+    }
+
+    public void SnapToPlayer(Vector3 playerPosition)
+    {
+        RefreshConfinerForPlayer(SceneManager.GetActiveScene(), playerPosition);
+        cinemachineCamera.ForceCameraPosition(
+            playerPosition + new Vector3(0f, 0f, -10f),
+            Quaternion.identity
+        );
     }
 
     private void RefreshConfinerForPlayer(Scene scene, Vector3 playerPosition)

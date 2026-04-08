@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VillageElderNPC : NPCBase
 {
@@ -38,6 +39,9 @@ public class VillageElderNPC : NPCBase
         if (lastDialogueOutcome != "accepted") return;
 
         hasGivenPackage = true;
+
+        if (RedPacketTracker.Instance != null)
+            RedPacketTracker.Instance.Collect(SceneManager.GetActiveScene().name);
 
         if (playerInventory != null && packageToGive != null)
             playerInventory.AddPackage(packageToGive);

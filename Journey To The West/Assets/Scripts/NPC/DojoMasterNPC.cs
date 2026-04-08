@@ -63,5 +63,12 @@ public class DojoMasterNPC : NPCBase
 
         if (questToStart != null)
             QuestManager.Instance.CompleteQuest(questToStart);
+
+        ShowInteractionIcon(false);
+    }
+
+    public override bool CanInteract()
+    {
+        return !hasGivenPackage && base.CanInteract();
     }
 }

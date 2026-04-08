@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestLogUI : MonoBehaviour
 {
@@ -11,12 +13,19 @@ public class QuestLogUI : MonoBehaviour
     private void OnEnable()
     {
         RefreshAll();
+        StartCoroutine(RebuildLayoutNextFrame());
 
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.onQuestStarted.AddListener(OnQuestStarted);
             QuestManager.Instance.onQuestCompleted.AddListener(OnQuestCompleted);
         }
+    }
+
+    private IEnumerator RebuildLayoutNextFrame()
+    {
+        yield return null;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentParent as RectTransform);
     }
 
     private void OnDisable()

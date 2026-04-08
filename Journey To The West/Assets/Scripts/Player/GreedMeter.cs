@@ -40,26 +40,17 @@ public class GreedMeter : MonoBehaviour
 
     public GreedTier GetCurrentTier() => currentTier;
 
-    public float GetDamageMultiplier() => currentTier >= GreedTier.Tier1 ? 1.1f : 1.0f;
+    public float GetBonusDamage() => GreedMeterLogic.GetBonusDamage(currentTier);
 
-    public float GetSpeedMultiplier() => currentTier >= GreedTier.Tier2 ? 1.15f : 1.0f;
+    public float GetBonusSpeed() => GreedMeterLogic.GetBonusSpeed(currentTier);
 
-    public float GetHPMultiplier() => currentTier >= GreedTier.Tier3 ? 1.2f : 1.0f;
+    public float GetBonusHP() => GreedMeterLogic.GetBonusHP(currentTier);
 
-    public bool IsDesperate() => currentGold < 50;
+    public int GetShieldCount() => GreedMeterLogic.GetShieldCount(currentTier);
 
     private void RecalculateTier()
     {
-        GreedTier newTier;
-
-        if (currentGold >= 600)
-            newTier = GreedTier.Tier3;
-        else if (currentGold >= 300)
-            newTier = GreedTier.Tier2;
-        else if (currentGold >= 100)
-            newTier = GreedTier.Tier1;
-        else
-            newTier = GreedTier.None;
+        GreedTier newTier = GreedMeterLogic.CalculateTier(currentGold);
 
         if (newTier != currentTier)
         {
@@ -70,12 +61,7 @@ public class GreedMeter : MonoBehaviour
 
     private static int ApplyStyleModifier(int baseAmount, float modifier)
     {
-        if (baseAmount <= 0)
-        {
-            return 0;
-        }
-
-        return Mathf.Max(0, Mathf.RoundToInt(baseAmount * modifier));
+        return GreedMeterLogic.ApplyStyleModifier(baseAmount, modifier);
     }
 }
 
@@ -84,5 +70,6 @@ public enum GreedTier
     None = 0,
     Tier1 = 1,
     Tier2 = 2,
-    Tier3 = 3
+    Tier3 = 3,
+    Tier4 = 4
 }

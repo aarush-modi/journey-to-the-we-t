@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0b85b3f01b5ea4fb367d25d751830c, type: 3}
   m_Name: DefeatDojoEnemies
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questName: 'Defeat the Dojo Ninjas '
-  description: Defeat all ninjas  in the second dojo room and return to the Dojo
-    Master.
+  questName: DEFEAT  THE  DOJO  NINJAS
+  description: DEFEAT  ALL  NINJAS  IN  THE  DOJO  ROOM  AND  RETURN  TO  THE  DOJO 
+    MASTER
   questType: 1
-  isCompleted: 0
+  isCompleted: 1

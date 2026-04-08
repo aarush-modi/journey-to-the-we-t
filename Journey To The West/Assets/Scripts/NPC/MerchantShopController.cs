@@ -26,8 +26,7 @@ public class MerchantShopController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        Instance = this;
 
         if (npcBase == null)
             npcBase = GetComponent<NPCBase>();
@@ -159,5 +158,8 @@ public class MerchantShopController : MonoBehaviour
     {
         if (playerGreed != null)
             playerGreed.OnGoldChanged.RemoveListener(OnPlayerGoldChanged);
+
+        if (Instance == this)
+            Instance = null;
     }
 }

@@ -24,7 +24,7 @@ The dash is bound to the **Skill** action in the Unity Input System (`InputSyste
 | `whiffCooldown` | 1.5s | Cooldown applied on miss or wall collision |
 | `cooldown` | (ScriptableObject) | Cooldown applied on a successful hit |
 
-Damage is multiplied by the GreedMeter system: `finalDamage = baseDashDamage * greedMultiplier`.
+Damage includes a flat bonus from the GreedMeter: `finalDamage = baseDashDamage + greedBonusDamage` (see [Inventory System](inventory-system.md) for bonus values by tier).
 
 ## Execution Flow
 
@@ -92,7 +92,7 @@ Targeting is **snapshot-based**: enemies are locked in at activation and cannot 
 |--------|-------|
 | Camera shake (hit) | 0.5 magnitude |
 | Camera shake (whiff) | 0.15 magnitude |
-| Hit stop | 0.05s at `Time.timeScale = 0` |
+| Hit stop | 0.05s (freeze animator + rigidbody, not `Time.timeScale`) |
 
 ## Wall Collision
 
@@ -107,7 +107,8 @@ The dash direction is snapped to 8-way cardinal directions (N, NE, E, SE, S, SW,
 
 ## Notes
 
-- **No invincibility frames**: The player can take damage while dashing.
+- **Invulnerable during dash**: `PlayerCombat.TakeDamage()` returns early when `dashAttackHandler.IsDashing` is true, so the player cannot take damage mid-dash.
+- **Post-dash i-frames**: `DashAttackHandler.EndDash()` calls `PlayerCombat.GrantIframes(0.15f)`, granting 0.15 seconds of invulnerability after every dash ends (hit or whiff).
 - **No stamina/resource cost**: The dash is gated by cooldown only.
 - **Action locking**: While dashing, normal movement and attacks are locked. The `chainDashReady` flag bypasses this lock for consecutive dashes.
 
