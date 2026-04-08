@@ -10,24 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
-  m_Name: PortKeeper
+  m_Name: PortKeeperReminder
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Port Keeper
   npcSprite: {fileID: 21300000, guid: fcd1c053812e40444b91d2b4e683f7ec, type: 3}
   dialogue:
-  - River...(mumbles)...OH!
-  - WHAT ARE YOU DOING HERE?
-  - You're not supposed to be here.
-  - My waters have been taken over.
-  - Here take this.
-  - I don't want anything to do with anything.
-  - I'm going to stay here where it is safe.
-  - NOW GET AWAY FROM ME!
+  - I want that thing as far away from me as possible.
+  - GO!
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}
   voucePitch: 1
-  autoProgressLines: 0101010101010100
+  autoProgressLines: 0100
   autoProgressDelay: 1.5
   endDialogueOutcomes: []
   nextLineOverride: 
