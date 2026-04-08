@@ -40,12 +40,14 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     [SerializeField] private Color flashColor = Color.red;
 
     private GreedMeter greedMeter;
+    private PlayerShield playerShield;
     private PlayerController playerController;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
     private float attackCooldownTimer;
     private float skillCooldownTimer;
+    private float invulnerableUntil;
     private Vector3 lastCheckpoint;
     private bool isDead;
     private bool chainDashReady;
@@ -53,6 +55,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
     private void Awake()
     {
         greedMeter = GetComponent<GreedMeter>();
+        playerShield = GetComponent<PlayerShield>();
         playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -147,12 +150,20 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         damageBoost = multiplier;
     }
 
+    public void GrantIframes(float duration)
+    {
+        invulnerableUntil = Time.time + duration;
+    }
+
     // --- IDamageable ---
 
     public void TakeDamage(float amount)
     {
         if (isDead) return;
         if (dashAttackHandler != null && dashAttackHandler.IsDashing) return;
+        if (Time.time < invulnerableUntil) return;
+
+        if (playerShield != null && playerShield.TryAbsorbHit()) return;
 
         if (equippedArmor != null)
             amount = Mathf.Max(0f, amount - equippedArmor.damageReduction);
@@ -161,6 +172,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         currentHP = Mathf.Max(0f, currentHP - amount);
         if (hurtFlashRoutine != null) StopCoroutine(hurtFlashRoutine);
         hurtFlashRoutine = StartCoroutine(HurtFlash());
+        DamageVignette.Instance?.Flash();
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
 
         if (currentHP <= 0f)

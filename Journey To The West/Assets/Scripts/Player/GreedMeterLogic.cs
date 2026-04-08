@@ -19,6 +19,12 @@ public static class GreedMeterLogic
         return bonus;
     }
 
+    public static float GetDamageMultiplier(GreedTier tier)
+    {
+        if (tier >= GreedTier.Tier3) return 3f;
+        return 1f;
+    }
+
     public static float GetBonusSpeed(GreedTier tier)
     {
         float bonus = 0f;
