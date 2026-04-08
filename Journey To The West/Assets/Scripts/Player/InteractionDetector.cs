@@ -15,7 +15,8 @@ public class InteractionDetector : MonoBehaviour
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            interactable.Interact(transform.parent.gameObject);
+            GameObject player = transform.parent != null ? transform.parent.gameObject : gameObject;
+            interactable.Interact(player);
 
             if (interactable == interactableInRange && !interactableInRange.CanInteract())
             {
