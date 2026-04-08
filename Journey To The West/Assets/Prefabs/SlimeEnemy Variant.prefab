@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8052528227479556143
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2389927335297099617, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: flashColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2389927335297099617, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: flashColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2389927335297099617, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: flashColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591260189200705611, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 127761303507571002, guid: 265d3191d3b96364ba68e37026a6f441, type: 3}
+    - target: {fileID: 2591260189200705611, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591260189200705611, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1167505161
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425784204000495687, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425784204000495687, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425784204000495687, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 28.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -32.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926554811131377722, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_Name
+      value: SlimeEnemy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2389927335297099617, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8593044828142913715}
+    - targetCorrespondingSourceObject: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 231547680417358722}
+    - targetCorrespondingSourceObject: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 387512524345461337}
+    - targetCorrespondingSourceObject: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4673063270227865187}
+    - targetCorrespondingSourceObject: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 792567181458580002}
+  m_SourcePrefab: {fileID: 100100000, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+--- !u!1 &934242396859783689 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7149265674548169254, guid: 3d1272537c8a84bf3979ff3dbb2592fd, type: 3}
+  m_PrefabInstance: {fileID: 8052528227479556143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8593044828142913715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934242396859783689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18dd39af2626ab64597bb0cd8dfc08da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathEffect
+  deathParticlePrefab: {fileID: 4713161626215706932, guid: 4fd72346c0c41c442ba884730a730f4d, type: 3}
+--- !u!95 &231547680417358722
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934242396859783689}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &387512524345461337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934242396859783689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8360f322c0c684f4e9e93aa717600c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StealthDetector
+  unawareRange: 4
+  alertedRange: 10
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  timeToAlert: 1.5
+  drainDelay: 0.5
+  timeToCalm: 4
+  suspicionIcon: {fileID: 0}
+  alertIcon: {fileID: 0}
+--- !u!50 &4673063270227865187
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934242396859783689}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &792567181458580002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934242396859783689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7682a344d97a7b94aba32cb665ee6190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
+  enemyData: {fileID: 11400000, guid: babba04d8f2703141888eb78d5012868, type: 2}
+  waypoints: []
+  droppedGoldPrefab: {fileID: 5710133168742629414, guid: bb7a800c10583ec4ca8ff1e6217da669, type: 3}
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}

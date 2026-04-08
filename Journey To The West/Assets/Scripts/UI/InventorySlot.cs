@@ -33,7 +33,6 @@ public class InventorySlot : MonoBehaviour
         overlayGO.transform.SetAsLastSibling();
         overlayGO.SetActive(false); // Hidden until cooldown starts
 
-        // --- Active highlight (yellow tint, hidden by default) ---
         GameObject highlightGO = new GameObject("ActiveHighlight");
         highlightGO.transform.SetParent(transform, false);
 
@@ -50,25 +49,20 @@ public class InventorySlot : MonoBehaviour
         highlightGO.SetActive(false);
     }
 
-    /// <summary>
-    /// Returns the SkillData on the current item, or null if empty.
-    /// </summary>
+    // Returns the SkillData on the current item, or null if empty.
     public SkillData GetSkillData()
     {
         return currentItem?.GetComponent<Skill>()?.data;
     }
 
-    /// <summary>
-    /// Toggles the active highlight on this slot.
-    /// </summary>
+
+    // Toggles the active highlight on this slot.
     public void SetActive(bool active)
     {
         activeHighlight.gameObject.SetActive(active);
     }
 
-    /// <summary>
-    /// Starts the cooldown overlay animation and swaps the icon to disabledIcon.
-    /// </summary>
+    // Starts the cooldown overlay animation and swaps the icon to disabledIcon.
     public void StartCooldown(float duration)
     {
         if (cooldownCoroutine != null)
@@ -94,9 +88,7 @@ public class InventorySlot : MonoBehaviour
         cooldownCoroutine = StartCoroutine(AnimateCooldown(duration));
     }
 
-    /// <summary>
-    /// Stops any running cooldown, resets the overlay, and restores the normal icon.
-    /// </summary>
+    // Stops any running cooldown, resets the overlay, and restores the normal icon.
     public void ResetCooldown()
     {
         if (cooldownCoroutine != null)

@@ -29,6 +29,8 @@ public class PlayerCombat : MonoBehaviour, IDamageable
 
     [Header("Death")]
     [SerializeField] private GameObject droppedGoldPrefab;
+    [SerializeField, Tooltip("Flat amount of gold lost and dropped upon death")] 
+    private int deathGoldLossAmount = 20;
 
     [Header("Dash")]
     [SerializeField] private DashAttackHandler dashAttackHandler;
@@ -182,13 +184,20 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         if (isDead) return;
         isDead = true;
 
-        // Drop gold
-        int gold = greedMeter.GetCurrentGold();
-        if (gold > 0 && droppedGoldPrefab != null)
+        // Drop a portion of gold
+        int currentGold = greedMeter.GetCurrentGold();
+        int goldToDrop = Mathf.Min(currentGold, deathGoldLossAmount);
+
+        if (goldToDrop > 0)
         {
-            GameObject drop = Instantiate(droppedGoldPrefab, transform.position, Quaternion.identity);
-            drop.GetComponent<DroppedGold>().SetGoldAmount(gold);
-            greedMeter.RemoveGold(gold);
+            if (droppedGoldPrefab != null)
+            {
+                GameObject drop = Instantiate(droppedGoldPrefab, transform.position, Quaternion.identity);
+                drop.GetComponent<DroppedGold>().SetGoldAmount(goldToDrop);
+            }
+            
+            // Remove the dropped amount from the player's inventory
+            greedMeter.RemoveGold(goldToDrop);
         }
 
         // Respawn
