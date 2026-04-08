@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d9e194c4-aa3c-43ed-817b-07e04dba93dd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Journey To The West/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Journey To The West/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NPC/PortKeeper.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NPC/PortKeeper.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Abandoned Outpost.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Abandoned Outpost.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/FishingPort.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/FishingPort.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/FishingPortPt2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/FishingPortPt2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Projectile/Caltrop.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Projectile/Caltrop.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
