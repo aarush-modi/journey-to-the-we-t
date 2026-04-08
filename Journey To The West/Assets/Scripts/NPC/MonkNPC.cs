@@ -50,6 +50,19 @@ public class MonkNPC : NPCBase
                 ?? player.GetComponentInChildren<PlayerCombat>()
                 ?? player.GetComponentInParent<PlayerCombat>();
 
+        if (isDialogueActive)
+        {
+            if (hasGivenReward)
+                PlayDialogue(rewardDialogue);
+            else if (hasGivenQuest && IsShadowDead())
+                PlayDialogue(rewardDialogue);
+            else if (hasGivenQuest)
+                PlayDialogue(reminderDialogue);
+            else
+                PlayDialogue(introDialogue);
+            return;
+        }
+
         if (hasGivenReward)
         {
             PlayDialogue(rewardDialogue);

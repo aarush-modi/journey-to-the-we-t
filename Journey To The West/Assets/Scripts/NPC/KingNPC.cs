@@ -35,7 +35,8 @@ public class KingNPC : NPCBase
     {
         if (hasTriggered) return;
 
-        OnDialogueComplete.AddListener(OnDialogueFinished);
+        if (!isDialogueActive)
+            OnDialogueComplete.AddListener(OnDialogueFinished);
         PlayDialogue(introDialogue);
     }
 

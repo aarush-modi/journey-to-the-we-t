@@ -268,18 +268,19 @@ public class CastleDoorPuzzleNPC : NPCBase
 
     public override void Interact(GameObject player)
     {
+        if (isDialogueActive)
+        {
+            PlayDialogue(hasSolved ? solvedDialogue : introDialogue);
+            return;
+        }
+
         if (hasSolved)
         {
             PlayDialogue(solvedDialogue);
             return;
         }
 
-        if (awaitingPuzzle)
-        {
-            if (isDialogueActive)
-                PlayDialogue(introDialogue);
-            return;
-        }
+        if (awaitingPuzzle) return;
 
         awaitingPuzzle = true;
         OnDialogueComplete.AddListener(OnIntroComplete);

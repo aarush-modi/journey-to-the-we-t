@@ -109,6 +109,12 @@ public class CastleWarnerNPC : NPCBase
                 ?? player.GetComponentInChildren<PlayerInventory>()
                 ?? player.GetComponentInParent<PlayerInventory>();
 
+        if (isDialogueActive)
+        {
+            PlayDialogue(hasGivenPackage ? reminderDialogue : introDialogue);
+            return;
+        }
+
         if (!hasGivenPackage)
         {
             OnDialogueComplete.AddListener(OnIntroComplete);
