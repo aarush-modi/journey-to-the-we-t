@@ -13,6 +13,7 @@ public class SceneTeleporter : MonoBehaviour
 #endif
 
     public string targetScene;
+    public string targetSpawnId = "default";
     private bool isTransitioning = false;
 
     void OnValidate()
@@ -28,6 +29,13 @@ public class SceneTeleporter : MonoBehaviour
         if (other.CompareTag("Player") && !isTransitioning)
         {
             isTransitioning = true;
+
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.SetMovementLocked(true);
+
+            PersistentPlayer.PendingSpawnId = targetSpawnId;
+
             _ = TransitionToScene();
         }
     }

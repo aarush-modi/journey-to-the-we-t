@@ -33,6 +33,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        EnemyShield shield = GetComponent<EnemyShield>();
+        if (shield != null && shield.TryAbsorbHit()) return;
+
         currentHP -= amount;
         StartCoroutine(HurtFlash());
 
@@ -49,8 +52,14 @@ public class EnemyController : MonoBehaviour, IDamageable
         isDead = true;
 
         DropGold();
-        gameObject.SetActive(false);
+        var deathEffect = GetComponent<EnemyDeathEffect>();
+        if (deathEffect != null)
+            deathEffect.PlayDeath();
+        else
+            gameObject.SetActive(false);
     }
+
+    public bool IsDead() => isDead;
 
     private void DropGold()
     {

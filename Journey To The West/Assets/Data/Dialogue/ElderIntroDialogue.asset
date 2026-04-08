@@ -20,6 +20,7 @@ MonoBehaviour:
   - 'Oh. Okay. '
   - There is a red packet that must reach the king. It is of great importance.
   - Take this and deliver it safely. You will be rewarded.
+  - A ninja must always be prepared. Head to the DOJO first.
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}
@@ -31,8 +32,9 @@ MonoBehaviour:
   - 
   - declined
   - 
+  - 
   - accepted
-  nextLineOverride: ffffffff03000000ffffffffffffffffffffffff
+  nextLineOverride: ffffffff03000000ffffffffffffffffffffffffffffffff
   choices:
   - dialogueIndex: 0
     choices:

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: DeadCourierDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Dead Courier
+  npcSprite: {fileID: -7527145504033472756, guid: 6c508301e5955e74ab8ae2cf18efcb6e, type: 3}
+  dialogue:
+  - Oh, what is this!!
+  - He is not moving.
+  - The courier is dead, what could this mean?!
+  - Wait, he's dropped some gold.
+  - Eh, who cares he's already dead, i'll just take his gold.
+  dialogueTime: []
+  typingSpeed: 0.05
+  voiceSounds: {fileID: 0}
+  voucePitch: 1
+  autoProgressLines: 
+  autoProgressDelay: 1.5
+  endDialogueOutcomes: []
+  nextLineOverride: 
+  choices: []

@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -34,6 +36,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     protected bool isDialogueActive;
     protected bool isTyping;
     private bool isWaitingForChoice;
+    private List<int> choiceNextIndexes = new List<int>();
     private PlayerCombat activeDialogueCombat;
     private bool disabledCombatForDialogue;
     protected string lastDialogueOutcome { get; private set; }
@@ -45,6 +48,194 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
         ConfigureDialogueRaycasts();
+    }
+
+    protected void EnsureDialogueReferencesFromScene()
+    {
+        CopyDialogueReferencesFromExistingNpc();
+
+        GameObject[] sceneObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        if (dialoguePanel == null)
+        {
+            foreach (GameObject sceneObject in sceneObjects)
+            {
+                if (sceneObject.name == "DialoguePanel" && sceneObject.scene.IsValid())
+                {
+                    dialoguePanel = sceneObject;
+                    break;
+                }
+            }
+        }
+
+        if (dialoguePanel == null)
+        {
+            return;
+        }
+
+        if (dialogueText == null || nameText == null)
+        {
+            TMP_Text dialogueTextComponent = FindTextInDialoguePanel("DialogueText");
+            if (dialogueText == null && dialogueTextComponent != null)
+            {
+                dialogueText = dialogueTextComponent;
+            }
+
+            TMP_Text nameTextComponent = FindTextInDialoguePanel("NameText");
+            if (nameTextComponent == null)
+            {
+                nameTextComponent = FindTextInDialoguePanel("NPCNameText");
+            }
+            if (nameText == null && nameTextComponent != null)
+            {
+                nameText = nameTextComponent;
+            }
+        }
+
+        if (npcPortraitImage == null)
+        {
+            Image portraitImage = FindImageInDialoguePanel("DialoguePortrait");
+            if (portraitImage != null)
+            {
+                npcPortraitImage = portraitImage;
+            }
+        }
+
+        if (continuePrompt == null)
+        {
+            Transform continuePromptTransform = FindChildRecursive(dialoguePanel != null ? dialoguePanel.transform : null, "ContinuePrompt");
+            continuePrompt = continuePromptTransform != null ? continuePromptTransform.gameObject : null;
+        }
+
+        if (choiceContainer == null)
+        {
+            choiceContainer = FindChildRecursive(dialoguePanel != null ? dialoguePanel.transform : null, "ChoiceContainer");
+        }
+
+        if (choiceButtonPrefab == null)
+        {
+            CopyDialogueReferencesFromExistingNpc();
+        }
+
+        ConfigureDialogueRaycasts();
+    }
+
+    private void CopyDialogueReferencesFromExistingNpc()
+    {
+        foreach (NPCBase npc in Resources.FindObjectsOfTypeAll<NPCBase>())
+        {
+            if (npc == null || npc == this || !npc.gameObject.scene.IsValid())
+            {
+                continue;
+            }
+
+            if (dialoguePanel == null && npc.dialoguePanel != null)
+            {
+                dialoguePanel = npc.dialoguePanel;
+            }
+
+            if (dialogueText == null && npc.dialogueText != null)
+            {
+                dialogueText = npc.dialogueText;
+            }
+
+            if (nameText == null && npc.nameText != null)
+            {
+                nameText = npc.nameText;
+            }
+
+            if (npcPortraitImage == null && npc.npcPortraitImage != null)
+            {
+                npcPortraitImage = npc.npcPortraitImage;
+            }
+
+            if (continuePrompt == null && npc.continuePrompt != null)
+            {
+                continuePrompt = npc.continuePrompt;
+            }
+
+            if (choiceContainer == null && npc.choiceContainer != null)
+            {
+                choiceContainer = npc.choiceContainer;
+            }
+
+            if (choiceButtonPrefab == null && npc.choiceButtonPrefab != null)
+            {
+                choiceButtonPrefab = npc.choiceButtonPrefab;
+            }
+
+            if (dialoguePanel != null
+                && dialogueText != null
+                && nameText != null
+                && npcPortraitImage != null
+                && continuePrompt != null
+                && choiceContainer != null
+                && choiceButtonPrefab != null)
+            {
+                return;
+            }
+        }
+    }
+
+    private TMP_Text FindTextInDialoguePanel(string objectName)
+    {
+        if (dialoguePanel == null)
+        {
+            return null;
+        }
+
+        Transform child = FindChildRecursive(dialoguePanel.transform, objectName);
+        return child != null ? child.GetComponent<TMP_Text>() : null;
+    }
+
+    private Image FindImageInDialoguePanel(string objectName)
+    {
+        if (dialoguePanel == null)
+        {
+            return null;
+        }
+
+        Transform child = FindChildRecursive(dialoguePanel.transform, objectName);
+        return child != null ? child.GetComponent<Image>() : null;
+    }
+
+    private Transform FindChildRecursive(Transform parent, string objectName)
+    {
+        if (parent == null)
+        {
+            return null;
+        }
+
+        if (parent.name == objectName)
+        {
+            return parent;
+        }
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform result = FindChildRecursive(parent.GetChild(i), objectName);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    protected virtual void Update()
+    {
+        if (!isWaitingForChoice) return;
+        if (Keyboard.current == null) return;
+
+        for (int i = 0; i < choiceNextIndexes.Count && i < 9; i++)
+        {
+            if (Keyboard.current[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame)
+            {
+                ChooseOption(choiceNextIndexes[i]);
+                return;
+            }
+        }
     }
 
     protected virtual void OnDisable()
@@ -92,6 +283,14 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
 
     private void StartDialogue(NPCDialogue dialogue)
     {
+        EnsureDialogueReferencesFromScene();
+
+        if (dialoguePanel == null || dialogueText == null || nameText == null || npcPortraitImage == null)
+        {
+            Debug.LogWarning($"[NPCBase] Missing dialogue UI references for {name}. Dialogue aborted.", this);
+            return;
+        }
+
         currentDialogue = dialogue;
         isDialogueActive = true;
         dialogueIndex = 0;
@@ -179,6 +378,11 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
         isTyping = false;
 
+        if (CheckForChoices())
+        {
+            yield break;
+        }
+
         if (currentDialogue.autoProgressLines != null
             && currentDialogue.autoProgressLines.Length > dialogueIndex
             && currentDialogue.autoProgressLines[dialogueIndex])
@@ -217,11 +421,13 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
     private void DisplayChoices(DialogueChoice choice)
     {
         isWaitingForChoice = true;
+        choiceNextIndexes.Clear();
         Button firstButton = null;
         for (int i = 0; i < choice.choices.Length; i++)
         {
             int nextIndex = choice.nextDialogueIndexes[i];
-            Button button = CreateChoiceButton(choice.choices[i], nextIndex);
+            choiceNextIndexes.Add(nextIndex);
+            Button button = CreateChoiceButton(choice.choices[i], nextIndex, i + 1);
             if (firstButton == null)
                 firstButton = button;
         }
@@ -233,7 +439,7 @@ public abstract class NPCBase : MonoBehaviour, IInteractable
         }
     }
 
-    private Button CreateChoiceButton(string text, int nextIndex)
+    private Button CreateChoiceButton(string text, int nextIndex, int displayNumber)
     {
         if (choiceButtonPrefab == null || choiceContainer == null) return null;
 

@@ -16,6 +16,7 @@ MonoBehaviour:
   npcSprite: {fileID: 21300000, guid: a7b9de86dd332fc4eb204ef08c7d734e, type: 3}
   dialogue:
   - Have you delivered the packet yet? The king awaits!
+  - Remember to go to the Dojo first!
   dialogueTime: []
   typingSpeed: 0.05
   voiceSounds: {fileID: 0}

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7455e1b1af245b34c95fc9187c26d9ad, type: 3}
+  m_Name: DojoMasterIntroDialogue 2
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Dojo Master
+  npcSprite: {fileID: 21300000, guid: fcd1c053812e40444b91d2b4e683f7ec, type: 3}
+  dialogue:
+  - Welcome, young warrior. Before I entrust you with an important package, you must
+    prove yourself.
+  - 'Good. Use the dash attack by equipping it (1) then right-click to dash-attack. '
+  - 'Come back when you are ready.  '
+  - Now go to the second dojo and defeat every fighter there.
+  - 'Show me your strength, and I will reward you with a Red Packet.   '
+  - 
+  dialogueTime: []
+  typingSpeed: 0.05
+  voiceSounds: {fileID: 0}
+  voucePitch: 1
+  autoProgressLines: 
+  autoProgressDelay: 1.5
+  endDialogueOutcomes:
+  - 
+  - 
+  - declined
+  - 
+  - accepted
+  nextLineOverride: ffffffff03000000ffffffff04000000ffffffffffffffff
+  choices:
+  - dialogueIndex: 0
+    choices:
+    - Accept
+    - Decline
+    nextDialogueIndexes: 0100000002000000

@@ -22,11 +22,6 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Color tier2Color = new Color(1f, 0.5f, 0f); // orange
     [SerializeField] private Color tier3Color = Color.red;
 
-    [Header("Skill Slot")]
-    [SerializeField] private Image skillIcon;
-    [SerializeField] private Image skillCooldownOverlay;
-
-    private Coroutine cooldownCoroutine;
 
     private void OnEnable()
     {
@@ -35,7 +30,6 @@ public class HUDManager : MonoBehaviour
         if (playerCombat != null)
         {
             playerCombat.OnHPChanged.AddListener(UpdateHP);
-            playerCombat.OnSkillActivated.AddListener(StartSkillCooldown);
         }
 
         if (greedMeter != null)
@@ -50,7 +44,6 @@ public class HUDManager : MonoBehaviour
         if (playerCombat != null)
         {
             playerCombat.OnHPChanged.RemoveListener(UpdateHP);
-            playerCombat.OnSkillActivated.RemoveListener(StartSkillCooldown);
         }
 
         if (greedMeter != null)
@@ -71,17 +64,6 @@ public class HUDManager : MonoBehaviour
             hpBar.maxValue = playerCombat.GetMaxHP();
             UpdateHP(playerCombat.GetCurrentHP(), playerCombat.GetMaxHP());
 
-            SkillData skill = playerCombat.GetEquippedSkill();
-            if (skillIcon != null)
-            {
-                skillIcon.sprite = skill != null ? skill.icon : null;
-                skillIcon.enabled = skill != null && skill.icon != null;
-            }
-
-            if (skillCooldownOverlay != null)
-            {
-                skillCooldownOverlay.fillAmount = 0f;
-            }
         }
 
         if (greedMeter != null)
@@ -153,29 +135,4 @@ public class HUDManager : MonoBehaviour
         };
     }
 
-    private void StartSkillCooldown(float cooldownDuration)
-    {
-        if (skillCooldownOverlay == null) return;
-
-        if (cooldownCoroutine != null)
-            StopCoroutine(cooldownCoroutine);
-
-        cooldownCoroutine = StartCoroutine(AnimateCooldown(cooldownDuration));
-    }
-
-    private IEnumerator AnimateCooldown(float duration)
-    {
-        float elapsed = 0f;
-        skillCooldownOverlay.fillAmount = 1f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            skillCooldownOverlay.fillAmount = 1f - (elapsed / duration);
-            yield return null;
-        }
-
-        skillCooldownOverlay.fillAmount = 0f;
-        cooldownCoroutine = null;
-    }
 }

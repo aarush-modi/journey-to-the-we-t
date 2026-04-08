@@ -50,6 +50,9 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     [SerializeField] private string corneredDialogue = "You corner the pickpocket and take back your money.";
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.red;
+    [SerializeField] private float deathFlashDuration = 0.15f;
+    [SerializeField] private Color deathFlashColor = Color.red;
+    [SerializeField] private float obstacleDirectionLockDuration = 0.2f;
 
     private Rigidbody2D thiefBody;
     private Collider2D[] thiefColliders;
@@ -71,6 +74,8 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     private float currentHP = MaxHP;
     private int currentMoveStateHash;
     private Coroutine hurtFlashRoutine;
+    private Vector2 lockedAvoidanceDirection;
+    private float lockedAvoidanceDirectionTimer;
 
     private GameObject dialoguePanel;
     private TMP_Text dialogueText;
@@ -210,11 +215,6 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             thiefCollider.enabled = false;
         }
 
-        if (thiefSprite != null)
-        {
-            thiefSprite.enabled = false;
-        }
-
         thiefBody.linearVelocity = Vector2.zero;
         thiefBody.bodyType = RigidbodyType2D.Static;
 
@@ -223,14 +223,17 @@ public class PickpocketThief : MonoBehaviour, IDamageable
             thiefAnimator.enabled = false;
         }
 
-        ShowDeathDialogue();
+        StartCoroutine(PlayDeathSequence());
     }
+
+    public bool IsDead() => isDead;
 
     private void FixedUpdate()
     {
         if (pickpocketState == PickpocketState.Cornered || playerTarget == null)
         {
             thiefBody.linearVelocity = Vector2.zero;
+            lockedAvoidanceDirectionTimer = 0f;
             return;
         }
 
@@ -595,8 +598,9 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         }
 
         Button firstButton = null;
-        foreach ((string label, UnityEngine.Events.UnityAction onClick) in choices)
+        for (int i = 0; i < choices.Length; i++)
         {
+            (string label, UnityEngine.Events.UnityAction onClick) = choices[i];
             GameObject choiceObject = Instantiate(choiceButtonPrefab, choiceContainer);
             TMP_Text choiceText = choiceObject.GetComponentInChildren<TMP_Text>();
             if (choiceText != null)
@@ -727,10 +731,20 @@ public class PickpocketThief : MonoBehaviour, IDamageable
     {
         if (preferredDirection.sqrMagnitude < 0.0001f)
         {
+            lockedAvoidanceDirectionTimer = 0f;
             return Vector2.zero;
         }
 
         Vector2 normalizedDirection = preferredDirection.normalized;
+
+        if (lockedAvoidanceDirectionTimer > 0f
+            && lockedAvoidanceDirection.sqrMagnitude > 0.0001f
+            && !HasBlockingObstacle(lockedAvoidanceDirection))
+        {
+            lockedAvoidanceDirectionTimer -= Time.fixedDeltaTime;
+            return lockedAvoidanceDirection * speed;
+        }
+
         avoidanceProbeDirections[0] = normalizedDirection;
         avoidanceProbeDirections[1] = RotateDirection(normalizedDirection, 35f);
         avoidanceProbeDirections[2] = RotateDirection(normalizedDirection, -35f);
@@ -743,10 +757,14 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         {
             if (!HasBlockingObstacle(candidateDirection))
             {
+                lockedAvoidanceDirection = candidateDirection;
+                lockedAvoidanceDirectionTimer = obstacleDirectionLockDuration;
                 return candidateDirection * speed;
             }
         }
 
+        lockedAvoidanceDirection = normalizedDirection;
+        lockedAvoidanceDirectionTimer = obstacleDirectionLockDuration;
         return useBlockedFallback ? normalizedDirection * speed : Vector2.zero;
     }
 
@@ -835,6 +853,32 @@ public class PickpocketThief : MonoBehaviour, IDamageable
         }
 
         hurtFlashRoutine = null;
+    }
+
+    private IEnumerator PlayDeathSequence()
+    {
+        if (hurtFlashRoutine != null)
+        {
+            StopCoroutine(hurtFlashRoutine);
+            hurtFlashRoutine = null;
+        }
+
+        Color originalColor = thiefSprite != null ? thiefSprite.color : Color.white;
+
+        if (thiefSprite != null)
+        {
+            thiefSprite.color = deathFlashColor;
+        }
+
+        yield return new WaitForSecondsRealtime(deathFlashDuration);
+
+        if (thiefSprite != null)
+        {
+            thiefSprite.color = originalColor;
+            thiefSprite.enabled = false;
+        }
+
+        ShowDeathDialogue();
     }
 
 }

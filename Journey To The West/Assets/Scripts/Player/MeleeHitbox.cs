@@ -4,11 +4,13 @@ using UnityEngine;
 public class MeleeHitbox : MonoBehaviour
 {
     private PlayerCombat combat;
+    private DashAttackHandler dashAttackHandler;
     private HashSet<Collider2D> hitThisSwing = new HashSet<Collider2D>();
 
     private void Awake()
     {
         combat = GetComponentInParent<PlayerCombat>();
+        dashAttackHandler = GetComponentInParent<DashAttackHandler>();
     }
 
     // Called by WeaponDisplay each time an attack starts
@@ -39,8 +41,10 @@ public class MeleeHitbox : MonoBehaviour
 
     private void HitTarget(Collider2D other)
     {
+        if (!combat.IsAttacking()) return;
         if (other.gameObject == combat.gameObject) return;
         if (hitThisSwing.Contains(other)) return;
+        if (dashAttackHandler != null && dashAttackHandler.IsDashing) return;
 
         IDamageable target = other.GetComponent<IDamageable>();
         if (target != null)
