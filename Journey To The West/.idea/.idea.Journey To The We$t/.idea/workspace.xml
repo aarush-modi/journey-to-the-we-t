@@ -5,8 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Journey To The We$t/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Castle.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/Faceset.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/Faceset.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Attack.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Attack.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Dead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Dead.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Idle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Idle.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Item.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Item.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Jump.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Jump.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Special2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Walk.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SeparateAnim/Walk.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SpriteSheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/NinjaGreen/SpriteSheet.png.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,16 +39,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Data/Dialogue/CastleWarnerIntroDialogue.asset" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Data/Dialogue/CastleWarnerReminderDialogue.asset" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/InteractionDetector.cs" root0="SKIP_HIGHLIGHTING" />
-  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
-  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -34,26 +52,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "lv6",
-    "junie.onboarding.icon.badge.shown": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;starter-kingdom-design&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="0a054bc7-4352-4c67-af9a-66a9ab1efd8f" name="Changes" comment="" />
@@ -62,75 +73,18 @@
       <option name="presentableId" value="Default" />
       <updated>1774289022930</updated>
       <workItem from="1774289025850" duration="28000" />
-      <workItem from="1775199827484" duration="5176000" />
-      <workItem from="1775488132517" duration="1017000" />
     </task>
-    <task id="LOCAL-00001" summary="Remove monk build dialouge UI">
-      <option name="closed" value="true" />
-      <created>1775635608790</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1775635608790</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Removed CastleWarner Dialouge UI Build">
-      <option name="closed" value="true" />
-      <created>1775635676539</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1775635676539</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Remove bridge guardian Dialouge UI build method">
-      <option name="closed" value="true" />
-      <created>1775635730573</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1775635730573</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
     <option name="unityProject" value="true" />
     <option name="unityProjectFolder" value="true" />
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="HEAD" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Remove monk build dialouge UI" />
-    <MESSAGE value="Removed CastleWarner Dialouge UI Build" />
-    <MESSAGE value="Remove bridge guardian Dialouge UI build method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove bridge guardian Dialouge UI build method" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
