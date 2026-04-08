@@ -10,6 +10,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
     private const int ModiFortuneGreedAmount = 1000;
     private const int BlackjackLossGreedPenalty = 100;
     private const int PostWinTalkGreedPenalty = 5;
+    private const string RedPacketQuestName = "DELIVER    SIX    RED    PACKETS    TO    THE    KING";
     private static bool hasRedPacketThisSession;
 
     private enum ModiState
@@ -463,6 +464,7 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
             hasPlayerWonPacket = true;
             hasRedPacketThisSession = true;
             SetPlayerGreedToModiFortune();
+            IncrementRedPacketQuestProgress();
             ModiGuard.AlertAllGuards();
             modiState = ModiState.WinDialogue;
             winDialogueIndex = 0;
@@ -735,6 +737,47 @@ public class KingModiBlackjackNPC : NPCBase, IDamageable
         }
 
         ShowInteractionIcon(true);
+    }
+
+    private void IncrementRedPacketQuestProgress()
+    {
+        if (QuestManager.Instance == null)
+        {
+            return;
+        }
+
+        QuestData redPacketQuest = QuestManager.Instance.GetActiveQuestByName(RedPacketQuestName);
+        if (redPacketQuest == null)
+        {
+            return;
+        }
+
+        int currentDeliveredCount = ExtractDeliveredPacketCount(redPacketQuest.description);
+        int nextDeliveredCount = Mathf.Clamp(currentDeliveredCount + 1, 0, 6);
+        redPacketQuest.description = $"{nextDeliveredCount}/6 red packets delivered.";
+    }
+
+    private static int ExtractDeliveredPacketCount(string description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return 0;
+        }
+
+        int slashIndex = description.IndexOf("/6", System.StringComparison.Ordinal);
+        if (slashIndex <= 0)
+        {
+            return 0;
+        }
+
+        int numberStart = slashIndex - 1;
+        while (numberStart >= 0 && char.IsDigit(description[numberStart]))
+        {
+            numberStart--;
+        }
+
+        string countText = description.Substring(numberStart + 1, slashIndex - numberStart - 1);
+        return int.TryParse(countText, out int parsedCount) ? parsedCount : 0;
     }
 
     private IEnumerator PlayDeathSequence()
