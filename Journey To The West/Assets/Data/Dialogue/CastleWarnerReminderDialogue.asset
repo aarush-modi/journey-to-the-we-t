@@ -15,9 +15,10 @@ MonoBehaviour:
   npcName: Weary Courier
   npcSprite: {fileID: 0}
   dialogue:
-  - You still have the packet? Get past those guards and crack the cipher at the
-    castle door. The king is waiting.
-  - I would not keep him waiting much longer if I were you.
+  - You still have the packet? The castle is to the east.
+  - Get past the guards and crack the cipher at the door.
+  - And remember, the monk village to the north might help.
+  - I would not keep the king waiting.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}

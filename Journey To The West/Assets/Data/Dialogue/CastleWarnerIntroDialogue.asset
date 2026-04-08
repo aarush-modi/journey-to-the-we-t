@@ -15,20 +15,16 @@ MonoBehaviour:
   npcName: Weary Courier
   npcSprite: {fileID: 0}
   dialogue:
-  - You there... you look like someone with a death wish. Perfect.
-  - I was supposed to deliver this last red packet to the king, but I am not going
-    anywhere near that castle.
-  - The king is furious. The deliveries are late and he has been taking it out on
-    everyone.
-  - The guards look ready to attack, and the castle door is sealed with some kind
-    of cipher lock. No one has been able to crack it.
-  - Going in there is a suicide mission. But someone has to do it.
-  - I have heard rumours though... something about monks in a hidden village to the
-    north. They say those monks know things that could turn the tide.
-  - Probably just old tales. But if I were you, I would explore every path before
-    walking into that castle.
-  - "Here, take this packet. Deliver it to the king if you can. May fortune favour
-    you."
+  - You there... you look desperate enough. Perfect.
+  - I was supposed to deliver this red packet to the king.
+  - But I am not going near that castle.
+  - The king is furious. The deliveries are late.
+  - Guards are everywhere. The door has a cipher lock.
+  - No one has cracked it yet. It is a suicide mission.
+  - I have heard rumours though...
+  - Monks in a hidden village to the north. They might help.
+  - Probably just old tales. But worth a look.
+  - Here, take the packet. Deliver it if you can.
   dialogueTime: []
   typingSpeed: 0.04
   voiceSounds: {fileID: 0}
