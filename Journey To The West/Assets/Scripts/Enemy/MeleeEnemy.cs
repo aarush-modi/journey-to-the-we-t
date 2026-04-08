@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Melee enemy controller with a finite state machine.
-/// Patrols waypoints when unaware, chases via A* pathfinding when alerted to deal contact damage,
-/// and searches last-seen position when the player escapes line of sight.
-/// </summary>
+// Melee enemy controller with a finite state machine.
+// Patrols waypoints when unaware, chases via A* pathfinding when alerted to deal contact damage,
+// Searches last-seen position when the player escapes line of sight.
 [RequireComponent(typeof(StealthDetector))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class MeleeEnemy : MonoBehaviour, IDamageable
@@ -148,7 +146,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         }
     }
 
-    // ── Patrol ──────────────────────────────────────────────────────────
+    // Patrol
 
     private void DoPatrol()
     {
@@ -185,7 +183,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         isWaitingAtWaypoint = false;
     }
 
-    // ── Chase ───────────────────────────────────────────────────────────
+    // Chase
 
     private void DoChase()
     {
@@ -219,7 +217,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         PlayMoveAnimation(rb.linearVelocity);
     }
 
-    // ── Search ──────────────────────────────────────────────────────────
+    // Search
 
     private void DoSearch()
     {
@@ -261,7 +259,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         }
     }
 
-    // ── Pathfinding Helpers ─────────────────────────────────────────────
+    // Pathfinding Helpers
 
     private Vector2 ClampToBounds(Vector2 position)
     {
@@ -343,7 +341,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         waypointIndex = closestIndex;
     }
 
-    // ── Contact Damage ──────────────────────────────────────────────────
+    // Contact Damage
 
     private void OnCollisionEnter2D(Collision2D collision) => TryDamagePlayer(collision.collider);
     private void OnCollisionStay2D(Collision2D collision)  => TryDamagePlayer(collision.collider);
@@ -360,7 +358,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         }
     }
 
-    // ── IDamageable ─────────────────────────────────────────────────────
+    // IDamageable
 
     public void TakeDamage(float amount)
     {
@@ -396,7 +394,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
 
     public bool IsDead() => isDead;
 
-    // ── Gold Drop ───────────────────────────────────────────────────────
+    // Gold Drop
 
     private void DropGold()
     {
@@ -408,7 +406,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         drop.GetComponent<DroppedGold>().SetGoldAmount(finalGold);
     }
 
-    // ── Hurt Flash ──────────────────────────────────────────────────────
+    // Hurt Flash
 
     private IEnumerator HurtFlash()
     {
@@ -420,7 +418,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
             spriteRenderer.color = original;
     }
 
-    // ── Animation Helpers ────────────────────────────────────────────────
+    // Animation Helpers
 
     private void PlayMoveAnimation(Vector2 velocity)
     {
@@ -461,7 +459,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         return direction.y > 0f ? IdleUpHash : IdleDownHash;
     }
 
-    // ── Gizmos ──────────────────────────────────────────────────────────
+    // Gizmos
 
     private void OnDrawGizmosSelected()
     {
