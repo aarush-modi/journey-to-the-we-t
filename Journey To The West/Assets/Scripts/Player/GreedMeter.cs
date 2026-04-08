@@ -42,6 +42,8 @@ public class GreedMeter : MonoBehaviour
 
     public float GetBonusDamage() => GreedMeterLogic.GetBonusDamage(currentTier);
 
+    public float GetDamageMultiplier() => GreedMeterLogic.GetDamageMultiplier(currentTier);
+
     public float GetBonusSpeed() => GreedMeterLogic.GetBonusSpeed(currentTier);
 
     public float GetBonusHP() => GreedMeterLogic.GetBonusHP(currentTier);
