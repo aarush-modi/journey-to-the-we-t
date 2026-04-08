@@ -7373,8 +7373,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1838165755}
   m_HandleRect: {fileID: 1838165754}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -36906,15 +36906,15 @@ MonoBehaviour:
   interactionIcon: {fileID: 1468390229}
   dialoguePanel: {fileID: 1879388409}
   dialogueText: {fileID: 1713146169}
-  nameText: {fileID: 761053222}
-  npcPortraitImage: {fileID: 0}
+  nameText: {fileID: 562310457}
+  npcPortraitImage: {fileID: 452560278}
   continuePrompt: {fileID: 307569273}
   choiceContainer: {fileID: 1595322387}
-  choiceButtonPrefab: {fileID: 0}
+  choiceButtonPrefab: {fileID: 6637842228440742246, guid: 7f27cc635b2bda84ab7f3e648ea41a6d, type: 3}
   OnDialogueComplete:
     m_PersistentCalls:
       m_Calls: []
-  introDialogue: {fileID: 0}
+  introDialogue: {fileID: 11400000, guid: 444d7899ead0fe548bd87b00fb88b15b, type: 2}
   reminderDialogue: {fileID: 0}
   packageToGive: {fileID: 0}
   questToStart: {fileID: 0}
