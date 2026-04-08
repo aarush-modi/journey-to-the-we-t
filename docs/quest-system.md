@@ -79,7 +79,9 @@ QuestLogUI.OnQuestStarted() → creates QuestEntryUI prefab
 | Asset | Location | Description |
 |-------|----------|-------------|
 | `DeliverRedPackets` | `Assets/Data/Quests/DeliverRedPackets.asset` | Main quest: deliver six red packets to the king |
-| `Level1Package` | `Assets/Data/Quests/Level1Package.asset` | Package: Elder's Red Packet |
+| `DefeatDojoEnemies` | `Assets/Data/Quests/DefeatDojoEnemies.asset` | Side quest: defeat all ninjas in the dojo room and return to the dojo master |
+| `GetToTheSnowyTown` | `Assets/Data/Quests/GetToTheSnowyTown.asset` | Main quest: travel through the mountain to reach the Snowy Town |
+| `GetToTheFishingPort` | `Assets/Data/Quests/GetToTheFishingPort.asset` | Main quest: travel through the cave to reach the Fishing Port |
 
 ## How Quests Are Started
 
@@ -87,9 +89,10 @@ Currently, quests are started by NPCs after dialogue completes. Example from `Vi
 
 1. Player talks to elder and accepts (dialogue outcome = `"accepted"`)
 2. `OnIntroComplete()` fires
-3. Package added to player inventory
-4. `QuestManager.Instance.StartQuest(questToStart)` called
-5. Quest appears in the quest log UI
+3. `RedPacketTracker.Instance.Collect()` grants a red packet for the current scene
+4. Package added to player inventory
+5. `QuestManager.Instance.StartQuest(questToStart)` called
+6. Quest appears in the quest log UI
 
 ## Adding a New Quest
 
