@@ -18,6 +18,9 @@ public class PlayerShield : MonoBehaviour
     private void Awake()
     {
         greedMeter = GetComponent<GreedMeter>();
+        // Hide shield icons until a greed tier grants them
+        if (shieldIconContainer != null)
+            shieldIconContainer.SetActive(false);
     }
 
     private void OnEnable()
@@ -34,19 +37,25 @@ public class PlayerShield : MonoBehaviour
 
     private void Start()
     {
-        SpawnIcons(GetMaxShields());
+        // Sync to whatever the current tier already is (e.g. after scene load
+        // with serialized gold or DontDestroyOnLoad carry-over).
+        int max = GetMaxShields();
+        if (max > 0)
+        {
+            currentShields = max;
+            SpawnIcons(max);
+        }
     }
 
     public bool HasShields() => currentShields > 0;
 
     /// <summary>
     /// Tries to absorb a hit. Returns true if a shield absorbed it.
-    /// Identical to EnemyShield.TryAbsorbHit().
     /// </summary>
     public bool TryAbsorbHit()
     {
         if (currentShields <= 0) return false;
-        if (Time.time < shieldCooldownUntil) return true; // still protected, don't consume another
+        if (Time.time < shieldCooldownUntil) return true;
 
         currentShields--;
         shieldCooldownUntil = Time.time + 0.3f;
@@ -76,12 +85,10 @@ public class PlayerShield : MonoBehaviour
     }
 
     /// <summary>
-    /// Same approach as EnemyShield.SpawnIcons():
-    /// uses first child of container as template, duplicates as needed.
+    /// Uses first child of container as template, duplicates as needed.
     /// </summary>
     private void SpawnIcons(int count)
     {
-        Debug.Log($"[PlayerShield] SpawnIcons called. count={count}, container={shieldIconContainer != null}, children={shieldIconContainer?.transform.childCount}");
         if (shieldIconContainer == null) return;
 
         // Destroy all children except the first (template)
@@ -113,19 +120,12 @@ public class PlayerShield : MonoBehaviour
 
     private void UpdateShieldDisplay()
     {
-        if (shieldIcons == null)
-        {
-            Debug.Log("[PlayerShield] UpdateShieldDisplay: shieldIcons is NULL");
-            return;
-        }
+        if (shieldIcons == null) return;
 
-        Debug.Log($"[PlayerShield] UpdateShieldDisplay: currentShields={currentShields}, icons={shieldIcons.Length}");
         for (int i = 0; i < shieldIcons.Length; i++)
         {
-            bool shouldBeActive = i < currentShields;
-            Debug.Log($"[PlayerShield]   icon[{i}] null={shieldIcons[i] == null}, setActive={shouldBeActive}");
             if (shieldIcons[i] != null)
-                shieldIcons[i].SetActive(shouldBeActive);
+                shieldIcons[i].SetActive(i < currentShields);
         }
 
         // Center visible icons horizontally

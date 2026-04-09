@@ -62,7 +62,7 @@ public class RedPacketTracker : MonoBehaviour
     {
         if (Array.IndexOf(dojoQuests, quest) >= 0)
         {
-            Collect(SceneManager.GetActiveScene().name);
+            Collect("quest:" + quest.questName);
         }
     }
 
