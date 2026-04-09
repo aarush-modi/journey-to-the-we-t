@@ -162,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1167505161
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 100
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 3ffb30098bec37f4bb0e6d251f6e2100, type: 3}
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 281105376200213791}
   - component: {fileID: 993695842324409041}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerOriginal
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,7 +334,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1167505161
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4723107735738678597, guid: 24d67b8d650dad64a958cdf424dbd088, type: 3}
@@ -507,6 +507,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3e92f002-3b28-48ed-8f76-f5207449abae
     m_ActionName: 'Player/HUDTestGold[/Keyboard/g]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    m_ActionName: 'Player/Skill[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -525,6 +529,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
+  sprintSpeedMultiplier: 2
+  forcedMoveSpeedMultiplier: 0.5
+  tileSize: 1
+  hotbar: {fileID: 0}
 --- !u!95 &146939367618497807
 Animator:
   serializedVersion: 7
@@ -642,12 +650,21 @@ MonoBehaviour:
   OnSkillActivated:
     m_PersistentCalls:
       m_Calls: []
+  OnSkillCooldownReset:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSkillEquipped:
+    m_PersistentCalls:
+      m_Calls: []
   baseMaxHP: 100
   baseDamage: 10
   attackCooldown: 0.1
   equippedSkill: {fileID: 0}
   equippedArmor: {fileID: 0}
+  defaultSkill: {fileID: 0}
   droppedGoldPrefab: {fileID: 5710133168742629414, guid: bb7a800c10583ec4ca8ff1e6217da669, type: 3}
+  deathGoldLossAmount: 20
+  dashAttackHandler: {fileID: 0}
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &993695842324409041

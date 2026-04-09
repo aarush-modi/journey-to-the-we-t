@@ -59,13 +59,25 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         playerController = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        effectiveMaxHP = baseMaxHP * maxHPModifier;
+        RecalculateMaxHP();
         currentHP = effectiveMaxHP;
+    }
+
+    private void OnEnable()
+    {
+        if (greedMeter != null)
+            greedMeter.OnTierChanged.AddListener(OnGreedTierChanged);
+    }
+
+    private void OnDisable()
+    {
+        if (greedMeter != null)
+            greedMeter.OnTierChanged.RemoveListener(OnGreedTierChanged);
     }
 
     private void Start()
     {
-        effectiveMaxHP = baseMaxHP * maxHPModifier;
+        RecalculateMaxHP();
         currentHP = effectiveMaxHP;
         lastCheckpoint = transform.position;
         HustleStyleManager.Instance?.RefreshStyleEffects();
@@ -75,6 +87,25 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         equippedSkill = null;
         if (dashAttackHandler != null)
             dashAttackHandler.SetReticleActive(false);
+    }
+
+    private void OnGreedTierChanged(GreedTier tier)
+    {
+        float previousMax = effectiveMaxHP;
+        RecalculateMaxHP();
+        // Add the HP difference so the player gains the bonus immediately
+        float hpGain = effectiveMaxHP - previousMax;
+        if (hpGain > 0f)
+            currentHP = Mathf.Min(currentHP + hpGain, effectiveMaxHP);
+        else
+            currentHP = Mathf.Min(currentHP, effectiveMaxHP);
+        OnHPChanged?.Invoke(currentHP, effectiveMaxHP);
+    }
+
+    private void RecalculateMaxHP()
+    {
+        float bonusHP = greedMeter != null ? greedMeter.GetBonusHP() : 0f;
+        effectiveMaxHP = (baseMaxHP + bonusHP) * maxHPModifier;
     }
 
     private void Update()
@@ -306,7 +337,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable
         float healthPercent = previousMaxHP > 0f ? currentHP / previousMaxHP : 1f;
 
         maxHPModifier = sanitizedModifier;
-        effectiveMaxHP = baseMaxHP * maxHPModifier;
+        RecalculateMaxHP();
         currentHP = Mathf.Clamp(effectiveMaxHP * healthPercent, 0f, effectiveMaxHP);
 
         OnHPChanged?.Invoke(currentHP, effectiveMaxHP);

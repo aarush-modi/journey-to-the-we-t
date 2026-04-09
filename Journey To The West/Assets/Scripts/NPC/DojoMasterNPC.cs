@@ -16,6 +16,24 @@ public class DojoMasterNPC : NPCBase
     private bool questStarted;
     private bool hasGivenPackage;
 
+    private void Start()
+    {
+        // Restore state from QuestManager so the NPC stays disabled after scene re-entry
+        if (questToStart != null && QuestManager.Instance != null)
+        {
+            if (QuestManager.Instance.IsQuestCompleted(questToStart))
+            {
+                questStarted = true;
+                hasGivenPackage = true;
+                ShowInteractionIcon(false);
+            }
+            else if (QuestManager.Instance.IsQuestActive(questToStart))
+            {
+                questStarted = true;
+            }
+        }
+    }
+
     public override void Interact(GameObject player)
     {
         if (playerInventory == null)

@@ -10,6 +10,14 @@ public class GreedMeter : MonoBehaviour
     public UnityEvent<int> OnGoldChanged;
     public UnityEvent<GreedTier> OnTierChanged;
 
+    private void Awake()
+    {
+        // Silently sync tier from serialized gold so other components
+        // read the correct value in their Start(), without firing events
+        // that cause cascading init issues.
+        currentTier = GreedMeterLogic.CalculateTier(currentGold);
+    }
+
     public void AddGold(int amount)
     {
         if (amount <= 0) return;

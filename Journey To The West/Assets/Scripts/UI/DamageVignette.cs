@@ -27,15 +27,21 @@ public class DamageVignette : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance.gameObject);
+            Destroy(gameObject);
+            return;
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         baseColor = vignetteImage.color;
         vignetteImage.raycastTarget = false;
         SetAlpha(0f);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     private void OnEnable()
